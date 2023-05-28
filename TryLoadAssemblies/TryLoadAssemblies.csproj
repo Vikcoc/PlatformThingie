@@ -10,5 +10,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+    
+  <Target Name="CopyFiles" AfterTargets="Build">
+    <Copy
+      SourceFiles="$(OutDir)$(ProjectName).dll"
+      DestinationFolder="$(ProjectDir)\..\Output" />
+  </Target>
+  <Target Name="CopyFiles2" AfterTargets="Build">
+    <Copy
+      SourceFiles="$(OutDir)$(ProjectName).runtimeconfig.json"
+      DestinationFolder="$(ProjectDir)\..\Output" />
+  </Target>
 
 </Project>

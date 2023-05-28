@@ -350,6 +350,7 @@ MigrationBackup/
 .ionide/
 
 # Vscode
-.vscode
+.vscode/
 
 # Others
+Output/

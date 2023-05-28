@@ -3,11 +3,12 @@ using System.Reflection;
 using PlatformInterfaces;
 
 Console.WriteLine("Hello, World!");
-Assembly assembly = Assembly.LoadFrom("ToBeLoaded.dll");
+Assembly assembly = Assembly.LoadFrom("ToBeLoaded2.dll");
 // Type myType = assembly.GetType("ToBeLoaded.Class1")!;
 // var instanceOfMyType = Activator.CreateInstance(myType)!;
 // var method = myType.GetMethod("ItWorks");
 // method!.Invoke(instanceOfMyType, null);
+Console.WriteLine(assembly.GetName().Name);
 foreach (Type type in assembly.GetTypes())
 {
     if (typeof(IShowMessage).IsAssignableFrom(type))
@@ -16,4 +17,3 @@ foreach (Type type in assembly.GetTypes())
         instanceOfMyType.ShowMessage();
     }
 }
-Console.ReadLine();

@@ -10,4 +10,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Target Name="CopyFiles" AfterTargets="Build">
+    <Copy
+      SourceFiles="$(OutDir)$(ProjectName).dll"
+      DestinationFolder="$(ProjectDir)\..\Output" />
+  </Target>
+
 </Project>
