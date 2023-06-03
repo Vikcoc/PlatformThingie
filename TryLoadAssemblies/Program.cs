@@ -16,4 +16,10 @@ foreach (Type type in assembly.GetTypes())
         var instanceOfMyType = (IShowMessage)Activator.CreateInstance(type)!;
         instanceOfMyType.ShowMessage();
     }
+
+    if (typeof(IPlatformAbstractStatic).IsAssignableFrom(type))
+    {
+        var instanceOfMyType = (IPlatformAbstractStatic)Activator.CreateInstance(type)!;
+        instanceOfMyType.ShowMessage();
+    }
 }
