@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryLoadAssemblies", "TryLoa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToBeLoaded", "ToBeLoaded\ToBeLoaded.csproj", "{1A9F9986-97C1-4F6E-A4E9-1A6388AC1D94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPlatform", "WebPlatform\WebPlatform.csproj", "{8981E053-F204-4C35-8FAF-2CB24E80359E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{1A9F9986-97C1-4F6E-A4E9-1A6388AC1D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9F9986-97C1-4F6E-A4E9-1A6388AC1D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A9F9986-97C1-4F6E-A4E9-1A6388AC1D94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8981E053-F204-4C35-8FAF-2CB24E80359E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8981E053-F204-4C35-8FAF-2CB24E80359E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8981E053-F204-4C35-8FAF-2CB24E80359E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8981E053-F204-4C35-8FAF-2CB24E80359E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
