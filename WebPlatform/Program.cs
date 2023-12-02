@@ -1,3 +1,20 @@
+using System.Reflection;
+using PlatformInterfaces;
+
+
+var assemblyFiles = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "*.dll");
+
+var assemblies = assemblyFiles.Select(Assembly.LoadFrom)
+    .Select(x => (Assembly: x, DefinitionType: x.ExportedTypes.FirstOrDefault(y => typeof(IPlatformComponentDefinition).IsAssignableFrom(y))))
+    .Where(x => x.DefinitionType != null && !x.DefinitionType.IsAbstract)
+    .ToList();
+
+foreach (var assembly in assemblies)
+{
+    var def = (IPlatformComponentDefinition)Activator.CreateInstance(assembly.DefinitionType!)!;
+    Console.WriteLine(def.GivenName);
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
