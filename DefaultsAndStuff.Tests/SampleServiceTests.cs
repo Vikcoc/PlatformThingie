@@ -27,8 +27,8 @@ namespace DefaultsAndStuff.Tests
 
         [Theory]
         [InlineData(20, 0, 5, 0)]
-        [InlineData(22, 4, 9, 3)]
-        [InlineData(33, 5, 15, 8)]
+        [InlineData(22, 4, 9, 7)]
+        [InlineData(33, 5, 15, 13)]
         public void ModuloToInterval_OutsideIntervalPositive_Tests(int value, int start, int end, int expected)
         {
             var result = _sampleService.ModuloToInterval(value, start, end);
