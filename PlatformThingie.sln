@@ -3,21 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPlatform", "WebPlatform\WebPlatform.csproj", "{8981E053-F204-4C35-8FAF-2CB24E80359E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebPlatform", "WebPlatform\WebPlatform.csproj", "{8981E053-F204-4C35-8FAF-2CB24E80359E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dependencies", "Dependencies\Dependencies.csproj", "{8F595E1D-BE1D-48F1-92D7-FE0A23F33777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dependencies", "Dependencies\Dependencies.csproj", "{8F595E1D-BE1D-48F1-92D7-FE0A23F33777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformInterfaces", "PlatformInterfaces\PlatformInterfaces.csproj", "{637AC41F-CAFB-4ECF-96FE-0513C022507D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformInterfaces", "PlatformInterfaces\PlatformInterfaces.csproj", "{637AC41F-CAFB-4ECF-96FE-0513C022507D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultsAndStuff", "DefaultsAndStuff\DefaultsAndStuff.csproj", "{31361F48-39AE-4F41-B855-D8846B95B229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultsAndStuff", "DefaultsAndStuff\DefaultsAndStuff.csproj", "{31361F48-39AE-4F41-B855-D8846B95B229}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultsAndStuff.Tests", "DefaultsAndStuff.Tests\DefaultsAndStuff.Tests.csproj", "{6288341F-26DE-4ECE-B0FA-F302B008CDC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8981E053-F204-4C35-8FAF-2CB24E80359E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +35,12 @@ Global
 		{31361F48-39AE-4F41-B855-D8846B95B229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31361F48-39AE-4F41-B855-D8846B95B229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31361F48-39AE-4F41-B855-D8846B95B229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6288341F-26DE-4ECE-B0FA-F302B008CDC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6288341F-26DE-4ECE-B0FA-F302B008CDC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6288341F-26DE-4ECE-B0FA-F302B008CDC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6288341F-26DE-4ECE-B0FA-F302B008CDC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
