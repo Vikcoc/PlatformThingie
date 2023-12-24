@@ -59,9 +59,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+            # list of Docker images to use as base name for tags
+            images: |
+              ${{ secrets.DOCKERHUB_USERNAME }}/platform_thingie            
+            # generate Docker tags based on the following events/attributes
+            tags: |
+              latest
+              type=sha
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/platform_thingie:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           file: Defaults.Dockerfile
