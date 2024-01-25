@@ -3,6 +3,7 @@
   "profiles": {
     "http": {
       "commandName": "Project",
+      "workingDirectory": "bin\\Debug\\net8.0",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",

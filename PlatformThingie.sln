@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplatingWeb", "Templating
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultsWeb", "DefaultsWeb\DefaultsWeb.csproj", "{4BFD2B00-A645-4999-BF18-0D3F906A88D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthFrontend", "AuthFrontend\AuthFrontend.csproj", "{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{4BFD2B00-A645-4999-BF18-0D3F906A88D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BFD2B00-A645-4999-BF18-0D3F906A88D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BFD2B00-A645-4999-BF18-0D3F906A88D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
