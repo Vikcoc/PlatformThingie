@@ -22,15 +22,10 @@ COPY . .
 WORKDIR /src/WebPlatform
 RUN dotnet publish -c Release -o /app
 
-# idividual stuff for this project
-WORKDIR /src/DefaultsAndStuff
-# out to same because dynamic loading
-RUN dotnet publish -c Release -o /app
-
 FROM build AS publish
 
 # the final 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "WebPlatform.dll"]
+ENTRYPOINT ["dotnet", "DefaultsWeb.dll", "--urls=http://localhost:80"]
