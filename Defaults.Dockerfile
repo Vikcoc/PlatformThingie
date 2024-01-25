@@ -19,7 +19,7 @@ WORKDIR /src
 
 COPY . .
 
-WORKDIR /src/WebPlatform
+WORKDIR /src/DefaultsWeb
 RUN dotnet publish -c Release -o /app
 
 FROM build AS publish
