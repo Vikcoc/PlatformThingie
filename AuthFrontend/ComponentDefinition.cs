@@ -16,6 +16,9 @@ namespace AuthFrontend
                 //return Directory.GetCurrentDirectory();
                 return Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "index.html"), "text/html");
             });
+            endpoints.MapGet("/template", 
+                () => 
+                Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "template.html"), "text/html")); 
         }
 
         public void AddServices(IServiceCollection services)

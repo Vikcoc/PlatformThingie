@@ -1,9 +1,30 @@
 ﻿<!doctype html>
 <html>
-    <head>
-        <title>This is the title of the webpage!</title>
-    </head>
+<head>
+    <title>This is the title of the webpage!</title>
+    <script>
+        function AppendToDomObject(domObject, tempId) {
+            const temp = document.getElementById(tempId);
+            const ntemp = temp.content.cloneNode(true);
+            domObject.appendChild(ntemp)
+        }
+
+
+        fetch('http://localhost:5097/template')
+            .then(response => response.text())
+            .then(text => document.head.innerHTML = document.head.innerHTML + '\n' + text)
+            .then(() => {
+                AppendToDomObject(document.body, 'productrow'); 
+            })
+
+    </script>
+    <!-- <template id="productrow">
+        <h2>Flower</h2>
+        <div style="background-color:green; height: 200px; width: 200px;" />
+    </template>-->
+</head>
     <body>
         <p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
+        <div name="thetemp"/>
     </body>
 </html>
