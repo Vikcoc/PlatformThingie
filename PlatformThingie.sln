@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultsAndStuff", "Default
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultsAndStuff.Tests", "DefaultsAndStuff.Tests\DefaultsAndStuff.Tests.csproj", "{6288341F-26DE-4ECE-B0FA-F302B008CDC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplatingWeb", "TemplatingWeb\TemplatingWeb.csproj", "{8BB59462-DA7B-4427-8E95-64DFB0CC8CD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplatingWeb", "TemplatingWeb\TemplatingWeb.csproj", "{8BB59462-DA7B-4427-8E95-64DFB0CC8CD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultsWeb", "DefaultsWeb\DefaultsWeb.csproj", "{4BFD2B00-A645-4999-BF18-0D3F906A88D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultsWeb", "DefaultsWeb\DefaultsWeb.csproj", "{4BFD2B00-A645-4999-BF18-0D3F906A88D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthFrontend", "AuthFrontend\AuthFrontend.csproj", "{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthFrontend", "AuthFrontend\AuthFrontend.csproj", "{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "TryFront", "TryFront\TryFront.esproj", "{BC19D525-AE05-4FDE-8AEF-355AA02D9954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,12 @@ Global
 		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60AB5ED0-E4E8-4294-8D23-9F1F329FF8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC19D525-AE05-4FDE-8AEF-355AA02D9954}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

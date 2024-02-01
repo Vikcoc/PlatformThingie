@@ -25,6 +25,7 @@ namespace TemplatingWeb
                 app.Use(async (context, next) =>
                 {
                     // Do work that can write to the Response.
+                    Console.WriteLine(context.Request.Path);
                     await next.Invoke();
                     // Do logging or other work that doesn't write to the Response.
                 });
