@@ -22,6 +22,9 @@ namespace AuthFrontend
             endpoints.MapGet("/style",
                 () =>
                 Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "style.css"), "text/css"));
+            endpoints.MapGet("/favicon.ico",
+                () =>
+                Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "modsig.svg"), "image/svg+xml"));
         }
 
         public void AddServices(IServiceCollection services)
