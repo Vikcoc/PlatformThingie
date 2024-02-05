@@ -1,0 +1,16 @@
+:root {
+    font-family: 'Roboto', system-ui, sans-serif;
+    --md-sys-color-primary: black;
+    --md-sys-color-on-primary: yellow;
+    --md-sys-color-surface: var(--md-sys-color-on-primary)
+}
+
+label {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+body {
+    background-color: var(--md-sys-color-surface)
+}
