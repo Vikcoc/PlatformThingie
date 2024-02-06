@@ -11,15 +11,18 @@ app.use((req, res, next) => {
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
-app.get("/index.js", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'index.js'));
+app.get("/bundle", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'bundle.js'));
 });
-app.get("/bundle.js", function (req, res) {
-    res.sendFile(path.join(__dirname, 'bundle.js'));
+
+app.get("/style", function (req, res) {
+    res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
-app.get("/filled-button", function (req, res) {
-    res.sendFile(path.join(__dirname, 'node_modules', '@material', 'web', 'button', 'filled-button.js'));
+
+app.get("/favicon.ico", function (req, res) {
+    res.sendFile(path.join(__dirname,'modsig.svg'));
 });
+
 
 app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);

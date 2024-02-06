@@ -5,6 +5,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scripts\" />
+    <None Update="modsig.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="styles\style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
