@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="./about/bundle" type="module"></script>
+        <link rel="stylesheet" href="./color">
+        <link rel="stylesheet" href="./about/style">
+        <title>Modsig</title>
+    </head>
+    <body>
+        <header class="mdc-top-app-bar">
+            <div class="mdc-top-app-bar__row">
+              <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+                <span class="mdc-top-app-bar__title">Page title</span>
+              </section>
+              <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Favorite">favorite</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button>
+              </section>
+            </div>
+          </header>
+          <main class="mdc-top-app-bar--fixed-adjust">
+            <md-filled-button onclick="getElementById('navigation').handleScrimClick();">Next</md-filled-button>
+
+            <md-navigation-drawer-modal id="navigation" page-title="Test" opened="true">
+                <md-list aria-label="List of things" role="menubar" class="nav">
+                    <md-item>
+                        <div slot="headline">About</div>
+                    </md-item>
+                    <md-list-item href="/" role="presentation" type="link" tabindex="-1">
+                        Start
+                    </md-list-item>
+                    <md-list-item href="/about" role="presentation" type="link" tabindex="-1">
+                        About
+                    </md-list-item>
+                    <md-list-item href="/more" role="presentation" type="link" tabindex="-1">
+                        More
+                    </md-list-item>
+                    <md-list-item href="/more/and" role="presentation" type="link" tabindex="-1">
+                        More +
+                    </md-list-item>
+                </md-list>
+            </md-navigation-drawer-modal>
+          </main>
+    </body>
+</html>

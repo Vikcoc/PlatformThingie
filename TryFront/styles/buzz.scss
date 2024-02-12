@@ -1,0 +1,12 @@
+// npx sass styles/buzz.scss styles/topbar.css -I node_modules/
+
+@use "@material/icon-button/icon-button";
+@use "@material/top-app-bar/mdc-top-app-bar";
+
+$ink-color: var(--md-sys-color-primary);
+$icon-ink-color: var(--md-sys-color-primary);
+$fill-color: var(--md-sys-color-primary);
+$fill-color-accessible: var(--md-sys-color-primary);
+
+
+@include icon-button.core-styles;

@@ -1,35 +1,5 @@
 :root {
     font-family: 'Roboto', system-ui, sans-serif;
-    --md-sys-color-primary: #9DD67D;
-    --md-sys-color-primary-container: #205106;
-    --md-sys-color-on-primary: #113800;
-    --md-sys-color-on-primary-container: #6EA451;
-    --md-sys-color-secondary: #BDCBB0;
-    --md-sys-color-secondary-container: #3E4A35;
-    --md-sys-color-on-secondary: #283420;
-    --md-sys-color-on-secondary-container: #D9E7CB;
-    --md-sys-color-tertiary: #A0CFD0;
-    --md-sys-color-tertiary-container: #1E4E4E;
-    --md-sys-color-on-tertiary: #003738;
-    --md-sys-color-on-tertiary-container: #BBEBEC;
-    --md-sys-color-error: #FFB4AB;
-    --md-sys-color-error-container: #93000A;
-    --md-sys-color-on-error: #690005;
-    --md-sys-color-on-error-container: #FFB4AB;
-    --md-sys-color-background: #373A33;
-    --md-sys-color-on-background: #E3E3DC;
-    --md-sys-color-surface: #11140E;
-    --md-sys-color-on-surface: #E3E3DC;
-    --md-sys-color-on-surface-variant: #C3C8BB;
-    --md-sys-color-surface-bright: #373A33;
-    --md-sys-color-surface-dim: #11140E;
-    --md-sys-color-surface-container: #1E211A;
-    --md-sys-color-surface-container-lowest: #0C0F09;
-    --md-sys-color-surface-container-low: #1A1D16;
-    --md-sys-color-surface-container-high: #282B24;
-    --md-sys-color-surface-container-highest: #33362F;
-    --md-sys-color-outline: #8D9286;
-    --md-sys-color-outline-variant: #43483E;
 }
 
 label {
@@ -56,4 +26,9 @@ body {
 }
 #off{
     color:red;
+}
+
+#top_bar{
+    display: block;
+    height: var(--catalog-top-app-bar-height);
 }

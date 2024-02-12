@@ -19,8 +19,24 @@ app.get("/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
 
+app.get("/color", function (req, res) {
+    res.sendFile(path.join(__dirname, 'styles', 'color.css'));
+});
+
 app.get("/favicon.ico", function (req, res) {
     res.sendFile(path.join(__dirname,'modsig.svg'));
+});
+
+
+app.get("/about", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pages', 'topbar.html'));
+});
+app.get("/about/bundle", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'bundle.js'));
+});
+
+app.get("/about/style", function (req, res) {
+    res.sendFile(path.join(__dirname, 'styles', 'topbar.css'));
 });
 
 
