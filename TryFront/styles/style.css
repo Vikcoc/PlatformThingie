@@ -1,27 +1,12 @@
-label {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    color: var(--md-sys-color-on-background)
-}
-
 body {
-    background-color: var(--md-sys-color-background)
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
 }
 
-.nav {
-    /*--md-list-container-color: transparent;*/
-    display: block;
-    margin-inline: var(--catalog-spacing-m);
-    min-width: unset;
-    height:100%;
+a:link {
+    color: var(--md-sys-color-primary);
 }
 
-#navigation {
-    background-color: var(--md-sys-color-background)
-}
-
-#top_bar{
-    display: block;
-    height: var(--catalog-top-app-bar-height);
+a:visited {
+    color: var(--md-sys-color-secondary);
 }
