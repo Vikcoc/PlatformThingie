@@ -33,5 +33,8 @@
     
     /* components */
     --mdc-theme-primary: var(--md-sys-color-primary);
+    --mdc-theme-on-primary: var(--md-sys-color-on-primary);
+    --mdc-ripple-color: var(--md-sys-color-on-primary);
+    --mdc-theme-text-disabled-on-light: var(--md-sys-color-on-surface-variant);
   }
   

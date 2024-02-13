@@ -3,7 +3,9 @@
     <head>
         <script src="./about/bundle" type="module"></script>
         <link rel="stylesheet" href="./color">
+        <link rel="stylesheet" href="./font">
         <link rel="stylesheet" href="./about/style">
+        <link rel="stylesheet" href="./style">
         <title>Modsig</title>
     </head>
     <body>
@@ -22,26 +24,26 @@
           </header>
           <main class="mdc-top-app-bar--fixed-adjust">
             <md-filled-button onclick="getElementById('navigation').handleScrimClick();">Next</md-filled-button>
-
-            <md-navigation-drawer-modal id="navigation" page-title="Test" opened="true">
-                <md-list aria-label="List of things" role="menubar" class="nav">
-                    <md-item>
-                        <div slot="headline">About</div>
-                    </md-item>
-                    <md-list-item href="/" role="presentation" type="link" tabindex="-1">
-                        Start
-                    </md-list-item>
-                    <md-list-item href="/about" role="presentation" type="link" tabindex="-1">
-                        About
-                    </md-list-item>
-                    <md-list-item href="/more" role="presentation" type="link" tabindex="-1">
-                        More
-                    </md-list-item>
-                    <md-list-item href="/more/and" role="presentation" type="link" tabindex="-1">
-                        More +
-                    </md-list-item>
-                </md-list>
-            </md-navigation-drawer-modal>
           </main>
+          <md-navigation-drawer-modal id="navigation" page-title="Test">
+            <md-list aria-label="List of things" role="menubar" class="nav">
+                <md-item>
+                    <div slot="headline">About</div>
+                </md-item>
+                <md-list-item href="/" role="presentation" type="link" tabindex="-1">
+                    Start
+                </md-list-item>
+                <md-list-item href="/about" role="presentation" type="link" tabindex="-1">
+                    About
+                </md-list-item>
+                <md-list-item href="/more" role="presentation" type="link" tabindex="-1">
+                    More
+                </md-list-item>
+                <md-list-item href="/more/and" role="presentation" type="link" tabindex="-1">
+                    More +
+                </md-list-item>
+            </md-list>
+        </md-navigation-drawer-modal>
+
     </body>
 </html>

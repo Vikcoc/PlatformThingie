@@ -22,6 +22,9 @@ app.get("/style", function (req, res) {
 app.get("/color", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'color.css'));
 });
+app.get("/font", function (req, res) {
+    res.sendFile(path.join(__dirname, 'styles', 'font.css'));
+});
 
 app.get("/favicon.ico", function (req, res) {
     res.sendFile(path.join(__dirname,'modsig.svg'));
