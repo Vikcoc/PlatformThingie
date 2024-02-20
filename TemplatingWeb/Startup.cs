@@ -11,7 +11,7 @@ namespace TemplatingWeb
         {
             var builder = WebApplication.CreateBuilder(args);
             
-            builder.Services.AddControllers();
+            //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -34,8 +34,8 @@ namespace TemplatingWeb
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
-            app.MapControllers();
+            //app.UseAuthorization();
+            //app.MapControllers();
 
             foreach (var component in components)
                 component.AddRoutes(app);
