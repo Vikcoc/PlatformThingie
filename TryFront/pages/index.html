@@ -5,15 +5,34 @@
     <link rel="stylesheet" href="./color">
     <link rel="stylesheet" href="./font">
     <link rel="stylesheet" href="./style">
+    <script src="./signIn.js" async></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <title>Modsig</title>
 </head>
 
 <body>
+    <div id="g_id_onload"
+         data-client_id="735272745075-c17fa1lkpsv22cafukoae9f9voqbfmcg.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
 
     <div id="topBar">
-        <img src="/favicon.ico" alt="Modsig logo"/>
+        <img src="/favicon.ico" alt="Modsig logo" />
         <button onclick="location.href='./';">Home</button>
         <button onclick="location.href='./about';">About</button>
+
+
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="pill"
+             data-theme="filled_black"
+             data-text="signin_with"
+             data-size="large"
+             data-logo_alignment="left">
+        </div>
     </div>
 
 
@@ -26,8 +45,10 @@
         </section>
         <br>
         <section>
-            <p>This page is ment to serve as the entry point into what hopefully will be the example of me being able to
-                take a microservices app from A to Z.</p>
+            <p>
+                This page is ment to serve as the entry point into what hopefully will be the example of me being able to
+                take a microservices app from A to Z.
+            </p>
         </section>
         <br />
         <section>
@@ -38,13 +59,17 @@
         <section>
             <h3>What and how:</h3>
             <div>
-                <p>I plan the theme of the project to be some version of an inventory management platform. I think it
+                <p>
+                    I plan the theme of the project to be some version of an inventory management platform. I think it
                     lends
-                    itself well to being broken into multiple small services:</p>
+                    itself well to being broken into multiple small services:
+                </p>
                 <ul>
-                    <li>One service to define the inventory. It is supposed to manage information about manufacturer,
+                    <li>
+                        One service to define the inventory. It is supposed to manage information about manufacturer,
                         sque,
-                        colors and other properties of the items</li>
+                        colors and other properties of the items
+                    </li>
                     <li>One service to actually keep track of the items</li>
                     <li>One service to plan the aquisition of items</li>
                     <li>One service to plan the dispozal of items</li>
@@ -53,66 +78,78 @@
         </section>
         <br />
         <section>
-            <p>If these would be a monolit, they would still be separate parts of the same application. Especially since
+            <p>
+                If these would be a monolit, they would still be separate parts of the same application. Especially since
                 different people would have different responsabilities; A regular employee can take, for example, a
                 laptop
                 home, but may not be the one allowed to decide what laptops should be bought. Forcing everything in a
                 monolit, in my opinion, encourages the abstractisation of aspects that, although seemengly related,
                 managing
-                the state of an item, have vastly different requirements.</p>
+                the state of an item, have vastly different requirements.
+            </p>
         </section>
         <br />
         <section>
             <h4>For example:</h4>
-            <p>Changing the laptop of an employee may only require to note that the assignment has been made. On the
+            <p>
+                Changing the laptop of an employee may only require to note that the assignment has been made. On the
                 other
                 hand, buying that said laptop may need documentation for the need, documentation for the available
                 options
-                from vendors, budged approvals, and finally an order.</p>
+                from vendors, budged approvals, and finally an order.
+            </p>
             <div>
                 <p>Dealing with vastly different workflows in a monolit can result in one of likely two options:</p>
                 <ol>
                     <li>Completely separate workflows, which is ripe for separating into a different service</li>
-                    <li>Accomodating the workflows into a parent workflow, which would be a hurdle, and would introduce
+                    <li>
+                        Accomodating the workflows into a parent workflow, which would be a hurdle, and would introduce
                         the
-                        possibility for changes to one workflow to disrupt the other</li>
+                        possibility for changes to one workflow to disrupt the other
+                    </li>
                 </ol>
             </div>
         </section>
         <br>
         <section>
-            <p>I want to only use <a href="https://dotnet.microsoft.com/en-us/apps/aspnet/apis">.NET APIs</a> for the
+            <p>
+                I want to only use <a href="https://dotnet.microsoft.com/en-us/apps/aspnet/apis">.NET APIs</a> for the
                 web
                 server functionality as an exercise to make well defined modules that can be used between them. One
                 example
-                would be a module to standardise the asyncronous communication between the microservices.</p>
-            <p>As developing for frontend is easier with <a href="https://www.npmjs.com/">Npm</a> and <a
-                    href="https://nodejs.org/en">Node</a> there will also be a Node project.</p>
+                would be a module to standardise the asyncronous communication between the microservices.
+            </p>
+            <p>
+                As developing for frontend is easier with <a href="https://www.npmjs.com/">Npm</a> and <a href="https://nodejs.org/en">Node</a> there will also be a Node project.
+            </p>
         </section>
         <br />
         <section>
-            <p>On the user side I want to have as vanilla of a website as possible, to not be framework dependent. HTML
+            <p>
+                On the user side I want to have as vanilla of a website as possible, to not be framework dependent. HTML
                 and
                 CSS pages that will be served with short scripts to add functionality. I will take heavy inspiration
-                from <a href="https://m3.material.io/">Material</a> and probably even use <a
-                    href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">web components</a> provided
-                by <a href="https://material-web.dev/components/button/">them</a>.</p>
-            <p>Taking inspiration from Material I will probably also make components with <a
-                    href="https://lit.dev/">Lit</a>, to reuse functionality like on the backend.</p>
-            <p>I think Lit is a fair choice as far as being framework independent, as using <a
-                    href="https://rollupjs.org/">Rollup</a> seems to compile all the necessary javascript into a single
-                file. Hopefully it will work forever like the original <a href="https://www.spacejam.com/1996/">Space
-                    Jam</a> website.</p>
+                from <a href="https://m3.material.io/">Material</a> and probably even use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">web components</a> provided
+                by <a href="https://material-web.dev/components/button/">them</a>.
+            </p>
+            <p>
+                Taking inspiration from Material I will probably also make components with <a href="https://lit.dev/">Lit</a>, to reuse functionality like on the backend.
+            </p>
+            <p>
+                I think Lit is a fair choice as far as being framework independent, as using <a href="https://rollupjs.org/">Rollup</a> seems to compile all the necessary javascript into a single
+                file. Hopefully it will work forever like the original <a href="https://www.spacejam.com/1996/">
+                    Space
+                    Jam
+                </a> website.
+            </p>
         </section>
-        <footer>Credits to <a href="https://home.edx.org/">EdX</a> as their <a
-                href="https://www.edx.org/learn/web-development/ibm-introduction-to-web-development-with-html5-css3-and-javascript?index=product&queryID=58466ae78abb0648918d1394c8414eb1">Introduction</a>
-            and <a
-                href="https://www.edx.org/learn/css/the-world-wide-web-consortium-w3c-css-basics?index=product&queryID=f7067f39bd5250784616bd206583461d">CSS</a>
-            courses are instrumental to this project. As well as their <a
-                href="https://www.edx.org/learn/linux/the-linux-foundation-introduction-to-linux?index=product&objectID=course-5a631d1c-cb20-4cfc-9b49-1cc9c8fc981e">Linux</a>
-            and <a
-                href="https://www.edx.org/learn/kubernetes/the-linux-foundation-introduction-to-kubernetes?index=product&queryID=c1dc4915dd2c6a0f07983e85a24747ce">Kubernetes</a>
-            courses.</footer>
+        <footer>
+            Credits to <a href="https://home.edx.org/">EdX</a> as their <a href="https://www.edx.org/learn/web-development/ibm-introduction-to-web-development-with-html5-css3-and-javascript?index=product&queryID=58466ae78abb0648918d1394c8414eb1">Introduction</a>
+            and <a href="https://www.edx.org/learn/css/the-world-wide-web-consortium-w3c-css-basics?index=product&queryID=f7067f39bd5250784616bd206583461d">CSS</a>
+            courses are instrumental to this project. As well as their <a href="https://www.edx.org/learn/linux/the-linux-foundation-introduction-to-linux?index=product&objectID=course-5a631d1c-cb20-4cfc-9b49-1cc9c8fc981e">Linux</a>
+            and <a href="https://www.edx.org/learn/kubernetes/the-linux-foundation-introduction-to-kubernetes?index=product&queryID=c1dc4915dd2c6a0f07983e85a24747ce">Kubernetes</a>
+            courses.
+        </footer>
     </article>
 </body>
 

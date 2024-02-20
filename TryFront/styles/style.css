@@ -33,7 +33,11 @@
     margin-right: 2em;
 }
 
-section{
+#g_id_signin{
+    width: fit-content;
+}
+
+section {
     background-color: var(--md-sys-color-surface-bright);
     padding-left: 2em;
     padding-right: 2em;
@@ -56,6 +60,10 @@ a:visited {
 
 h1, h2, h3, h4{
     font-weight: 500;
+}
+
+h1{
+    font-size:3em;
 }
 
 div{

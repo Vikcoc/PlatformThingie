@@ -12,6 +12,10 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
+app.get("/signIn.js", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'signIn.js'));
+});
+
 app.get("/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
