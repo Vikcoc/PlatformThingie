@@ -1,18 +1,9 @@
-const jose = require('jose')
-handler = '';
-async function handleCredentialResponse(response) {
+function handleCredentialResponse(response) {
     // Extract user information from the response
-    console.log(response.credential);
-    console.log(response.profile);
+    
+    var us = JSON.parse(atob(response.credential.split('.')[1]));
+    console.log(us);
 
-    const JWKS = jose.createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'));
-    handler = await jose.jwtVerify(jwt, JWKS)
+    document.getElementsByTagName('h1')[0].textContent += ' ' + us.given_name;
+    document.getElementsByClassName('g_id_signin')[0].remove();
 }
-
-//window.onload = function () {
-//    google.accounts.id.initialize({
-//        client_id: '735272745075-c17fa1lkpsv22cafukoae9f9voqbfmcg.apps.googleusercontent.com',
-//        callback: handleCredentialResponse
-//    });
-//    google.accounts.id.prompt();
-//};
