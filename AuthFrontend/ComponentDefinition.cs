@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AuthFrontend.functionalities.loggingIn;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -13,6 +14,9 @@ namespace AuthFrontend
 
         public void AddRoutes(IEndpointRouteBuilder endpoints)
         {
+            LogInController.AddRoutes(endpoints);
+
+
             //the index i guess
             endpoints.MapGet("/", () => Results.Redirect("/about"));
             
@@ -45,6 +49,7 @@ namespace AuthFrontend
 
         public void AddServices(IServiceCollection services)
         {
+            LogInController.AddServices(services);
         }
     }
 }
