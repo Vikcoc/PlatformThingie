@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AuthFrontend.functionalities.loggingIn
 {
@@ -15,12 +16,14 @@ namespace AuthFrontend.functionalities.loggingIn
 
         public static void AddServices(IServiceCollection services)
         {
-            services.AddScoped<ILogInService, PlaceholderLoginService>();
+            services.AddScoped<ILogInService, GoogleLoginService>();
+            services.AddScoped<JwtSecurityTokenHandler>();
+            services.AddScoped<HttpClient>();
         }
 
-        public static IResult ProcessToken([FromBody] string token, [FromServices] ILogInService service)
+        public static async Task<IResult> ProcessToken([FromBody] string token, [FromServices] ILogInService service)
         {
-            var userInfo = service.ValidateToken(token);
+            var userInfo = await service.ValidateToken(token);
             if (!userInfo.HasValue)
                 return TypedResults.BadRequest("Bad token");
 

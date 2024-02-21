@@ -2,7 +2,7 @@
 {
     public interface ILogInService
     {
-        UserInfoDto? ValidateToken(string token);
+        Task<UserInfoDto?> ValidateToken(string token);
         string MakeAccessToken(UserInfoDto userInfo);
     }
 }

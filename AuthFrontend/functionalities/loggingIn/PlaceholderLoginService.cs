@@ -7,14 +7,14 @@
             return string.Empty;
         }
 
-        public UserInfoDto? ValidateToken(string token)
+        public Task<UserInfoDto?> ValidateToken(string token)
         {
             //return null;
-            return new UserInfoDto
+            return Task.FromResult<UserInfoDto?>(new UserInfoDto
             {
                 UserName = "Vico",
                 Email = "e@e.e"
-            };
+            });
         }
     }
 }
