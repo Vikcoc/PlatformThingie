@@ -28,4 +28,4 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "DefaultsWeb.dll", "--urls=http://localhost:80"]
+ENTRYPOINT ["dotnet", "DefaultsWeb.dll", "--urls=http://localhost:80", "--contentRoot=."]
