@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,9 +26,12 @@ namespace AuthFrontend.functionalities.loggingIn
         }
 
         public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromServices] ILogInService service, [FromServices] IServiceProvider provider)
+         => await ProcessGenericToken(token, "Google", service, provider);
+
+        private static async Task<IResult> ProcessGenericToken(string token, string providerName, ILogInService service, IServiceProvider provider)
         {
-            var keysetGetter = provider.GetRequiredKeyedService<IJwtKeySetGetter>("Google");
-            var validationParamsGetter = provider.GetRequiredKeyedService<IJwtValidationParamsGetter>("Google");
+            var keysetGetter = provider.GetRequiredKeyedService<IJwtKeySetGetter>(providerName);
+            var validationParamsGetter = provider.GetRequiredKeyedService<IJwtValidationParamsGetter>(providerName);
 
             var userInfo = await service.ValidateToken(token, keysetGetter, validationParamsGetter);
             if (!userInfo.HasValue)
