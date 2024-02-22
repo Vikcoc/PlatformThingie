@@ -11,7 +11,7 @@ namespace TemplatingWeb
         {
             var builder = WebApplication.CreateBuilder(args);
             
-            builder.Services.AddControllers();
+            //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -22,12 +22,20 @@ namespace TemplatingWeb
 
             if (app.Environment.IsDevelopment())
             {
+                app.Use(async (context, next) =>
+                {
+                    // Do work that can write to the Response.
+                    Console.WriteLine(context.Request.Path);
+                    await next.Invoke();
+                    // Do logging or other work that doesn't write to the Response.
+                });
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
-            app.MapControllers();
+            //app.UseAuthorization();
+            //app.MapControllers();
 
             foreach (var component in components)
                 component.AddRoutes(app);
