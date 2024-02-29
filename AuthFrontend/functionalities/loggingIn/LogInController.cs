@@ -25,14 +25,13 @@ namespace AuthFrontend.functionalities.loggingIn
             services.AddKeyedScoped<IJwtValidationParamsGetter, GoogleJwtValidationParamsGetter>("Google");
         }
 
-        public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromServices] ILogInService service, [FromServices] IServiceProvider provider)
-         => await ProcessGenericToken(token, "Google", service, provider);
+        public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromServices] ILogInService service
+            , [FromKeyedServices("Google")] IJwtKeySetGetter keysetGetter
+            , [FromKeyedServices("Google")] IJwtValidationParamsGetter validationParamsGetter)
+         => await ProcessGenericToken(token, service, keysetGetter, validationParamsGetter);
 
-        private static async Task<IResult> ProcessGenericToken(string token, string providerName, ILogInService service, IServiceProvider provider)
+        private static async Task<IResult> ProcessGenericToken(string token, ILogInService service, IJwtKeySetGetter keysetGetter, IJwtValidationParamsGetter validationParamsGetter)
         {
-            var keysetGetter = provider.GetRequiredKeyedService<IJwtKeySetGetter>(providerName);
-            var validationParamsGetter = provider.GetRequiredKeyedService<IJwtValidationParamsGetter>(providerName);
-
             var userInfo = await service.ValidateToken(token, keysetGetter, validationParamsGetter);
             if (!userInfo.HasValue)
                 return TypedResults.BadRequest("Bad token");
