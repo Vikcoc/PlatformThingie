@@ -5,7 +5,7 @@ using System.Net;
 
 namespace AuthFrontend.functionalities.loggingIn
 {
-    internal abstract class JwtLoginService : IJwtLogInService
+    public abstract class JwtLoginService : IJwtLogInService
     {
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly IJwtKeySetGetter _jwtKeySetGetter;

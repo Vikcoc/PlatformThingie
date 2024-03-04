@@ -4,11 +4,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthFrontend.Tests
 {
-    public abstract class LoginServiceTests
+    public abstract class JwtLoginServiceTests
     {
         protected readonly IJwtLogInService _logInService;
 
-        protected LoginServiceTests(IJwtLogInService logInService)
+        protected JwtLoginServiceTests(IJwtLogInService logInService)
         {
             _logInService = logInService;
         }
@@ -26,15 +26,15 @@ namespace AuthFrontend.Tests
                 ValidIssuer = "yes",
                 ValidAudience = "yes",
                 IssuerSigningKeys = keySet.Keys,
-            };;
+            };
         }
 
         [Fact]
-        public void ValidateToken_ValidToken_ReturnValid()
+        public void ValidateToken_GibberishToken_ReturnInvalid()
         {
-            var result = _logInService.ValidateToken("asdienaodn", new HardcodedKey(), new HardcodedParams()).Result;
+            var result = _logInService.ValidateToken("asdienaodn").Result;
 
-            Assert.NotNull(result);
+            Assert.Null(result);
         }
     }
 }

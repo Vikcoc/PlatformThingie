@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AuthFrontend.functionalities.loggingIn
 {
-    internal class GoogleJwtLoginService : JwtLoginService
+    public class GoogleJwtLoginService : JwtLoginService
     {
         public GoogleJwtLoginService(JwtSecurityTokenHandler tokenHandler
             , [FromKeyedServices("Google")] IJwtKeySetGetter jwtKeySetGetter
