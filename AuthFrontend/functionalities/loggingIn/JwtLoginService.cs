@@ -5,13 +5,17 @@ using System.Net;
 
 namespace AuthFrontend.functionalities.loggingIn
 {
-    internal sealed class JwtLoginService : ILogInService
+    public abstract class JwtLoginService : IJwtLogInService
     {
         private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly IJwtKeySetGetter _jwtKeySetGetter;
+        private readonly IJwtValidationParamsGetter _jwtValidationParamsGetter;
 
-        public JwtLoginService(JwtSecurityTokenHandler tokenHandler)
+        public JwtLoginService(JwtSecurityTokenHandler tokenHandler, IJwtKeySetGetter jwtKeySetGetter, IJwtValidationParamsGetter jwtValidationParamsGetter)
         {
             _tokenHandler = tokenHandler;
+            _jwtKeySetGetter = jwtKeySetGetter;
+            _jwtValidationParamsGetter = jwtValidationParamsGetter;
         }
 
         public string MakeAccessToken(UserInfoDto userInfo)
@@ -19,13 +23,15 @@ namespace AuthFrontend.functionalities.loggingIn
             return userInfo.Email + " " + userInfo.UserName;
         }
 
-        public async Task<UserInfoDto?> ValidateToken(string token, IJwtKeySetGetter keySetGetter, IJwtValidationParamsGetter parameterFiller)
+        public abstract Task<UserInfoDto?> ValidateToken(string token);
+
+        protected async Task<JwtSecurityToken?> GetValidToken(string token)
         {
-            var keySet = await keySetGetter.GetKeySet();
-            if(keySet == null)
+            var keySet = await _jwtKeySetGetter.GetKeySet();
+            if (keySet == null)
                 return null;
 
-            var parameters = parameterFiller.FillParameters(keySet);
+            var parameters = _jwtValidationParamsGetter.FillParameters(keySet);
 
             JwtSecurityToken parsedToken;
             try
@@ -33,15 +39,9 @@ namespace AuthFrontend.functionalities.loggingIn
                 _tokenHandler.ValidateToken(token, parameters, out var abstractToken);
                 parsedToken = (JwtSecurityToken)abstractToken;
             }
-            catch (Exception) { return null;}
+            catch (Exception) { return null; }
 
-            var props = parsedToken.Claims.ToDictionary(x => x.Type, x => x.Value);
-
-            return new UserInfoDto
-            {
-                Email = props["email"],
-                UserName = props["name"],
-            };
+            return parsedToken;
         }
     }
 }
