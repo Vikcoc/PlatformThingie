@@ -15,6 +15,9 @@ namespace AuthFrontend.functionalities.loggingIn
 {
     internal static class LogInController
     {
+        // Because not enough time to properly immerse in
+        // https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics
+        // This should not be taken as good practice
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapPost("/login/google", ProcessGoogleToken);

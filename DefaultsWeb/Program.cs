@@ -1,7 +1,6 @@
-using PlatformInterfaces;
 using TemplatingWeb;
 
-Startup.BuildAndStart(args, new List<IPlatformComponentDefinition>
-{
+Startup.BuildAndStart(args,
+[
     new AuthFrontend.ComponentDefinition()
-});
+]);
