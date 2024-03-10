@@ -1,4 +1,6 @@
 ﻿using AuthFrontend.functionalities.loggingIn.JwtStuff;
+using AuthFrontend.functionalities.loggingIn.Repositories;
+using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
 using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +37,7 @@ namespace AuthFrontend.functionalities.loggingIn
                 var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:Auth"];
                 return new NpgsqlConnection(theConnection);
             });
+            services.AddScoped<PAuthRepo>();
         }
 
         public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromKeyedServices("Google")] IJwtLogInService service)
@@ -46,7 +49,7 @@ namespace AuthFrontend.functionalities.loggingIn
             if (!userInfo.HasValue)
                 return TypedResults.BadRequest("Bad token");
 
-            var resultToken = service.MakeAccessToken(userInfo.Value);
+            var resultToken = await service.MakeAccessToken(userInfo.Value);
 
             if (string.IsNullOrWhiteSpace(resultToken))
                 return TypedResults.Problem("Cannot make access token");
@@ -61,7 +64,7 @@ namespace AuthFrontend.functionalities.loggingIn
             var res = await dbConnection.QueryAsync("Select 1 as Value");
 
             dbConnection.Close();
-            return TypedResults.Ok();
+            return TypedResults.Ok(res);
         }
     }
 }

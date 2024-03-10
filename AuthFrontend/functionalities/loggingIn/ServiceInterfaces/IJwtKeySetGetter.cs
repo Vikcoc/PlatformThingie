@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 
-namespace AuthFrontend.functionalities.loggingIn.JwtStuff
+namespace AuthFrontend.functionalities.loggingIn.ServiceInterfaces
 {
     public interface IJwtKeySetGetter
     {

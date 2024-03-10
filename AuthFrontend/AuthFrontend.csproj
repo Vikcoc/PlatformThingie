@@ -38,4 +38,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="functionalities\loggingIn\DTOs\" />
+  </ItemGroup>
+
 </Project>
