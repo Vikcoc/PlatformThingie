@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff

@@ -1,5 +1,4 @@
-﻿using AuthFrontend.functionalities.loggingIn;
-using AuthFrontend.functionalities.loggingIn.JwtStuff;
+﻿using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
