@@ -1,4 +1,6 @@
-﻿namespace AuthFrontend.functionalities.loggingIn.ServiceInterfaces
+﻿using AuthFrontend.functionalities.loggingIn.DTOs;
+
+namespace AuthFrontend.functionalities.loggingIn.ServiceInterfaces
 {
     public interface IJwtLogInService
     {

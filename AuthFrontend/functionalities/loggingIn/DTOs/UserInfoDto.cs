@@ -1,4 +1,4 @@
-﻿namespace AuthFrontend.functionalities.loggingIn
+﻿namespace AuthFrontend.functionalities.loggingIn.DTOs
 {
     public struct UserInfoDto
     {

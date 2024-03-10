@@ -1,4 +1,5 @@
 ﻿using AuthFrontend.entities;
+using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.seeds;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;

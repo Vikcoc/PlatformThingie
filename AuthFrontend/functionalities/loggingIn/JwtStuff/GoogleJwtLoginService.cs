@@ -1,4 +1,5 @@
-﻿using AuthFrontend.functionalities.loggingIn.Repositories;
+﻿using AuthFrontend.functionalities.loggingIn.DTOs;
+using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
