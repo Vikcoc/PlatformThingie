@@ -12,7 +12,7 @@ namespace AuthFrontend.entities
         [ForeignKey(nameof(AuthClaim))]
         public required string AuthClaimName { get; set; }
 
-        public string ClaimValue { get; set; } = string.Empty;
+        public required string AuthClaimValue { get; set; }
 
         public required AuthUser AuthUser { get; set; }
         public required AuthClaim AuthClaim { get; set; }

@@ -11,9 +11,9 @@ namespace AuthFrontend.Tests
         // https://travistidwell.com/jsencrypt/demo/
         // https://pem2jwk.vercel.app/
 
-        protected readonly IJwtLogInService _logInService;
+        protected readonly IJwtLogValidatorService _logInService;
 
-        protected JwtLoginServiceTests(IJwtLogInService logInService)
+        protected JwtLoginServiceTests(IJwtLogValidatorService logInService)
         {
             _logInService = logInService;
         }

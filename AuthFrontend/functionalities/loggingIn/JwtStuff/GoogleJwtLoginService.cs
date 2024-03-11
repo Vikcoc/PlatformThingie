@@ -11,10 +11,8 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
     {
         public GoogleJwtLoginService(JwtSecurityTokenHandler tokenHandler
             , [FromKeyedServices("Google")] IJwtKeySetGetter jwtKeySetGetter
-            , [FromKeyedServices("Google")] IJwtValidationParamsGetter jwtValidationParamsGetter
-            , PAuthRepo authRepo
-            , IConfiguration configuration)
-            : base(tokenHandler, jwtKeySetGetter, jwtValidationParamsGetter, authRepo, configuration)
+            , [FromKeyedServices("Google")] IJwtValidationParamsGetter jwtValidationParamsGetter)
+            : base(tokenHandler, jwtKeySetGetter, jwtValidationParamsGetter)
         {
         }
 
