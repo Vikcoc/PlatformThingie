@@ -1,6 +1,7 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -11,8 +12,9 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
         public GoogleJwtLoginService(JwtSecurityTokenHandler tokenHandler
             , [FromKeyedServices("Google")] IJwtKeySetGetter jwtKeySetGetter
             , [FromKeyedServices("Google")] IJwtValidationParamsGetter jwtValidationParamsGetter
-            , PAuthRepo authRepo)
-            : base(tokenHandler, jwtKeySetGetter, jwtValidationParamsGetter, authRepo)
+            , PAuthRepo authRepo
+            , IConfiguration configuration)
+            : base(tokenHandler, jwtKeySetGetter, jwtValidationParamsGetter, authRepo, configuration)
         {
         }
 
