@@ -3,6 +3,7 @@ using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
@@ -17,11 +18,13 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
         public async Task<UserInfoDto?> ValidateToken(string token)
         {
-            var keySet = new JsonWebKeySet("{" + _configuration["SigningCredentials:JWK"] + "}");
+            var key = _configuration.GetSection("SigningCredentials:Refresh:JWK").Get<JsonWebKey>();
+            var keySet = new JsonWebKeySet();
+            keySet.Keys.Add(key);
             var parameters = new TokenValidationParameters()
             {
-                ValidIssuer = _configuration["SigningCredentials:Issuer"],
-                ValidAudience = _configuration["SigningCredentials:Audience"],
+                ValidIssuer = _configuration["SigningCredentials:Refresh:Issuer"],
+                ValidAudience = _configuration["SigningCredentials:Refresh:Audience"],
                 IssuerSigningKeys = keySet.Keys,
             };
 
@@ -45,10 +48,15 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
             var props = parsedToken.Claims.ToDictionary(x => x.Type, x => x.Value);
 
+            // Unnecessary because only refresh is saved
+            // But will stay
+            if(props["Purpose"] != "Refresh")
+                return null;
+
             return new UserInfoDto
             {
                 Email = props["email"],
-                UserName = props["name"],
+                UserName = props["username"],
             };
         }
     }

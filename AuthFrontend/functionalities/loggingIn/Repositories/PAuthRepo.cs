@@ -78,7 +78,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             var query = $"""
                 INSERT INTO "{nameof(AuthContext.AuthUserRefreshTokens)}" 
                 ("{nameof(AuthUserRefreshToken.JTI)}", "{nameof(AuthUserRefreshToken.AuthUserId)}", "{nameof(AuthUserRefreshToken.Expire)}", "{nameof(AuthUserRefreshToken.Salt)}", "{nameof(AuthUserRefreshToken.HashedToken)}")
-                values (@JTI, @UserId, @Expire, @Salt, @HashedToken);
+                values (@JTI, @AuthUserId, @Expire, @Salt, @HashedToken);
                 """;
 
             var res = await _dbConnection.ExecuteAsync(query, new AuthUserRefreshToken

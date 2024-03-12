@@ -23,6 +23,7 @@ namespace AuthFrontend.functionalities.loggingIn
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapPost("/login/google", ProcessGoogleToken);
+            endpoints.MapPost("/login/refresh", ProcessRefreshToken);
             endpoints.MapGet("/login/connection", TryDbConn);
         }
 
@@ -58,7 +59,7 @@ namespace AuthFrontend.functionalities.loggingIn
 
             var resultToken = await tokenProvider.MakeAccessToken(userInfo.Value);
 
-            if (string.IsNullOrWhiteSpace(resultToken))
+            if (!resultToken.HasValue)
                 return TypedResults.Problem("Cannot make access token");
 
             return TypedResults.Ok(resultToken);

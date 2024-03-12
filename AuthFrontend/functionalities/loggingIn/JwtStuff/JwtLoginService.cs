@@ -1,11 +1,6 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
-using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
-using AuthFrontend.seeds;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {

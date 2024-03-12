@@ -3,7 +3,6 @@ using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.seeds;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,7 +15,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
         private readonly IConfiguration _configuration = configuration;
         private readonly Random _random = random;
 
-        public async Task<string?> MakeAccessToken(UserInfoDto userInfo)
+        public async Task<TokensDto?> MakeAccessToken(UserInfoDto userInfo)
         {
             var userId = await _authRepo.GetUserByEmail(userInfo.Email);
             if (!userId.HasValue)
@@ -81,7 +80,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     { "UserId", userId.Value.ToString() },
                     { SeedAuthClaimNames.Email, userInfo.Email },
                     { SeedAuthClaimNames.Username, userInfo.UserName },
-                    { "Purpose", "Access" }
+                    { "Purpose", "Refresh" }
                 }
                 };
                 var refreshTokenHandler = new JwtSecurityTokenHandler();
@@ -93,13 +92,13 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
             var stringRefreshToken = refreshToken.RawData;
             var salt = RandomString();
-            var hashedRefreshToken = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(token + stringRefreshToken)));
+            var hashedRefreshToken = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(stringRefreshToken + salt)));
             var res = await _authRepo.AddRefreshToken(new RefreshTokenDto
             {
                 AuthUserId = userId.Value,
                 Expire = new DateTimeOffset(refreshToken.ValidTo).ToUnixTimeMilliseconds(),
                 HashedToken = hashedRefreshToken,
-                JTI = Guid.Parse(refreshToken.Id),
+                JTI = Guid.Parse((string)refreshToken.Header["jti"]),
                 Salt = salt
             });
             #endregion
@@ -107,7 +106,11 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
             if (!res)
                 return null;
 
-            return token.RawData;
+            return new TokensDto
+            {
+                AccessToken = token.RawData,
+                RefreshToken = refreshToken.RawData
+            };
         }
 
         private string RandomString()
