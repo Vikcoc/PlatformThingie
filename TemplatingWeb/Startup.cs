@@ -16,8 +16,22 @@ namespace TemplatingWeb
             //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", opt =>
+            {
+                var key = builder.Configuration.GetSection("SigningCredentials:Auth:JWK").Get<JsonWebKey>();
+                var keySet = new JsonWebKeySet();
+                keySet.Keys.Add(key);
+
+                var parameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = builder.Configuration["SigningCredentials:Auth:Issuer"],
+                    ValidAudience = builder.Configuration["SigningCredentials:Auth:Audience"],
+                    IssuerSigningKeys = keySet.Keys,
+                };
+                
+                opt.TokenValidationParameters = parameters;
+            });
             builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication().AddBearerToken();
 
             foreach (var component in components)
                 component.AddServices(builder.Services);
