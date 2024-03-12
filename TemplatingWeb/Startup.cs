@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using PlatformInterfaces;
 
 namespace TemplatingWeb
@@ -14,6 +16,8 @@ namespace TemplatingWeb
             //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthorization();
+            builder.Services.AddAuthentication().AddBearerToken();
 
             foreach (var component in components)
                 component.AddServices(builder.Services);
@@ -34,8 +38,7 @@ namespace TemplatingWeb
                 app.UseSwaggerUI();
             }
 
-            //app.UseAuthorization();
-            //app.MapControllers();
+            app.UseAuthorization();
 
             foreach (var component in components)
                 component.AddRoutes(app);

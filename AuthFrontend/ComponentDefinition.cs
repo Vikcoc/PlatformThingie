@@ -16,6 +16,8 @@ namespace AuthFrontend
         {
             LogInController.AddRoutes(endpoints);
 
+            endpoints.MapGet("/login/test", () => "It worked")
+                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
 
             //the index i guess
             endpoints.MapGet("/", () => Results.Redirect("/about"));
