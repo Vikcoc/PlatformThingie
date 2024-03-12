@@ -4,21 +4,16 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
-    public abstract class JwtLoginService(JwtSecurityTokenHandler tokenHandler, IJwtKeySetGetter jwtKeySetGetter, IJwtValidationParamsGetter jwtValidationParamsGetter) : IJwtLogValidatorService
+    public abstract class JwtLoginService(JwtSecurityTokenHandler tokenHandler, IJwtValidationParamsGetter jwtValidationParamsGetter) : IJwtLogValidatorService
     {
         private readonly JwtSecurityTokenHandler _tokenHandler = tokenHandler;
-        private readonly IJwtKeySetGetter _jwtKeySetGetter = jwtKeySetGetter;
         private readonly IJwtValidationParamsGetter _jwtValidationParamsGetter = jwtValidationParamsGetter;
 
         public abstract Task<UserInfoDto?> ValidateToken(string token);
 
         protected async Task<JwtSecurityToken?> GetValidToken(string token)
         {
-            var keySet = await _jwtKeySetGetter.GetKeySet();
-            if (keySet == null)
-                return null;
-
-            var parameters = _jwtValidationParamsGetter.FillParameters(keySet);
+            var parameters = await _jwtValidationParamsGetter.FillParameters();
 
             JwtSecurityToken parsedToken;
             try

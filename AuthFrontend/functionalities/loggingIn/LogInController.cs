@@ -33,9 +33,10 @@ namespace AuthFrontend.functionalities.loggingIn
             services.AddKeyedScoped<IJwtLogValidatorService, RefreshJwtValidationService>("Refresh");
             services.AddScoped<JwtSecurityTokenHandler>();
             services.AddScoped<HttpClient>();
-            services.AddKeyedScoped<IJwtKeySetGetter, GoogleJwtKeySetGetter>("Google");
             services.AddKeyedScoped<IJwtValidationParamsGetter, GoogleJwtValidationParamsGetter>("Google");
-            services.AddKeyedScoped<IDbConnection>("Auth", (db, key) => {
+            services.AddKeyedScoped<IJwtValidationParamsGetter, RefreshJwtValidationParamsGetter>("Refresh");
+            services.AddKeyedScoped<IDbConnection>("Auth", (db, key) =>
+            {
                 var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:Auth"];
                 return new NpgsqlConnection(theConnection);
             });

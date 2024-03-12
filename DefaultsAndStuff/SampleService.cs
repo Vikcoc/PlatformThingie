@@ -9,7 +9,7 @@
 
             if (start < value && value < end)
                 return value;
-            
+
             var mod = (value - start) % (end - start);
             return mod + start;
         }

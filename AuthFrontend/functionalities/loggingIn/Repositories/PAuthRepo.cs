@@ -31,7 +31,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
                 Email = user.Email,
             });
 
-            if(res == 0)
+            if (res == 0)
                 return null;
             return userId;
         }

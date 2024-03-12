@@ -4,6 +4,6 @@ namespace AuthFrontend.functionalities.loggingIn.ServiceInterfaces
 {
     public interface IJwtValidationParamsGetter
     {
-        TokenValidationParameters FillParameters(JsonWebKeySet keySet);
+        Task<TokenValidationParameters?> FillParameters();
     }
 }

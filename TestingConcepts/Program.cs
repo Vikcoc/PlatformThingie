@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 
@@ -12,15 +11,15 @@ string MakeTokin()
     var securitykey = new RsaSecurityKey(rsa);
     securitykey.KeyId = "76a269304c3e91250c9a33932cb22";
 
-    var desc = new SecurityTokenDescriptor() 
+    var desc = new SecurityTokenDescriptor()
     {
         Expires = DateTimeOffset.Now.AddHours(1).DateTime,
-        SigningCredentials = new SigningCredentials(securitykey, SecurityAlgorithms.RsaSha256) ,
+        SigningCredentials = new SigningCredentials(securitykey, SecurityAlgorithms.RsaSha256),
         Audience = "me",
         Issuer = "me",
         TokenType = "Panamera",
         AdditionalInnerHeaderClaims = new Dictionary<string, object>() { { "jti", "dawdadawd" } },
-        
+
     };
 
     var tokenHandler = new JwtSecurityTokenHandler

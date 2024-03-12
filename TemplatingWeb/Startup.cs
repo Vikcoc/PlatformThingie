@@ -10,7 +10,7 @@ namespace TemplatingWeb
         public static void BuildAndStart(string[] args, IEnumerable<IPlatformComponentDefinition> components)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+
             //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
