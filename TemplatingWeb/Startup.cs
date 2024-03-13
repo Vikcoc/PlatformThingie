@@ -13,10 +13,9 @@ namespace TemplatingWeb
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", opt =>
+            builder.Services.AddAuthentication().AddJwtBearer(opt =>
             {
                 var key = builder.Configuration.GetSection("SigningCredentials:Auth:JWK").Get<JsonWebKey>();
                 var keySet = new JsonWebKeySet();
@@ -27,6 +26,8 @@ namespace TemplatingWeb
                     ValidIssuer = builder.Configuration["SigningCredentials:Auth:Issuer"],
                     ValidAudience = builder.Configuration["SigningCredentials:Auth:Audience"],
                     IssuerSigningKeys = keySet.Keys,
+                    RequireExpirationTime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
                 
                 opt.TokenValidationParameters = parameters;
@@ -42,10 +43,8 @@ namespace TemplatingWeb
             {
                 app.Use(async (context, next) =>
                 {
-                    // Do work that can write to the Response.
                     Console.WriteLine(context.Request.Path);
                     await next.Invoke();
-                    // Do logging or other work that doesn't write to the Response.
                 });
 
                 app.UseSwagger();

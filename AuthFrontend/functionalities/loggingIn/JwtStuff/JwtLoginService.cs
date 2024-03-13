@@ -15,6 +15,12 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
         {
             var parameters = await _jwtValidationParamsGetter.FillParameters();
 
+            if(parameters == null)
+                return null;
+
+            parameters.RequireExpirationTime = true;
+            parameters.ClockSkew = TimeSpan.Zero;
+
             JwtSecurityToken parsedToken;
             try
             {
