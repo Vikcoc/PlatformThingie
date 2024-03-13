@@ -2,13 +2,13 @@
 
 namespace AuthFrontend.entities
 {
-    internal class AuthUser
+    public class AuthUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid AuthUserId { get; set; }
         public Guid? NewAuthUserId { get; set; }
         public AuthUser? NewAuthUser { get; set; }
-        public IList<AuthUserRefreshToken> RefreshTokens { get; set; } = new List<AuthUserRefreshToken>();
-        public IList<AuthUserClaim> AuthUserClaims { get; set; } = new List<AuthUserClaim>();
+        public IList<AuthUserRefreshToken> RefreshTokens { get; set; } = [];
+        public IList<AuthUserClaim> AuthUserClaims { get; set; } = [];
     }
 }

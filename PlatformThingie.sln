@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthFrontend.Tests", "AuthF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingConcepts", "TestingConcepts\TestingConcepts.csproj", "{9CDCA95D-E26E-438A-96E1-CD1A3199538D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDbComponent", "UsersDbComponent\UsersDbComponent.csproj", "{6073B2DE-B762-41D5-81B8-EADE4C278CC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthWeb", "AuthWeb\AuthWeb.csproj", "{A54107ED-BED3-4696-B833-798C2608EBFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{9CDCA95D-E26E-438A-96E1-CD1A3199538D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CDCA95D-E26E-438A-96E1-CD1A3199538D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CDCA95D-E26E-438A-96E1-CD1A3199538D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6073B2DE-B762-41D5-81B8-EADE4C278CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6073B2DE-B762-41D5-81B8-EADE4C278CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6073B2DE-B762-41D5-81B8-EADE4C278CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6073B2DE-B762-41D5-81B8-EADE4C278CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54107ED-BED3-4696-B833-798C2608EBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54107ED-BED3-4696-B833-798C2608EBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54107ED-BED3-4696-B833-798C2608EBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54107ED-BED3-4696-B833-798C2608EBFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

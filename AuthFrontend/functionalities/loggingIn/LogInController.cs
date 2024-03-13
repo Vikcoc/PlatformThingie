@@ -40,7 +40,7 @@ namespace AuthFrontend.functionalities.loggingIn
                 var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:Auth"];
                 return new NpgsqlConnection(theConnection);
             });
-            services.AddScoped<PAuthRepo>();
+            services.AddScoped<IAuthRepo, PAuthRepo>();
             services.AddScoped<AuthTokenProvider>();
             services.AddSingleton<Random>();
         }

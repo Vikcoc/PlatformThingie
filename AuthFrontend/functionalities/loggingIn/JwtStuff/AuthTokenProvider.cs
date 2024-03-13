@@ -9,9 +9,9 @@ using System.Text;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
-    public class AuthTokenProvider(PAuthRepo authRepo, IConfiguration configuration, Random random)
+    public class AuthTokenProvider(IAuthRepo authRepo, IConfiguration configuration, Random random)
     {
-        private readonly PAuthRepo _authRepo = authRepo;
+        private readonly IAuthRepo _authRepo = authRepo;
         private readonly IConfiguration _configuration = configuration;
         private readonly Random _random = random;
 

@@ -2,7 +2,7 @@
 
 namespace AuthFrontend.entities
 {
-    internal class AuthUserRefreshToken
+    public class AuthUserRefreshToken
     {
         [Key]
         public Guid JTI { get; set; }
