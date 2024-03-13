@@ -8,17 +8,12 @@ using System.Text;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
-    public class RefreshJwtValidationService : JwtLoginService
-    {
-        private readonly IAuthRepo _pAuthRepo;
-
-        public RefreshJwtValidationService(IAuthRepo pAuthRepo
+    public class RefreshJwtValidationService(IAuthRepo pAuthRepo
             , JwtSecurityTokenHandler tokenHandler
             , [FromKeyedServices("Refresh")] IJwtValidationParamsGetter paramsGetter)
-            : base(tokenHandler, paramsGetter)
-        {
-            _pAuthRepo = pAuthRepo;
-        }
+        : JwtLoginService(tokenHandler, paramsGetter)
+    {
+        private readonly IAuthRepo _pAuthRepo = pAuthRepo;
 
         public async override Task<UserInfoDto?> ValidateToken(string token)
         {

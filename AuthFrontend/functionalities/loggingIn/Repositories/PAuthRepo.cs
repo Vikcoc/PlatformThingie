@@ -28,7 +28,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             {
                 UserId = userId,
                 Username = user.UserName,
-                Email = user.Email,
+                user.Email,
             });
 
             if (res == 0)

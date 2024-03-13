@@ -29,7 +29,7 @@ namespace TemplatingWeb
                     RequireExpirationTime = true,
                     ClockSkew = TimeSpan.Zero
                 };
-                
+
                 opt.TokenValidationParameters = parameters;
             });
             builder.Services.AddAuthorization();
