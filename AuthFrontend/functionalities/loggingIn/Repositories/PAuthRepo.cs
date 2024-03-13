@@ -7,7 +7,7 @@ using System.Data;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories
 {
-    public class PAuthRepo([FromKeyedServices("Auth")] IDbConnection dbConnection)
+    public class PAuthRepo([FromKeyedServices("Auth")] IDbConnection dbConnection) : IAuthRepo
     {
         private readonly IDbConnection _dbConnection = dbConnection;
 

@@ -10,9 +10,9 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
     public class RefreshJwtValidationService : JwtLoginService
     {
-        private readonly PAuthRepo _pAuthRepo;
+        private readonly IAuthRepo _pAuthRepo;
 
-        public RefreshJwtValidationService(PAuthRepo pAuthRepo
+        public RefreshJwtValidationService(IAuthRepo pAuthRepo
             , JwtSecurityTokenHandler tokenHandler
             , [FromKeyedServices("Refresh")] IJwtValidationParamsGetter paramsGetter)
             : base(tokenHandler, paramsGetter)
