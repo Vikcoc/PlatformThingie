@@ -20,7 +20,7 @@ public class ComponentDefinition : IPlatformComponentDefinition
         endpoints.MapGet("/clamp", SomeInjectTest);
     }
 
-    internal string SomeInjectTest([FromQuery] int number, [FromServices]SampleService service)
+    internal string SomeInjectTest([FromQuery] int number, [FromServices] SampleService service)
     {
         return $"Clamped number is {service.ModuloToInterval(number, -5, 5)}";
     }

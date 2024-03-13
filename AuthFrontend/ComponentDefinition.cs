@@ -16,10 +16,12 @@ namespace AuthFrontend
         {
             LogInController.AddRoutes(endpoints);
 
+            endpoints.MapGet("/login/test", () => "It worked")
+                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
 
             //the index i guess
             endpoints.MapGet("/", () => Results.Redirect("/about"));
-            
+
             //the page with sign in
             endpoints.MapGet("/about", () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "about", "index.html"), "text/html"));
             endpoints.MapGet("/signIn.js",

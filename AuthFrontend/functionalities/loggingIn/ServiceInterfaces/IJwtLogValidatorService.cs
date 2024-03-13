@@ -2,9 +2,8 @@
 
 namespace AuthFrontend.functionalities.loggingIn.ServiceInterfaces
 {
-    public interface IJwtLogInService
+    public interface IJwtLogValidatorService
     {
         Task<UserInfoDto?> ValidateToken(string token);
-        Task<string?> MakeAccessToken(UserInfoDto userInfo);
     }
 }

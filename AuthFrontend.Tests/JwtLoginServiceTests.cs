@@ -5,26 +5,21 @@ using System.Security.Cryptography;
 
 namespace AuthFrontend.Tests
 {
-    public abstract class JwtLoginServiceTests
+    public abstract class JwtLoginServiceTests(IJwtLogValidatorService logInService)
     {
         // For testing purposes
         // https://travistidwell.com/jsencrypt/demo/
         // https://pem2jwk.vercel.app/
 
-        protected readonly IJwtLogInService _logInService;
+        protected readonly IJwtLogValidatorService _logInService = logInService;
 
-        protected JwtLoginServiceTests(IJwtLogInService logInService)
+        protected class HardcodedParams : IJwtValidationParamsGetter
         {
-            _logInService = logInService;
-        }
-
-        protected class HardcodedKey : IJwtKeySetGetter
-        {
-            public Task<JsonWebKeySet?> GetKeySet()
+            public Task<TokenValidationParameters?> FillParameters()
             {
-                var keys = new JsonWebKeySet();
+                var keySet = new JsonWebKeySet();
 
-                keys.Keys.Add(new JsonWebKey()
+                keySet.Keys.Add(new JsonWebKey()
                 {
                     N = "c1wLj2jMOAuUqRkF9PNkJVx4vuYE-CcAcarXfgrHtM0PBgKOArZYrEk0u1Q9Ki0fYRf0Qwhg_AJpQkzrB4cr-PbH-rCYn-FUZubFe5mYz5WNr8pH5BMt6AWdtFxVxAC93mfS6ebr30Y9NvfjkJI7es0hvYaG6czApTiIATwXFGk",
                     Use = "sig",
@@ -34,18 +29,13 @@ namespace AuthFrontend.Tests
                     Kid = "76a269304c3e91250c9a33932cb22"
                 });
 
-                return Task.FromResult<JsonWebKeySet?>(keys);
+                return Task.FromResult<TokenValidationParameters?>(new TokenValidationParameters()
+                {
+                    ValidIssuer = "me",
+                    ValidAudience = "me",
+                    IssuerSigningKeys = keySet.Keys,
+                });
             }
-        }
-
-        protected class HardcodedParams : IJwtValidationParamsGetter
-        {
-            public TokenValidationParameters FillParameters(JsonWebKeySet keySet) => new TokenValidationParameters()
-            {
-                ValidIssuer = "me",
-                ValidAudience = "me",
-                IssuerSigningKeys = keySet.Keys,
-            };
         }
 
         [Fact]
