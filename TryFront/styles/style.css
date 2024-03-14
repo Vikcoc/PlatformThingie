@@ -25,16 +25,16 @@
 }
 
 #loginPage {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-end;
-    width: 50em;
-    height: 20em;
+    display: grid;
+    grid-template-columns: 100%;
+    width: 60em;
+    justify-items: center;
 }
 
-#g_id_signin {
-    width: fit-content;
+.g_id_signin {
+    display: none;
 }
+
 
 section {
     background-color: var(--md-sys-color-surface-bright);

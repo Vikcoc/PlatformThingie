@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./font">
     <link rel="stylesheet" href="./style">
     <script src="./signIn.js" async></script>
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <title>Modsig</title>
 </head>
 
@@ -26,8 +26,7 @@
             <img src="/favicon.ico" alt="Modsig logo" />
             <button onclick="if(localStorage['lastPage']) location.href = localStorage['lastPage']; else location.href = './';">Back</button>
         </div>
-        <div style="width:20em; height:5em;"
-             class="g_id_signin"
+        <div class="g_id_signin"
              data-type="standard"
              data-shape="pill"
              data-theme="filled_black"
@@ -37,6 +36,7 @@
         </div>
 
         <button style="width:10em; height:5em;">Okk</button>
+        <button style="width:10em; height:5em;" onclick="document.querySelector('.g_id_signin div[role=button]').click();">Sign in with google</button>
     </div>
 
 </body>
