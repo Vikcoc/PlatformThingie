@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthFrontend\AuthFrontend.csproj" />
     <ProjectReference Include="..\DefaultsAndStuff.Tests\DefaultsAndStuff.Tests.csproj" />
+    <ProjectReference Include="..\PublicInfo\PublicInfo.csproj" />
     <ProjectReference Include="..\TemplatingWeb\TemplatingWeb.csproj" />
   </ItemGroup>
 

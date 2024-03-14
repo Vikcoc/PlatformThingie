@@ -13,15 +13,6 @@
     height: 10em;
 }
 
-/* #topBar div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    max-width: 20em;
-    width: 100%;
-    align-items: center;
-} */
-
 #topBar button{
     height: fit-content;
     font-size: 1.5em;
@@ -33,7 +24,15 @@
     margin-right: 2em;
 }
 
-#g_id_signin{
+#loginPage {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    width: 50em;
+    height: 20em;
+}
+
+#g_id_signin {
     width: fit-content;
 }
 

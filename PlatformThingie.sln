@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingConcepts", "TestingC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDbComponent", "UsersDbComponent\UsersDbComponent.csproj", "{6073B2DE-B762-41D5-81B8-EADE4C278CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthWeb", "AuthWeb\AuthWeb.csproj", "{A54107ED-BED3-4696-B833-798C2608EBFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthWeb", "AuthWeb\AuthWeb.csproj", "{A54107ED-BED3-4696-B833-798C2608EBFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicInfo", "PublicInfo\PublicInfo.csproj", "{403FC0F1-F338-44BE-987C-3F8B50E1629F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{A54107ED-BED3-4696-B833-798C2608EBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A54107ED-BED3-4696-B833-798C2608EBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A54107ED-BED3-4696-B833-798C2608EBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{403FC0F1-F338-44BE-987C-3F8B50E1629F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{403FC0F1-F338-44BE-987C-3F8B50E1629F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{403FC0F1-F338-44BE-987C-3F8B50E1629F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{403FC0F1-F338-44BE-987C-3F8B50E1629F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

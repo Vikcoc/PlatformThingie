@@ -7,17 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UsersDbComponent\UsersDbComponent.csproj" />
+    <ProjectReference Include="..\PlatformInterfaces\PlatformInterfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="pages\about\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\about\signIn.js">
+    <None Update="pages\all\style.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\about\style.css">
+    <None Update="pages\all\color.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pages\all\font.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pages\all\modsig.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

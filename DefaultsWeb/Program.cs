@@ -2,5 +2,5 @@ using TemplatingWeb;
 
 Startup.BuildAndStart(args,
 [
-    new AuthFrontend.ComponentDefinition()
+    new PublicInfo.ComponentDefinition()
 ]);

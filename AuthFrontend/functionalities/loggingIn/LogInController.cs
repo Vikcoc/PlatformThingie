@@ -1,7 +1,6 @@
 ﻿using AuthFrontend.functionalities.loggingIn.JwtStuff;
 using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
-using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,6 @@ namespace AuthFrontend.functionalities.loggingIn
         {
             endpoints.MapPost("/login/google", ProcessGoogleToken);
             endpoints.MapPost("/login/refresh", ProcessRefreshToken);
-            endpoints.MapGet("/login/connection", TryDbConn);
         }
 
         public static void AddServices(IServiceCollection services)
@@ -64,16 +62,6 @@ namespace AuthFrontend.functionalities.loggingIn
                 return TypedResults.Problem("Cannot make access token");
 
             return TypedResults.Ok(resultToken);
-        }
-
-        private static async Task<IResult> TryDbConn([FromKeyedServices("Auth")] IDbConnection dbConnection)
-        {
-            dbConnection.Open();
-
-            var res = await dbConnection.QueryAsync("Select 1 as Value");
-
-            dbConnection.Close();
-            return TypedResults.Ok(res);
         }
     }
 }
