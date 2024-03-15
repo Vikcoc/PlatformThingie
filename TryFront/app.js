@@ -16,6 +16,10 @@ app.get("/signIn.js", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'signIn.js'));
 });
 
+app.get("/bundle", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'bundle.js'));
+});
+
 app.get("/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
@@ -29,6 +33,10 @@ app.get("/font", function (req, res) {
 
 app.get("/favicon.ico", function (req, res) {
     res.sendFile(path.join(__dirname,'modsig.svg'));
+});
+
+app.get("/google-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'googleLogo.svg'));
 });
 
 
