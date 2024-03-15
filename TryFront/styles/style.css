@@ -4,8 +4,10 @@
     color: var(--md-sys-color-on-surface-bright);
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-around;
     align-items: center;
+    min-width:20em;
+    border-radius:2em;
 }
 
 #topBar img{

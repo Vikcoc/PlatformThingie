@@ -25,7 +25,9 @@
     <div id="loginPage">
         <div id="topBar">
             <img src="/favicon.ico" alt="Modsig logo" />
-            <button onclick="if(localStorage['lastPage']) location.href = localStorage['lastPage']; else location.href = './';">Back</button>
+            <md-filled-tonal-icon-button onclick="history.back();">
+                <img style="width: inherit; height: inherit;" src="/back-logo" alt="Modsig logo" />
+            </md-filled-tonal-icon-button>
         </div>
         <div class="g_id_signin"
              data-type="standard"

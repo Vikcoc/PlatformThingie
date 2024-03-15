@@ -39,6 +39,10 @@ app.get("/google-logo", function (req, res) {
     res.sendFile(path.join(__dirname, 'pictures', 'googleLogo.svg'));
 });
 
+app.get("/back-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'back-logo.svg'));
+});
+
 
 
 app.listen(port, function () {
