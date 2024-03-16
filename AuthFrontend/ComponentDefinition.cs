@@ -18,10 +18,15 @@ namespace AuthFrontend
             endpoints.MapGet("/login/test", () => "It worked")
                 .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
 
-            //the index i guess
-            endpoints.MapGet("/", () => Results.Redirect("/about"));
+            endpoints.MapGet("/login",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.html"), "text/html"));
+            endpoints.MapGet("/login/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.css"), "text/css"));
+            endpoints.MapGet("/login/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.js"), "text/javascript"));
 
-            
+
+
         }
 
         public void AddServices(IServiceCollection services)

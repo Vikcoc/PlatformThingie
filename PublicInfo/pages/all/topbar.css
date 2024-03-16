@@ -6,6 +6,8 @@
     flex-direction: row;
     justify-content: start;
     align-items: center;
+    min-width: 20em;
+    border-radius: 2em;
 }
 
 #topBar img {

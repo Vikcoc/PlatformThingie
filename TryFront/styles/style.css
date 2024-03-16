@@ -1,4 +1,4 @@
-#topBar{
+#topBar {
     height: fit-content;
     background-color: var(--md-sys-color-surface-bright);
     color: var(--md-sys-color-on-surface-bright);
@@ -6,8 +6,8 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    min-width:20em;
-    border-radius:2em;
+    min-width: 20em;
+    border-radius: 2em;
 }
 
 #topBar img{
@@ -18,8 +18,8 @@
 #loginPage {
     display: grid;
     grid-template-columns: 100%;
-    width: 60em;
     justify-items: center;
+    row-gap: 1em;
 }
 
 .g_id_signin {
@@ -38,6 +38,8 @@ section {
 body {
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-background);
+    display: flex;
+    justify-content: center;
 }
 
 a:link {
@@ -59,4 +61,8 @@ h1{
 div{
     display: grid;
     grid-template-columns: 1fr 2fr;
+}
+
+section{
+    border-radius: 2em;
 }

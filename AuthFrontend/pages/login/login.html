@@ -1,14 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./color">
-    <link rel="stylesheet" href="./font">
-    <link rel="stylesheet" href="./style">
-    <script src="./signIn.js"></script>
-    <script src="./bundle" type="module"></script>
+    <link rel="stylesheet" href="./public/color">
+    <link rel="stylesheet" href="./public/font">
+    <link rel="stylesheet" href="./public/style">
+    <link rel="stylesheet" href="./public/topbar">
+    <script src="./public/filled-tonal-icon-button" type="module"></script>
+
+    <link rel="stylesheet" href="./login/style">
+    <script src="./login/script"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <title>Modsig</title>
+    <title>Modsig Login</title>
 </head>
 
 <body>
@@ -19,11 +22,11 @@
          data-callback="handleCredentialResponse"
          data-auto_prompt="false">
     </div>
-    
+
     <div id="loginPage">
         <div id="topBar">
             <md-filled-tonal-icon-button onclick="history.back();">
-                <img style="width: inherit; height: inherit;" src="/back-logo" alt="Modsig logo" />
+                <img style="width: inherit; height: inherit;" src="/public/back-logo" alt="Modsig logo" />
             </md-filled-tonal-icon-button>
             <img src="/favicon.ico" alt="Modsig logo" />
         </div>
