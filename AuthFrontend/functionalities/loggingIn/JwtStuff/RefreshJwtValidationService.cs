@@ -38,6 +38,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
             if (props["Purpose"] != "Refresh")
                 return null;
 
+            //todo: maybe invalidate the used refresh token
             return new UserInfoDto
             {
                 Email = props["email"],
