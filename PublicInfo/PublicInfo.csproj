@@ -17,6 +17,9 @@
     <None Update="pages\all\back-logo.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="pages\all\filled-tonal-button.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="pages\all\filled-tonal-icon-button.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

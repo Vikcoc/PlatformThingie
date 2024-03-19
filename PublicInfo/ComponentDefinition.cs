@@ -25,6 +25,8 @@ namespace PublicInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "topbar.css"), "text/css"));
             endpoints.MapGet("/public/filled-tonal-icon-button",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "filled-tonal-icon-button.js"), "text/javascript"));
+            endpoints.MapGet("/public/filled-tonal-button",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "filled-tonal-button.js"), "text/javascript"));
             endpoints.MapGet("/public/back-logo",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "back-logo.svg"), "image/svg+xml"));
 

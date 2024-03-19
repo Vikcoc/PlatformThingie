@@ -15,6 +15,11 @@
     height: 10em;
 }
 
+#topBar md-filled-tonal-button {
+    font-size: 3em;
+    line-height: normal;
+}
+
 #loginPage {
     display: grid;
     grid-template-columns: 100%;
@@ -38,8 +43,6 @@ section {
 body {
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-background);
-    display: flex;
-    justify-content: center;
 }
 
 a:link {

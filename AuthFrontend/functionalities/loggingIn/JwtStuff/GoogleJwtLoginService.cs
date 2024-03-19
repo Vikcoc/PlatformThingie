@@ -5,14 +5,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
-    public class GoogleJwtLoginService : JwtLoginService
+    public class GoogleJwtLoginService(JwtSecurityTokenHandler tokenHandler
+            , [FromKeyedServices("Google")] IJwtValidationParamsGetter jwtValidationParamsGetter) : JwtLoginService(tokenHandler, jwtValidationParamsGetter)
     {
-        public GoogleJwtLoginService(JwtSecurityTokenHandler tokenHandler
-            , [FromKeyedServices("Google")] IJwtValidationParamsGetter jwtValidationParamsGetter)
-            : base(tokenHandler, jwtValidationParamsGetter)
-        {
-        }
-
         public override async Task<UserInfoDto?> ValidateToken(string token)
         {
             var validToken = await GetValidToken(token);

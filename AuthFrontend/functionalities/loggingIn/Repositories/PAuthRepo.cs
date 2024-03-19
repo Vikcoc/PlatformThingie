@@ -3,6 +3,7 @@ using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.seeds;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System.Data;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories
@@ -83,11 +84,11 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
 
             var res = await _dbConnection.ExecuteAsync(query, new
             {
-                JTI = token.JTI,
-                AuthUserId = token.AuthUserId,
-                Expire = token.Expire,
-                Salt = token.Salt,
-                HashedToken = token.HashedToken
+                JTI = token.JTI!,
+                AuthUserId = token.AuthUserId!,
+                Expire = token.Expire!,
+                Salt = token.Salt!,
+                HashedToken = token.HashedToken!
             });
 
             return !(res == 0);
@@ -108,6 +109,21 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             });
 
             return res.Any();
+        }
+
+        public async Task<bool> RemoveToken(Guid jti)
+        {
+            var query = $"""
+                REMOVE FROM "{nameof(AuthContext.AuthUserRefreshTokens)}" 
+                WHERE "{nameof(AuthUserRefreshToken.JTI)}" = @JTI;
+                """;
+
+            var res = await _dbConnection.ExecuteAsync(query, new
+            {
+                JTI = jti,
+            });
+
+            return !(res == 0);
         }
     }
 }

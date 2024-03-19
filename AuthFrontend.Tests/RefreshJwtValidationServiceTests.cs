@@ -19,6 +19,11 @@ namespace AuthFrontend.Tests
                 throw new NotImplementedException();
             }
 
+            public Task<bool> CheckHashExists(string hash)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<Guid?> CreateUser(UserInfoDto user)
             {
                 throw new NotImplementedException();
@@ -28,6 +33,11 @@ namespace AuthFrontend.Tests
                 => Task.FromResult((Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(Token + "ABCDEF"))), "ABCDEF"));
 
             public Task<Guid?> GetUserByEmail(string email)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<bool> RemoveToken(Guid jti)
             {
                 throw new NotImplementedException();
             }

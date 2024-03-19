@@ -1,23 +1,24 @@
-tk = '';
-
 async function handleCredentialResponse(response) {
     // Extract user information from the response
     
-    var us = JSON.parse(atob(response.credential.split('.')[1]));
-    console.log(us);
+    //var us = JSON.parse(atob(response.credential.split('.')[1]));
+    //console.log(us);
 
-    tk = response.credential;
-
-    var res = await (await fetch("./login/google", {
+    var res = await fetch("./login/google", {
         method: "POST",
         body: '"' + response.credential + '"',
         headers: {
             "Content-Type": "application/json",
         }
-    })).json();
+    });
+    
+    if (!res.ok)
+        return;
 
-    sessionStorage["accessToken"] = res.accessToken;
-    localStorage["refreshToken"] = res.refreshToken;
+    var payload = await res.json();
+
+    sessionStorage["accessToken"] = payload.accessToken;
+    localStorage["refreshToken"] = payload.refreshToken;
 
     history.back();
 }

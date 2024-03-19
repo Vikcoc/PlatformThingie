@@ -13,10 +13,6 @@ body {
     justify-content: center;
 }
 
-section {
-    border-radius: 2em;
-}
-
 #loginPage {
     display: grid;
     grid-template-columns: 100%;

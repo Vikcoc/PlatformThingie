@@ -16,18 +16,18 @@ app.get("/signIn.js", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'signIn.js'));
 });
 
-app.get("/bundle", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'bundle.js'));
+app.get("/public/filled-tonal-button", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'filled-tonal-button.js'));
 });
 
-app.get("/style", function (req, res) {
+app.get("/public/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
 
-app.get("/color", function (req, res) {
+app.get("/public/color", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'color.css'));
 });
-app.get("/font", function (req, res) {
+app.get("/public/font", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'font.css'));
 });
 

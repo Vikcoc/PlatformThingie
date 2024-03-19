@@ -4,7 +4,7 @@
     color: var(--md-sys-color-on-surface-bright);
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-around;
     align-items: center;
     min-width: 20em;
     border-radius: 2em;
@@ -15,13 +15,17 @@
     height: 10em;
 }
 
-#topBar button {
-    height: fit-content;
-    font-size: 1.5em;
-    padding: 0.7em;
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-primary);
-    border-radius: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
+#topBar md-filled-tonal-button {
+    font-size: 3em;
+    line-height: normal;
+}
+
+#topBar md-filled-tonal-icon-button {
+    --md-filled-tonal-icon-button-container-width: 5em;
+    --md-filled-tonal-icon-button-container-height: 5em;
+}
+
+#topBar md-filled-tonal-icon-button img {
+    width: 3em;
+    height: 3em;
 }
