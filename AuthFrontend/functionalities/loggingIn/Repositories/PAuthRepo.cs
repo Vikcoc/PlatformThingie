@@ -81,9 +81,8 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
                 values (@JTI, @AuthUserId, @Expire, @Salt, @HashedToken);
                 """;
 
-            var res = await _dbConnection.ExecuteAsync(query, new AuthUserRefreshToken
+            var res = await _dbConnection.ExecuteAsync(query, new
             {
-                AuthUser = null!,
                 JTI = token.JTI,
                 AuthUserId = token.AuthUserId,
                 Expire = token.Expire,
@@ -92,6 +91,23 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             });
 
             return !(res == 0);
+        }
+
+        public async Task<bool> CheckHashExists(string hash)
+        {
+            var query = $"""
+                SELECT "{nameof(AuthUserRefreshToken.HashedToken)}" Value
+                FROM "{nameof(AuthContext.AuthUserRefreshTokens)}"
+                WHERE "{nameof(AuthUserRefreshToken.HashedToken)}" = @HashedToken
+                LIMIT 1;
+                """;
+
+            var res = await _dbConnection.QueryAsync(query, new
+            {
+                HashedToken = hash
+            });
+
+            return res.Any();
         }
     }
 }

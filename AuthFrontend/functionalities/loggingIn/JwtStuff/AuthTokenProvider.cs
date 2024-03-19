@@ -43,13 +43,13 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     NotBefore = DateTimeOffset.Now.DateTime,
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
-                    AdditionalInnerHeaderClaims = new Dictionary<string, object>() { { "jti", Guid.NewGuid().ToString() } },
                     Claims = new Dictionary<string, object>() {
-                    { "UserId", userId.Value.ToString() },
-                    { SeedAuthClaimNames.Email, userInfo.Email },
-                    { SeedAuthClaimNames.Username, userInfo.UserName },
-                    { "Purpose", "Access" }
-                }
+                        { "UserId", userId.Value.ToString() },
+                        { SeedAuthClaimNames.Email, userInfo.Email },
+                        { SeedAuthClaimNames.Username, userInfo.UserName },
+                        { "Purpose", "Access" },
+                        { "jti", Guid.NewGuid().ToString() }
+                    }
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 token = tokenHandler.CreateJwtSecurityToken(desc);
@@ -75,13 +75,13 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     NotBefore = DateTimeOffset.Now.AddMinutes(int.Parse(_configuration["SigningCredentials:Refresh:NotBeforeAddMinutes"]!)).DateTime,
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
-                    AdditionalInnerHeaderClaims = new Dictionary<string, object>() { { "jti", Guid.NewGuid().ToString() } },
                     Claims = new Dictionary<string, object>() {
-                    { "UserId", userId.Value.ToString() },
-                    { SeedAuthClaimNames.Email, userInfo.Email },
-                    { SeedAuthClaimNames.Username, userInfo.UserName },
-                    { "Purpose", "Refresh" }
-                }
+                        { "UserId", userId.Value.ToString() },
+                        { SeedAuthClaimNames.Email, userInfo.Email },
+                        { SeedAuthClaimNames.Username, userInfo.UserName },
+                        { "Purpose", "Refresh" },
+                        { "jti", Guid.NewGuid().ToString() }
+                    }
                 };
                 var refreshTokenHandler = new JwtSecurityTokenHandler();
                 refreshToken = refreshTokenHandler.CreateJwtSecurityToken(refreshDesc);
@@ -98,7 +98,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                 AuthUserId = userId.Value,
                 Expire = new DateTimeOffset(refreshToken.ValidTo).ToUnixTimeMilliseconds(),
                 HashedToken = hashedRefreshToken,
-                JTI = Guid.Parse((string)refreshToken.Header["jti"]),
+                JTI = Guid.Parse(refreshToken.Claims.First(x => x.Type == "jti").Value),
                 Salt = salt
             });
             #endregion
