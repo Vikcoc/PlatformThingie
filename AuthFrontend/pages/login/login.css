@@ -1,21 +1,6 @@
-.g_id_signin {
-    max-width: 12em;
-}
-
-#topBar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
 body {
-    display: flex;
-    justify-content: center;
-}
-
-#loginPage {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr;
     justify-items: center;
     row-gap: 1em;
 }

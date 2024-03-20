@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="pages\about\about.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="pages\about\about.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

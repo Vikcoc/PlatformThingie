@@ -36,7 +36,9 @@ namespace PublicInfo
             //the about page
             endpoints.MapGet("/about",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "about", "about.html"), "text/html"));
-            
+            endpoints.MapGet("/about/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "about", "about.css"), "text/css"));
+
         }
 
         public void AddServices(IServiceCollection services)

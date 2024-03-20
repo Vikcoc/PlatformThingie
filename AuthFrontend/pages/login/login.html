@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="./public/color">
     <link rel="stylesheet" href="./public/font">
     <link rel="stylesheet" href="./public/style">
@@ -9,8 +11,10 @@
     <script src="./public/filled-tonal-icon-button" type="module"></script>
 
     <link rel="stylesheet" href="./login/style">
+
     <script src="./login/script"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <title>Modsig Login</title>
 </head>
 
@@ -23,26 +27,25 @@
          data-auto_prompt="false">
     </div>
 
-    <div id="loginPage">
-        <div id="topBar">
-            <md-filled-tonal-icon-button onclick="history.back();">
-                <img src="/public/back-logo" alt="Modsig logo" />
-            </md-filled-tonal-icon-button>
-            <img src="/favicon.ico" alt="Modsig logo" />
-        </div>
+    
+    <div id="topBar">
+        <md-filled-tonal-icon-button onclick="history.back();">
+            <img src="/public/back-logo" alt="Modsig logo" />
+        </md-filled-tonal-icon-button>
+        <img src="/favicon.ico" alt="Modsig logo" />
+    </div>
 
-        <section>
-            <h3>Log in using one of the following providers:</h3>
-        </section>
+    <section>
+        <h3>Log in using one of the following providers:</h3>
+    </section>
 
-        <div class="g_id_signin"
-             data-type="standard"
-             data-shape="pill"
-             data-theme="filled_black"
-             data-text="signin_with"
-             data-size="large"
-             data-logo_alignment="left">
-        </div>
+    <div class="g_id_signin"
+            data-type="standard"
+            data-shape="pill"
+            data-theme="filled_black"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="left">
     </div>
 
 </body>

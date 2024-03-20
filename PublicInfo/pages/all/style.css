@@ -27,8 +27,3 @@ h1, h2, h3, h4{
 h1{
     font-size:3em;
 }
-
-div{
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-}
