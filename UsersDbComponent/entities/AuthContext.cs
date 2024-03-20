@@ -2,7 +2,7 @@
 
 namespace AuthFrontend.entities
 {
-    internal class AuthContext : DbContext
+    public class AuthContext : DbContext
     {
         public DbSet<AuthUser> AuthUsers { get; set; }
         public DbSet<AuthUserClaim> AuthUserClaims { get; set; }

@@ -1,11 +1,13 @@
-#topBar{
+#topBar {
     height: fit-content;
     background-color: var(--md-sys-color-surface-bright);
     color: var(--md-sys-color-on-surface-bright);
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-around;
     align-items: center;
+    min-width: 20em;
+    border-radius: 2em;
 }
 
 #topBar img{
@@ -13,29 +15,22 @@
     height: 10em;
 }
 
-/* #topBar div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    max-width: 20em;
-    width: 100%;
-    align-items: center;
-} */
-
-#topBar button{
-    height: fit-content;
-    font-size: 1.5em;
-    padding: 0.7em;
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-primary);
-    border-radius: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
+#topBar md-filled-tonal-button {
+    font-size: 3em;
+    line-height: normal;
 }
 
-#g_id_signin{
-    width: fit-content;
+#loginPage {
+    display: grid;
+    grid-template-columns: 100%;
+    justify-items: center;
+    row-gap: 1em;
 }
+
+.g_id_signin {
+    max-width: 12em;
+}
+
 
 section {
     background-color: var(--md-sys-color-surface-bright);
@@ -69,4 +64,8 @@ h1{
 div{
     display: grid;
     grid-template-columns: 1fr 2fr;
+}
+
+section{
+    border-radius: 2em;
 }

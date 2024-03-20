@@ -2,11 +2,11 @@
 
 namespace AuthFrontend.entities
 {
-    internal class AuthClaim
+    public class AuthClaim
     {
         [Key]
         public string AuthClaimName { get; set; } = string.Empty;
 
-        public IList<AuthUserClaim> AuthUserClaims { get; set; } = new List<AuthUserClaim>();
+        public IList<AuthUserClaim> AuthUserClaims { get; set; } = [];
     }
 }

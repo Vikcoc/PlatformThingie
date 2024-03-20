@@ -7,33 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <ProjectReference Include="..\UsersDbComponent\UsersDbComponent.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlatformInterfaces\PlatformInterfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="pages\about\index.html">
+    <None Update="pages\login\login.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\about\signIn.js">
+    <None Update="pages\login\login.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\about\style.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="pages\all\color.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="pages\all\font.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="pages\all\modsig.svg">
+    <None Update="pages\login\login.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

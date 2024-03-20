@@ -1,0 +1,6 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 1em;
+}

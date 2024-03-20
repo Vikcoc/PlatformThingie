@@ -1,7 +1,6 @@
 ﻿using AuthFrontend.functionalities.loggingIn.JwtStuff;
 using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
-using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,6 @@ namespace AuthFrontend.functionalities.loggingIn
         {
             endpoints.MapPost("/login/google", ProcessGoogleToken);
             endpoints.MapPost("/login/refresh", ProcessRefreshToken);
-            endpoints.MapGet("/login/connection", TryDbConn);
         }
 
         public static void AddServices(IServiceCollection services)
@@ -40,22 +38,27 @@ namespace AuthFrontend.functionalities.loggingIn
                 var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:Auth"];
                 return new NpgsqlConnection(theConnection);
             });
-            services.AddScoped<PAuthRepo>();
+            services.AddScoped<IAuthRepo, PAuthRepo>();
             services.AddScoped<AuthTokenProvider>();
             services.AddSingleton<Random>();
+            services.AddKeyedScoped<IJwtTokenUsedChecker, GoogleJwtTokenUsedChecker>("Google");
+            services.AddKeyedScoped<IJwtTokenUsedChecker, RefreshJwtTokenUsedChecker>("Refresh");
         }
 
-        public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromKeyedServices("Google")] IJwtLogValidatorService service, [FromServices] AuthTokenProvider tokenProvider)
-            => await ProcessGenericToken(token, service, tokenProvider);
+        public static async Task<IResult> ProcessGoogleToken([FromBody] string token, [FromKeyedServices("Google")] IJwtLogValidatorService service, [FromServices] AuthTokenProvider tokenProvider, [FromKeyedServices("Google")] IJwtTokenUsedChecker oldingToken)
+            => await ProcessGenericToken(token, service, tokenProvider, oldingToken);
 
-        public static async Task<IResult> ProcessRefreshToken([FromBody] string token, [FromKeyedServices("Refresh")] IJwtLogValidatorService service, [FromServices] AuthTokenProvider tokenProvider)
-            => await ProcessGenericToken(token, service, tokenProvider);
+        public static async Task<IResult> ProcessRefreshToken([FromBody] string token, [FromKeyedServices("Refresh")] IJwtLogValidatorService service, [FromServices] AuthTokenProvider tokenProvider, [FromKeyedServices("Refresh")] IJwtTokenUsedChecker oldingToken)
+            => await ProcessGenericToken(token, service, tokenProvider, oldingToken);
 
 
-        private static async Task<IResult> ProcessGenericToken(string token, IJwtLogValidatorService service, AuthTokenProvider tokenProvider)
+        private static async Task<IResult> ProcessGenericToken(string token, IJwtLogValidatorService service, AuthTokenProvider tokenProvider, IJwtTokenUsedChecker oldingToken)
         {
             var userInfo = await service.ValidateToken(token);
             if (!userInfo.HasValue)
+                return TypedResults.BadRequest("Bad token");
+
+            if(await oldingToken.TokenUsed(token))
                 return TypedResults.BadRequest("Bad token");
 
             var resultToken = await tokenProvider.MakeAccessToken(userInfo.Value);
@@ -63,17 +66,10 @@ namespace AuthFrontend.functionalities.loggingIn
             if (!resultToken.HasValue)
                 return TypedResults.Problem("Cannot make access token");
 
+            if(!await oldingToken.UseToken(token, userInfo.Value))
+                return TypedResults.Problem("Cannot make access token");
+
             return TypedResults.Ok(resultToken);
-        }
-
-        private static async Task<IResult> TryDbConn([FromKeyedServices("Auth")] IDbConnection dbConnection)
-        {
-            dbConnection.Open();
-
-            var res = await dbConnection.QueryAsync("Select 1 as Value");
-
-            dbConnection.Close();
-            return TypedResults.Ok(res);
         }
     }
 }

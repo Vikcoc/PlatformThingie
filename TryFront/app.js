@@ -16,19 +16,31 @@ app.get("/signIn.js", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'signIn.js'));
 });
 
-app.get("/style", function (req, res) {
+app.get("/public/filled-tonal-button", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'filled-tonal-button.js'));
+});
+
+app.get("/public/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
 
-app.get("/color", function (req, res) {
+app.get("/public/color", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'color.css'));
 });
-app.get("/font", function (req, res) {
+app.get("/public/font", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'font.css'));
 });
 
 app.get("/favicon.ico", function (req, res) {
     res.sendFile(path.join(__dirname,'modsig.svg'));
+});
+
+app.get("/google-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'googleLogo.svg'));
+});
+
+app.get("/back-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'back-logo.svg'));
 });
 
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AuthFrontend.entities
 {
     [PrimaryKey(nameof(AuthUserId), nameof(AuthClaimName))]
-    internal class AuthUserClaim
+    public class AuthUserClaim
     {
 
         public Guid AuthUserId { get; set; }

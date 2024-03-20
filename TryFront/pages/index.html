@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./color">
-    <link rel="stylesheet" href="./font">
-    <link rel="stylesheet" href="./style">
-    <script src="./signIn.js" async></script>
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    <link rel="stylesheet" href="./public/color">
+    <link rel="stylesheet" href="./public/font">
+    <link rel="stylesheet" href="./public/style">
+    <link rel="stylesheet" href="./public/topbar">
+    <script src="./public/filled-tonal-button" type="module"></script>
     <title>Modsig</title>
 </head>
 
@@ -21,18 +21,9 @@
 
     <div id="topBar">
         <img src="/favicon.ico" alt="Modsig logo" />
-        <button onclick="location.href='./';">Home</button>
-        <button onclick="location.href='./about';">About</button>
-
-
-        <div class="g_id_signin"
-             data-type="standard"
-             data-shape="pill"
-             data-theme="filled_black"
-             data-text="signin_with"
-             data-size="large"
-             data-logo_alignment="left">
-        </div>
+        <md-filled-tonal-button onclick="location.href='./';">Home</md-filled-tonal-button>
+        <md-filled-tonal-button onclick="location.href='./about';">About</md-filled-tonal-button>
+        <md-filled-tonal-button onclick="location.href='./login';">Log In</md-filled-tonal-button>
     </div>
 
 

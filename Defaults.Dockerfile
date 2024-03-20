@@ -7,15 +7,7 @@ WORKDIR /src
 
 # based on eshops on container
 # https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Basket/Basket.API/Dockerfile
-
-# the nuget and common stuff to be cached
-# COPY "PlatformThingie.sln" "PlatformThingie.sln"
-# COPY "Dependencies/Dependencies.csproj" "Dependencies/Dependencies.csproj"
-# COPY "PlatformInterfaces/PlatformInterfaces.csproj" "PlatformInterfaces/PlatformInterfaces.csproj"
-# COPY "WebPlatform/WebPlatform.csproj" "WebPlatform/WebPlatform.csproj"
-# COPY "DefaultsAndStuff/DefaultsAndStuff.csproj" "DefaultsAndStuff/DefaultsAndStuff.csproj"
-
-# RUN dotnet restore "PlatformThingie.sln"
+# will not bother with cache yet
 
 COPY . .
 

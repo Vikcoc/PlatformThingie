@@ -351,5 +351,4 @@ MigrationBackup/
 
 # Others
 Output/
-WebPlatform/appsettings.Development.json
-/DefaultsWeb/appsettings.Development.json
+appsettings.Development.json
