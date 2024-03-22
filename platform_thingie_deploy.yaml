@@ -116,7 +116,7 @@ spec:
     image: vikcoc/migration_platform:sha-4d26b11
     volumeMounts:
     - name: database-secrets
-      mountPath: /app
+      mountPath: /app/conf
   restartPolicy: Never
   volumes:
   - name: database-secrets
