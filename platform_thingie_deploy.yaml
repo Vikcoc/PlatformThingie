@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /k8volumes
+    path: /k8volumes2/app-db-pv
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -81,6 +81,13 @@ spec:
         ports:
         - containerPort: 80
         name: login-port
+      volumeMounts:
+        - name: application-secrets
+          mountPath: /app/conf
+    volumes:
+    - name: application-secrets
+      secret:
+        secretName: config-secret
 ---
 apiVersion: apps/v1
 kind: Deployment

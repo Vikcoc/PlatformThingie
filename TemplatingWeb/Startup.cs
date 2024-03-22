@@ -13,6 +13,8 @@ namespace TemplatingWeb
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Configuration.AddJsonFile("conf/appsettings.Secret.json", optional: true);
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAuthentication().AddJwtBearer(opt =>
