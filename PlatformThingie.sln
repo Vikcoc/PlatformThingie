@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublicInfo", "PublicInfo\Pu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicWeb", "PublicWeb\PublicWeb.csproj", "{40A54970-1A81-4CF3-BAC1-0CBA44DF2CF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationsTool", "MigrationsTool\MigrationsTool.csproj", "{96074340-0FED-4823-873C-099FDADA4B89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{40A54970-1A81-4CF3-BAC1-0CBA44DF2CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40A54970-1A81-4CF3-BAC1-0CBA44DF2CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40A54970-1A81-4CF3-BAC1-0CBA44DF2CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96074340-0FED-4823-873C-099FDADA4B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96074340-0FED-4823-873C-099FDADA4B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96074340-0FED-4823-873C-099FDADA4B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96074340-0FED-4823-873C-099FDADA4B89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

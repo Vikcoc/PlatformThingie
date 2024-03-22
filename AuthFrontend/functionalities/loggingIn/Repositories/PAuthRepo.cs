@@ -3,7 +3,6 @@ using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.seeds;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using System.Data;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories

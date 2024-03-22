@@ -350,5 +350,5 @@ MigrationBackup/
 .ionide/
 
 # Others
-Output/
 appsettings.Development.json
+appsettings.Production.json
