@@ -39,6 +39,10 @@ namespace PublicInfo
             endpoints.MapGet("/about/style",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "about", "about.css"), "text/css"));
 
+            //the privacy page
+            endpoints.MapGet("/privacy",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "privacy", "privacy.html"), "text/html"));
+
         }
 
         public void AddServices(IServiceCollection services)
