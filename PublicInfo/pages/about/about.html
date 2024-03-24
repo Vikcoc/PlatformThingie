@@ -9,6 +9,7 @@
     <script src="./public/filled-tonal-button" type="module"></script>
 
     <link rel="stylesheet" href="./about/style">
+    <script src="./public/topbar/signed-in" type="module"></script>
 
     <title>Modsig</title>
 </head>
@@ -18,7 +19,8 @@
         <img src="/favicon.ico" alt="Modsig logo" />
         <md-filled-tonal-button onclick="location.href='./about';">About</md-filled-tonal-button>
         <md-filled-tonal-button onclick="location.href='./privacy';">Privacy</md-filled-tonal-button>
-        <md-filled-tonal-button onclick="location.href='./login';">Log In</md-filled-tonal-button>
+        <md-filled-tonal-button id="login-button" onclick="location.href='./login';">Log In</md-filled-tonal-button>
+        <md-filled-tonal-button id="profile-button" style="display: none" onclick="location.href='./profile';">Profile</md-filled-tonal-button>
     </div>
 
 

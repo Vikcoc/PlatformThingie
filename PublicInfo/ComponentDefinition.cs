@@ -29,6 +29,8 @@ namespace PublicInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "filled-tonal-button.js"), "text/javascript"));
             endpoints.MapGet("/public/back-logo",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "back-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/topbar/signed-in",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "signed-in.js"), "text/javascript"));
 
             //the index i guess
             endpoints.MapGet("/", () => Results.Redirect("/about"));
