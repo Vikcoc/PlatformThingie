@@ -32,3 +32,7 @@ md-outlined-text-field {
     padding-top: 1em;
     padding-bottom: 1em;
 }
+
+svg {
+    fill: green;
+}

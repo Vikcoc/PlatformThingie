@@ -24,6 +24,10 @@ app.get("/public/outlined-text-field", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'outlined-text-field.js'));
 });
 
+app.get("/public/icon-button", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'icon-button.js'));
+});
+
 
 app.get("/public/authenticated-fetch", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'authenticated-fetch.js'));
@@ -63,6 +67,12 @@ app.get("/favicon.ico", function (req, res) {
 
 app.get("/public/back-logo", function (req, res) {
     res.sendFile(path.join(__dirname, 'pictures', 'back-logo.svg'));
+});
+app.get("/public/save-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'save-logo.svg'));
+});
+app.get("/public/plus-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'plus-logo.svg'));
 });
 
 

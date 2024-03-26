@@ -20,6 +20,8 @@ namespace UserInfo
         {
             endpoints.MapGet("/profile",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.html"), "text/html"));
+            endpoints.MapGet("/profile/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.css"), "text/css"));
             endpoints.MapGet("/profile/profile",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.js"), "text/javascript"));
 

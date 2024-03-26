@@ -12,6 +12,8 @@ async function getMyInfo() {
 
     var payload = await res.json();
 
+    var claimsContainer = document.getElementById("claimsContainer");
+
     payload.forEach((x) => {
         var sec = document.createElement("section");
         var inp = document.createElement("md-outlined-text-field");
@@ -19,7 +21,7 @@ async function getMyInfo() {
         inp.label = x.authClaimName;
         inp.value = x.authClaimValue;
         sec.appendChild(inp);
-        document.body.appendChild(sec);
+        claimsContainer.appendChild(sec);
     })
 }
 
