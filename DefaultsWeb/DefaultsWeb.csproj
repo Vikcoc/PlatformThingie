@@ -12,6 +12,7 @@
     <ProjectReference Include="..\DefaultsAndStuff.Tests\DefaultsAndStuff.Tests.csproj" />
     <ProjectReference Include="..\PublicInfo\PublicInfo.csproj" />
     <ProjectReference Include="..\TemplatingWeb\TemplatingWeb.csproj" />
+    <ProjectReference Include="..\UserInfo\UserInfo.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,4 +11,13 @@
     <ProjectReference Include="..\UsersDbComponent\UsersDbComponent.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="pages\user\profile.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pages\user\profile.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

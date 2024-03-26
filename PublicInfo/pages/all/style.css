@@ -27,3 +27,8 @@ h1, h2, h3, h4{
 h1{
     font-size:3em;
 }
+
+md-outlined-text-field {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}

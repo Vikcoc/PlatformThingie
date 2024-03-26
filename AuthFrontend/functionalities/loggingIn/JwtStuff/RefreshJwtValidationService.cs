@@ -21,7 +21,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
             if (parsedToken == null)
                 return null;
 
-            var jti = Guid.Parse((string)parsedToken.Header["jti"]);
+            var jti = Guid.Parse(parsedToken.Claims.First(x => x.Type == "jti").Value);
 
             var (tokenHash, tokenSalt) = await _pAuthRepo.GetTokenHashAndSalt(jti);
 

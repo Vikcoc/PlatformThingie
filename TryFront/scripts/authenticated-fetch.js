@@ -17,7 +17,7 @@ export async function authenticatedFetch(route, request) {
             }
         });
 
-        if (!res.ok)
+        if (!res.unauthorised)
             location.href = './login';
 
         var payload = await res.json();

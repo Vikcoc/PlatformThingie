@@ -29,6 +29,9 @@
     <None Update="pages\all\filled-tonal-icon-button.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="pages\all\outlined-text-field.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="pages\all\signed-in.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

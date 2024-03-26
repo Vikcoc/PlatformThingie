@@ -113,7 +113,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
         public async Task<bool> RemoveToken(Guid jti)
         {
             var query = $"""
-                REMOVE FROM "{nameof(AuthContext.AuthUserRefreshTokens)}" 
+                DELETE FROM "{nameof(AuthContext.AuthUserRefreshTokens)}" 
                 WHERE "{nameof(AuthUserRefreshToken.JTI)}" = @JTI;
                 """;
 

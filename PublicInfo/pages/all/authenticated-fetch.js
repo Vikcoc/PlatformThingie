@@ -1,4 +1,4 @@
-async function authorisedFetch(route, request) {
+export async function authenticatedFetch(route, request) {
 
     if (sessionStorage["accessToken"]
         && new Date(JSON.parse(atob(sessionStorage["accessToken"].split('.')[1])).exp * 1000) > Date.now()) {
@@ -17,14 +17,14 @@ async function authorisedFetch(route, request) {
             }
         });
 
-        if (!res.ok)
+        if (!res.unauthorised)
             location.href = './login';
 
         var payload = await res.json();
 
         sessionStorage["accessToken"] = payload.accessToken;
         localStorage["refreshToken"] = payload.refreshToken;
-    
+
         request.headers["Authorization"] = "Bearer " + sessionStorage["accessToken"];
         return await fetch(route, request);
     }
