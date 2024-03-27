@@ -33,6 +33,12 @@ md-outlined-text-field {
     padding-bottom: 1em;
 }
 
-svg {
-    fill: green;
+#buttonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    min-width: 7em;
 }

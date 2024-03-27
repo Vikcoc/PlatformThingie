@@ -27,6 +27,9 @@ app.get("/public/outlined-text-field", function (req, res) {
 app.get("/public/icon-button", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'icon-button.js'));
 });
+app.get("/public/filled-select", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'filled-select.js'));
+});
 
 
 app.get("/public/authenticated-fetch", function (req, res) {
