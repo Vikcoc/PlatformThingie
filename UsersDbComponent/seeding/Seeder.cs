@@ -2,6 +2,7 @@
 using AuthFrontend.seeds;
 using Microsoft.EntityFrameworkCore;
 using PlatformInterfaces;
+using UsersDbComponent.entities;
 
 namespace UsersDbComponent.seeding
 {
@@ -17,14 +18,22 @@ namespace UsersDbComponent.seeding
 
             await db.Database.MigrateAsync();
 
-            var claims = new[] { SeedAuthClaimNames.Email, SeedAuthClaimNames.Username };
+            var claims = new SeedAuthClaimNames();
 
-            var toAdd = claims.Except(db.AuthClaims.Select(x => x.AuthClaimName));
+            var toAdd = claims.Except(db.AuthClaims.Select(x => new KeyValuePair<string, AuthClaimRights>(x.AuthClaimName,x.AuthClaimRight)));
+            var toEdit = toAdd.Join(db.AuthClaims, x => x.Key, y => y.AuthClaimName, (x, y) => (x, y));
+            toAdd = toAdd.Except(toEdit.Select(a => a.x));
 
             db.AuthClaims.AddRange(toAdd.Select(x => new AuthClaim
             {
-                AuthClaimName = x
+                AuthClaimName = x.Key,
+                AuthClaimRight = x.Value
             }));
+
+            foreach(var claim in toEdit) 
+            {
+                claim.y.AuthClaimRight = claim.x.Value;
+            }
 
             await db.SaveChangesAsync();
         }

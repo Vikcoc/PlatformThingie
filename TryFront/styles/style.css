@@ -28,17 +28,18 @@ h1{
     font-size:3em;
 }
 
-md-outlined-text-field {
+/*md-outlined-text-field {
     padding-top: 1em;
     padding-bottom: 1em;
-}
+}*/
 
-#buttonsContainer{
+.horizontalLine {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
     padding-top: 1em;
     padding-bottom: 1em;
     min-width: 7em;
+    gap: 1em;
 }

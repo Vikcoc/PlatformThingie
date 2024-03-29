@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Dependencies.csproj" />
+    <ProjectReference Include="..\UsersDbComponent\UsersDbComponent.csproj" />
   </ItemGroup>
 
 </Project>

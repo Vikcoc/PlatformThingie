@@ -12,25 +12,9 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
-app.get("/public/filled-tonal-icon-button", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'filled-tonal-icon-button.js'));
+app.get("/public/material-components", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'material-components.js'));
 });
-
-app.get("/public/filled-tonal-button", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'filled-tonal-button.js'));
-});
-
-app.get("/public/outlined-text-field", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'outlined-text-field.js'));
-});
-
-app.get("/public/icon-button", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'icon-button.js'));
-});
-app.get("/public/filled-select", function (req, res) {
-    res.sendFile(path.join(__dirname, 'scripts', 'filled-select.js'));
-});
-
 
 app.get("/public/authenticated-fetch", function (req, res) {
     res.sendFile(path.join(__dirname, 'scripts', 'authenticated-fetch.js'));
@@ -76,6 +60,9 @@ app.get("/public/save-logo", function (req, res) {
 });
 app.get("/public/plus-logo", function (req, res) {
     res.sendFile(path.join(__dirname, 'pictures', 'plus-logo.svg'));
+});
+app.get("/public/trashcan-logo", function (req, res) {
+    res.sendFile(path.join(__dirname, 'pictures', 'trashcan-logo.svg'));
 });
 
 
