@@ -1,6 +1,7 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
+using AuthFrontend.seeds;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
@@ -35,7 +36,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
             // Unnecessary because only refresh is saved
             // But will stay
-            if (props["Purpose"] != "Refresh")
+            if (props[SeedAuthClaimNames.Purpose] != "refresh")
                 return null;
 
             //todo: maybe invalidate the used refresh token

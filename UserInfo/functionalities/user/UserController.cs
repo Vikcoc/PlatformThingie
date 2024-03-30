@@ -15,13 +15,13 @@ namespace UserInfo.functionalities.user
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/profile/info", GetUserProps)
-                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
+                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
 
             endpoints.MapGet("/profile/claims", GetClaims)
-                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
+                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
 
             endpoints.MapPost("/profile/info", UpdateEditableClaims)
-                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
+                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
         }
 
         public static void AddServices(IServiceCollection services)
