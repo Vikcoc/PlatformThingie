@@ -16,7 +16,6 @@ namespace UsersDbComponent.seeding
             optionsBuilder.UseNpgsql(connectionString);
             var db = new AuthContext(optionsBuilder.Options);
 
-            await db.Database.EnsureDeletedAsync();
             await db.Database.MigrateAsync();
 
             var claims = new SeedAuthClaimNames();
