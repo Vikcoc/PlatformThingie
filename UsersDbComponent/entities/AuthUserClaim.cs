@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthFrontend.entities
 {
-    [PrimaryKey(nameof(AuthUserId), nameof(AuthClaimName))]
     public class AuthUserClaim
     {
+        public Guid AuthUserClaimId { get; set; } = Guid.NewGuid();
 
         public Guid AuthUserId { get; set; }
 

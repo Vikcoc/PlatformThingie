@@ -18,8 +18,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             var query = $"""
                 INSERT INTO "{nameof(AuthContext.AuthUsers)}" ("{nameof(AuthUser.AuthUserId)}") values (@UserId);
                 INSERT INTO "{nameof(AuthContext.AuthUserClaims)}" ("{nameof(AuthUserClaim.AuthUserId)}", "{nameof(AuthUserClaim.AuthClaimName)}", "{nameof(AuthUserClaim.AuthClaimValue)}")
-                    VALUES (@UserId, '{SeedAuthClaimNames.Username}', @Username),
-                           (@UserId, '{SeedAuthClaimNames.Email}', @Email);
+                    VALUES (@UserId, '{SeedAuthClaimNames.Email}', @Email);
                 """;
 
             var userId = Guid.NewGuid();
@@ -27,7 +26,6 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             var res = await _dbConnection.ExecuteAsync(query, new
             {
                 UserId = userId,
-                Username = user.UserName,
                 user.Email,
             });
 
@@ -113,7 +111,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
         public async Task<bool> RemoveToken(Guid jti)
         {
             var query = $"""
-                REMOVE FROM "{nameof(AuthContext.AuthUserRefreshTokens)}" 
+                DELETE FROM "{nameof(AuthContext.AuthUserRefreshTokens)}" 
                 WHERE "{nameof(AuthUserRefreshToken.JTI)}" = @JTI;
                 """;
 

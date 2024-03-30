@@ -113,6 +113,37 @@ spec:
         - containerPort: 80
         name: public-port
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+  labels:
+    app: user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+        type: api-server
+    spec:
+      containers:
+      - name: user
+        image: vikcoc/user_platform:sha-4d26b11
+        ports:
+        - containerPort: 80
+        name: user-port
+      volumeMounts:
+        - name: user-secrets
+          mountPath: /app/conf
+    volumes:
+    - name: user-secrets
+      secret:
+        secretName: user-secret
+---
 apiVersion: v1
 kind: Pod
 metadata:

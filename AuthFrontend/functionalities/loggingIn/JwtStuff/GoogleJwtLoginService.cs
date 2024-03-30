@@ -19,8 +19,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
             return new UserInfoDto
             {
-                Email = props["email"],
-                UserName = props["name"],
+                Email = props["email"]
             };
         }
 

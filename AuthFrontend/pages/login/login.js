@@ -18,7 +18,7 @@ async function handleCredentialResponse(response) {
     var payload = await res.json();
 
     sessionStorage["accessToken"] = payload.accessToken;
-    localStorage["refreshToken"] = payload.refreshToken;
+    sessionStorage["refreshToken"] = payload.refreshToken;
 
     history.back();
 }

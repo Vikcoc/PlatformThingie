@@ -17,7 +17,7 @@ namespace AuthFrontend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -26,6 +26,9 @@ namespace AuthFrontend.Migrations
                 {
                     b.Property<string>("AuthClaimName")
                         .HasColumnType("text");
+
+                    b.Property<int>("AuthClaimRight")
+                        .HasColumnType("integer");
 
                     b.HasKey("AuthClaimName");
 
@@ -38,31 +41,33 @@ namespace AuthFrontend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("NewAuthUserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("AuthUserId");
-
-                    b.HasIndex("NewAuthUserId");
 
                     b.ToTable("AuthUsers");
                 });
 
             modelBuilder.Entity("AuthFrontend.entities.AuthUserClaim", b =>
                 {
-                    b.Property<Guid>("AuthUserId")
+                    b.Property<Guid>("AuthUserClaimId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("AuthClaimName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AuthClaimValue")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("AuthUserId", "AuthClaimName");
+                    b.Property<Guid>("AuthUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AuthUserClaimId");
 
                     b.HasIndex("AuthClaimName");
+
+                    b.HasIndex("AuthUserId");
 
                     b.ToTable("AuthUserClaims");
                 });
@@ -92,15 +97,6 @@ namespace AuthFrontend.Migrations
                     b.HasIndex("AuthUserId");
 
                     b.ToTable("AuthUserRefreshTokens");
-                });
-
-            modelBuilder.Entity("AuthFrontend.entities.AuthUser", b =>
-                {
-                    b.HasOne("AuthFrontend.entities.AuthUser", "NewAuthUser")
-                        .WithMany()
-                        .HasForeignKey("NewAuthUserId");
-
-                    b.Navigation("NewAuthUser");
                 });
 
             modelBuilder.Entity("AuthFrontend.entities.AuthUserClaim", b =>

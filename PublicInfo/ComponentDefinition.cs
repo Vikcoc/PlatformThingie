@@ -23,12 +23,20 @@ namespace PublicInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "style.css"), "text/css"));
             endpoints.MapGet("/public/topbar",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "topbar.css"), "text/css"));
-            endpoints.MapGet("/public/filled-tonal-icon-button",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "filled-tonal-icon-button.js"), "text/javascript"));
-            endpoints.MapGet("/public/filled-tonal-button",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "filled-tonal-button.js"), "text/javascript"));
+            endpoints.MapGet("/public/material-components",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "material-components.js"), "text/javascript"));
             endpoints.MapGet("/public/back-logo",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "back-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/plus-logo",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "plus-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/save-logo",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "save-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/trashcan-logo",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "trashcan-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/topbar/signed-in",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "signed-in.js"), "text/javascript"));
+            endpoints.MapGet("/public/authenticated-fetch",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "authenticated-fetch.js"), "text/javascript"));
 
             //the index i guess
             endpoints.MapGet("/", () => Results.Redirect("/about"));
