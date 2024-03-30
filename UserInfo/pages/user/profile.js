@@ -1,20 +1,24 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
-function getEditableField(claim) {
+function getSelectableField(availableClaims, selected) {
+    var sel = document.createElement("md-outlined-select");
+    availableClaims.forEach((x) => {
+        var opt = document.createElement("md-select-option");
+        opt.value = x;
+        opt.textContent = x;
+        if (x == selected)
+            opt.selected = true;
+        sel.appendChild(opt);
+    })
+    return sel;
+}
+
+function getEditableField(claim, availableClaims) {
     var sec = document.createElement("section");
     sec.classList.add("horizontalLine");
-    var sel = document.createElement("md-outlined-select");
 
-    var opt = document.createElement("md-select-option");
-    opt.textContent = "";
-    sel.appendChild(opt);
-    var opt = document.createElement("md-select-option");
-    opt.textContent = "Yes";
-    sel.appendChild(opt);
-    var opt = document.createElement("md-select-option");
-    opt.textContent = "No";
-    sel.appendChild(opt);
-
+    var sel = getSelectableField(availableClaims, claim.authClaimName);
+        
     var inp = document.createElement("md-outlined-text-field");
     inp.label = claim.authClaimName;
     inp.value = claim.authClaimValue;
@@ -50,7 +54,7 @@ function getNotEditableField(claim) {
 }
 
 async function getMyInfo() {
-    var res = await authenticatedFetch("./profile/info", {
+    var res = await authenticatedFetch("/profile/info", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -60,14 +64,22 @@ async function getMyInfo() {
     if (!res.ok)
         return;
 
+    var availableClaimsRes = await authenticatedFetch("/profile/claims", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
     var payload = await res.json();
+    var availableClaims = await availableClaimsRes.json();
 
     var claimsContainer = document.getElementById("claimsContainer");
 
     payload.forEach((x) => {
         
         if (x.authClaimRight == 0)
-            claimsContainer.appendChild(getEditableField(x));
+            claimsContainer.appendChild(getEditableField(x, availableClaims));
         else
             claimsContainer.appendChild(getNotEditableField(x));
     })

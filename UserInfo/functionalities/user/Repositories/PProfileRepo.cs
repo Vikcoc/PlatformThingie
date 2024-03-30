@@ -10,7 +10,7 @@ namespace UserInfo.functionalities.user.Repositories
     {
         private readonly IDbConnection _dbConnection = dbConnection;
 
-        public async Task<IList<(string AuthClaimName, string AuthClaimValue, string AuthClaimRight)>> GetUserClaimsByUserId(Guid userId)
+        public async Task<List<(string AuthClaimName, string AuthClaimValue, string AuthClaimRight)>> GetUserClaimsByUserId(Guid userId)
         {
             var query = $"""
                 SELECT uc."{nameof(AuthUserClaim.AuthClaimName)}" as "AuthClaimName"
@@ -26,6 +26,22 @@ namespace UserInfo.functionalities.user.Repositories
             {
                 UserId = userId,
                 Claim = AuthClaimRights.Invisible
+            });
+
+            return res.ToList();
+        }
+
+        public async Task<List<string>> GetEditableClaims()
+        {
+            var query = $"""
+                SELECT "{nameof(AuthClaim.AuthClaimName)}" as Value
+                FROM "{nameof(AuthContext.AuthClaims)}"
+                WHERE "{nameof(AuthClaim.AuthClaimRight)}" = @Claim;
+                """;
+
+            var res = await _dbConnection.QueryAsync<string>(query, new
+            {
+                Claim = AuthClaimRights.Editable
             });
 
             return res.ToList();

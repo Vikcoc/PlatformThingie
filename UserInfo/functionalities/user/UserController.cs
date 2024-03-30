@@ -1,13 +1,9 @@
-﻿using AuthFrontend.seeds;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 using System.Data;
-using System.Reflection;
 using UserInfo.functionalities.user.Repositories;
 
 namespace UserInfo.functionalities.user
@@ -18,16 +14,14 @@ namespace UserInfo.functionalities.user
         {
             endpoints.MapGet("/profile/info", GetUserProps)
                 .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
+
+            endpoints.MapGet("/profile/claims", GetClaims)
+                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
         }
 
         public static void AddServices(IServiceCollection services)
         {
-            services.AddKeyedScoped<IDbConnection>("User", (db, key) =>
-            {
-                var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:User"];
-                return new NpgsqlConnection(theConnection);
-            });
-            services.AddScoped<PProfileRepo>();
+            
         }
 
         public static async Task<IResult> GetUserProps(HttpContext context, [FromServices] PProfileRepo profileRepo)
@@ -41,5 +35,8 @@ namespace UserInfo.functionalities.user
                 x.AuthClaimRight
             }));
         }
+
+        public static async Task<IResult> GetClaims([FromServices] PProfileRepo profileRepo)
+            => TypedResults.Ok(await profileRepo.GetEditableClaims());
     }
 }

@@ -6,12 +6,12 @@ export async function authenticatedFetch(route, request) {
         return await fetch(route, request);
     }
 
-    if (localStorage["refreshToken"]
-        && new Date(JSON.parse(atob(localStorage["refreshToken"].split('.')[1])).exp * 1000) > Date.now()) {
+    if (sessionStorage["refreshToken"]
+        && new Date(JSON.parse(atob(sessionStorage["refreshToken"].split('.')[1])).exp * 1000) > Date.now()) {
 
         var res = await fetch("./login/refresh", {
             method: "POST",
-            body: '"' + localStorage["refreshToken"] + '"',
+            body: '"' + sessionStorage["refreshToken"] + '"',
             headers: {
                 "Content-Type": "application/json",
             }
@@ -23,7 +23,7 @@ export async function authenticatedFetch(route, request) {
         var payload = await res.json();
 
         sessionStorage["accessToken"] = payload.accessToken;
-        localStorage["refreshToken"] = payload.refreshToken;
+        sessionStorage["refreshToken"] = payload.refreshToken;
 
         request.headers["Authorization"] = "Bearer " + sessionStorage["accessToken"];
         return await fetch(route, request);
