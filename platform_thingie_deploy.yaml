@@ -77,7 +77,7 @@ spec:
     spec:
       containers:
       - name: login
-        image: vikcoc/auth_platform:sha-08898b7
+        image: vikcoc/auth_platform:sha-90ce07c
         ports:
         - containerPort: 80
         name: login-port
@@ -108,7 +108,7 @@ spec:
     spec:
       containers:
       - name: public
-        image: vikcoc/public_platform:sha-08898b7
+        image: vikcoc/public_platform:sha-90ce07c
         ports:
         - containerPort: 80
         name: public-port
@@ -132,7 +132,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: vikcoc/user_platform:sha-08898b7
+        image: vikcoc/user_platform:sha-90ce07c
         ports:
         - containerPort: 80
         name: user-port
@@ -151,7 +151,7 @@ metadata:
 spec:
   containers:
   - name: migration
-    image: vikcoc/migration_platform:sha-08898b7
+    image: vikcoc/migration_platform:sha-90ce07c
     volumeMounts:
     - name: database-secrets
       mountPath: /app/conf

@@ -1,4 +1,5 @@
 ﻿using AuthFrontend.functionalities.loggingIn.ServiceInterfaces;
+using AuthFrontend.seeds;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
@@ -78,7 +79,7 @@ namespace AuthFrontend.Tests
                         SigningCredentials = new SigningCredentials(securitykey, SecurityAlgorithms.RsaSha256),
                         Audience = "me",
                         Issuer = "me",
-                        Claims = new Dictionary<string, object>() { { "email", "me@me.me" }, { "name", "Meme" }, { "username", "stillme" }, { "Purpose", "Refresh" }, { "jti", Guid.NewGuid().ToString() } }
+                        Claims = new Dictionary<string, object>() { { "email", "me@me.me" }, { "name", "Meme" }, { "username", "stillme" }, { SeedAuthClaimNames.Purpose, "refresh" }, { "jti", Guid.NewGuid().ToString() } }
 
                     };
                     var tokenHandler = new JwtSecurityTokenHandler
