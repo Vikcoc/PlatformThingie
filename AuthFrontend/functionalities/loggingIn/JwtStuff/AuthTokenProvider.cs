@@ -44,10 +44,9 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
                     Claims = new Dictionary<string, object>() {
-                        { "UserId", userId.Value.ToString() },
+                        { SeedAuthClaimNames.UserId, userId.Value.ToString() },
                         { SeedAuthClaimNames.Email, userInfo.Email },
-                        { SeedAuthClaimNames.Username, userInfo.UserName },
-                        { "Purpose", "Access" },
+                        { SeedAuthClaimNames.Purpose, "access" },
                         { "jti", Guid.NewGuid().ToString() }
                     }
                 };
@@ -76,10 +75,9 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
                     Claims = new Dictionary<string, object>() {
-                        { "UserId", userId.Value.ToString() },
+                        { SeedAuthClaimNames.UserId, userId.Value.ToString() },
                         { SeedAuthClaimNames.Email, userInfo.Email },
-                        { SeedAuthClaimNames.Username, userInfo.UserName },
-                        { "Purpose", "Refresh" },
+                        { SeedAuthClaimNames.Purpose, "refresh" },
                         { "jti", Guid.NewGuid().ToString() }
                     }
                 };

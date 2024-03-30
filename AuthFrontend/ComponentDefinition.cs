@@ -16,7 +16,7 @@ namespace AuthFrontend
             LogInController.AddRoutes(endpoints);
 
             endpoints.MapGet("/login/test", () => "It worked")
-                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
+                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
 
             endpoints.MapGet("/login",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.html"), "text/html"));

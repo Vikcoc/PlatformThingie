@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json.Linq;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
 using UsersDbComponent.entities;
 using UsersDbComponent.seeding;
 
@@ -12,6 +9,8 @@ namespace AuthFrontend.seeds
     {
         public const string Email = "email";
         public const string Username = "username";
+        public const string UserId = "userId";
+        public const string Purpose = "purpose";
 
         public ICollection<string> Keys => this.GetType()
             .GetFields()
@@ -34,6 +33,8 @@ namespace AuthFrontend.seeds
             {
                 Email => AuthClaimRights.Readable,
                 Username => AuthClaimRights.Editable,
+                UserId => AuthClaimRights.Invisible,
+                Purpose => AuthClaimRights.Invisible,
                 _ => throw new NotImplementedException(),
             };
 

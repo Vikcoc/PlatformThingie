@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AuthFrontend.seeds;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -13,10 +14,10 @@ namespace UserInfo.functionalities.user
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/profile/info", GetUserProps)
-                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
+                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
 
             endpoints.MapGet("/profile/claims", GetClaims)
-                .RequireAuthorization(p => p.RequireClaim("Purpose", "Access"));
+                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -26,7 +27,7 @@ namespace UserInfo.functionalities.user
 
         public static async Task<IResult> GetUserProps(HttpContext context, [FromServices] PProfileRepo profileRepo)
         {
-            var userId = Guid.Parse(context.User.Claims.First(x => x.Type == "UserId").Value);
+            var userId = Guid.Parse(context.User.Claims.First(x => x.Type == SeedAuthClaimNames.UserId).Value);
             var claims = await profileRepo.GetUserClaimsByUserId(userId);
             return TypedResults.Ok(claims.Select(x => new
             {

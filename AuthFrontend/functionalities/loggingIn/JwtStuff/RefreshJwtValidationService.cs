@@ -41,8 +41,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
             //todo: maybe invalidate the used refresh token
             return new UserInfoDto
             {
-                Email = props["email"],
-                UserName = props["username"],
+                Email = props["email"]
             };
         }
     }

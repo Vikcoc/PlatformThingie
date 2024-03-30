@@ -23,6 +23,9 @@ function getEditableField(claim, availableClaims) {
     inp.label = claim.authClaimName;
     inp.value = claim.authClaimValue;
 
+    sel.onchange = () => inp.label = sel.lastSelectedOption.value;
+
+
     var del = document.createElement("md-filled-tonal-icon-button");
     var img = document.createElement("img");
     img.src = "/public/trashcan-logo";
@@ -53,6 +56,17 @@ function getNotEditableField(claim) {
     return sec;
 }
 
+
+function makePlusButton(availableClaims) {
+    var plus = document.getElementById("plusButton");
+    var claimsContainer = document.getElementById("claimsContainer");
+
+    plus.onclick = () => claimsContainer.appendChild(getEditableField({
+        authClaimName: "",
+        authClaimValue: ""
+    }, availableClaims));
+}
+
 async function getMyInfo() {
     var res = await authenticatedFetch("/profile/info", {
         method: "GET",
@@ -71,8 +85,14 @@ async function getMyInfo() {
         }
     });
 
+    if (!availableClaimsRes.ok)
+        return;
+
     var payload = await res.json();
     var availableClaims = await availableClaimsRes.json();
+
+    makePlusButton(availableClaims);
+
 
     var claimsContainer = document.getElementById("claimsContainer");
 
