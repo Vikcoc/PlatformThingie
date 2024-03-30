@@ -105,4 +105,32 @@ async function getMyInfo() {
     })
 }
 
+async function saveMyInfo() {
+    var fields = Array.from(document.getElementsByTagName("md-outlined-text-field"));
+
+    var filtered = fields.filter((a) => a.label != "").map((a) => {
+        return {
+            authClaimName: a.label,
+            authClaimValue: a.value
+        }
+    });
+
+    if (fields.length != filtered.length)
+        window.alert("Please do not leave undefined claims");
+
+    var res = await authenticatedFetch("/profile/info", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filtered)
+    });
+
+    if (!res.ok)
+        return;
+}
+
+var save = document.getElementById("saveButton");
+save.onclick = saveMyInfo;
+
 await getMyInfo();

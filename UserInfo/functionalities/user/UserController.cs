@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using UserInfo.functionalities.user.dtos;
 using UserInfo.functionalities.user.Repositories;
 
 namespace UserInfo.functionalities.user
@@ -17,6 +18,9 @@ namespace UserInfo.functionalities.user
                 .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
 
             endpoints.MapGet("/profile/claims", GetClaims)
+                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
+
+            endpoints.MapPost("/profile/info", UpdateEditableClaims)
                 .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
         }
 
@@ -39,5 +43,19 @@ namespace UserInfo.functionalities.user
 
         public static async Task<IResult> GetClaims([FromServices] PProfileRepo profileRepo)
             => TypedResults.Ok(await profileRepo.GetEditableClaims());
+
+        public static async Task<IResult> UpdateEditableClaims(HttpContext context, [FromBody] List<UserClaimDto> claims , [FromServices] PProfileRepo profileRepo)
+        {
+            var available = await profileRepo.GetEditableClaims();
+
+            if (claims.Select(x => x.AuthClaimName).ToHashSet().Except(available).Any())
+                return TypedResults.BadRequest("Cannot edit undefined claims");
+
+            var userId = Guid.Parse(context.User.Claims.First(x => x.Type == SeedAuthClaimNames.UserId).Value);
+
+            await profileRepo.DeleteAndRewriteEditableClaims(userId, claims);
+            
+            return TypedResults.NoContent();
+        }
     }
 }
