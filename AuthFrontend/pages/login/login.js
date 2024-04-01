@@ -20,7 +20,14 @@ async function handleCredentialResponse(response) {
     sessionStorage["accessToken"] = payload.accessToken;
     sessionStorage["refreshToken"] = payload.refreshToken;
 
-    history.back();
+    var a = document.createElement('a');
+    a.href = document.referrer;
+    a.hostname;
+
+    if (document.referrer != "" && a.hostname == location.hostname)
+        location.href = document.referrer
+    else
+        location.href = "./";
 }
 
 async function someTest() {
