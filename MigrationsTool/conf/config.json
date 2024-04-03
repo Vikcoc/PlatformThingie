@@ -3,6 +3,10 @@
     {
       "ProviderName": "User",
       "ConnectionString": "someString"
+    },
+    {
+      "ProviderName": "Inventory",
+      "ConnectionString": "someString"
     }
   ]
 }

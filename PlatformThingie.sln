@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo", "UserInfo\UserIn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserWeb", "UserWeb\UserWeb.csproj", "{F896E37D-E363-43A6-B94D-3497E7BF0F04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryDbComponent", "InventoryDbComponent\InventoryDbComponent.csproj", "{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryDbComponent", "InventoryDbComponent\InventoryDbComponent.csproj", "{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryInfo", "InventoryInfo\InventoryInfo.csproj", "{66744BA7-6165-4A9D-95DA-E5E2D3D46CBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66744BA7-6165-4A9D-95DA-E5E2D3D46CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66744BA7-6165-4A9D-95DA-E5E2D3D46CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66744BA7-6165-4A9D-95DA-E5E2D3D46CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66744BA7-6165-4A9D-95DA-E5E2D3D46CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
