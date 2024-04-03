@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigrationsTool", "Migration
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo", "UserInfo\UserInfo.csproj", "{56DBBE8A-7B3A-4074-BC7E-0AE96F168851}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserWeb", "UserWeb\UserWeb.csproj", "{F896E37D-E363-43A6-B94D-3497E7BF0F04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserWeb", "UserWeb\UserWeb.csproj", "{F896E37D-E363-43A6-B94D-3497E7BF0F04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryDbComponent", "InventoryDbComponent\InventoryDbComponent.csproj", "{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{F896E37D-E363-43A6-B94D-3497E7BF0F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F896E37D-E363-43A6-B94D-3497E7BF0F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F896E37D-E363-43A6-B94D-3497E7BF0F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9205EFF-ED67-43A0-9B68-B96A8B34DCBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

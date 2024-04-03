@@ -11,10 +11,11 @@ builder.Configuration.Sources.Add(new JsonConfigurationSource()
     Path = "conf/config.json"
 });
 
-builder.Services.AddSingleton<ICollection<IMigrationProvider>>(x => new[]
-{
-    new UsersDbComponent.seeding.Seeder()
-});
+builder.Services.AddSingleton<ICollection<IMigrationProvider>>(x =>
+[
+    new UsersDbComponent.seeding.Seeder(),
+    new InventoryDbComponent.seeding.Seeder()
+]);
 
 builder.Services.AddHostedService<MigratorService>();
 
