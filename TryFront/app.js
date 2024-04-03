@@ -66,6 +66,14 @@ app.get("/public/trashcan-logo", function (req, res) {
 });
 
 
+app.get("/module", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'module.js'));
+});
+
+app.get("/moduleuser", function (req, res) {
+    res.sendFile(path.join(__dirname, 'scripts', 'moduleuser.js'));
+});
+
 
 app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
