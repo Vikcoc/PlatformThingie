@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using InventoryInfo.functionalities.readingInventory;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,8 @@ namespace InventoryInfo
 
         public void AddRoutes(IEndpointRouteBuilder endpoints)
         {
+            ReadInventoryController.AddRoutes(endpoints);
+
             endpoints.MapGet("/inventory/test",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.html"), "text/html"));
             endpoints.MapGet("/inventory/test/style",
@@ -30,6 +33,8 @@ namespace InventoryInfo
                 var theConnection = db.GetRequiredService<IConfiguration>()["ConnectionStrings:Inventory"];
                 return new NpgsqlConnection(theConnection);
             });
+
+            ReadInventoryController.AddServices(services);
         }
     }
 }
