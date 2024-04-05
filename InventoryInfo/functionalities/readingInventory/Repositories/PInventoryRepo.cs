@@ -29,7 +29,7 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
             public string AttributeValue { get; set; }
             public string Scipt { get; set; }
         }
-        public async Task<InventoryEntityDto[]> GetEntities(IEnumerable<string> permissions, IEnumerable<string> entityColumns, IEnumerable<string> templateColumns)
+        public async Task<InventoryEntityDto[]> GetEntities(IList<string> permissions, IList<string> entityColumns, IList<string> templateColumns)
         {
             //I was doing it wrong
             //https://stackoverflow.com/questions/8388093/select-from-x-where-id-in-with-dapper-orm#58448315
@@ -49,12 +49,12 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
                     attrv."{nameof(InventoryEntityAttributeValue.InventoryTemplateEntityAttributeName)}" as "AttributeName",
                     attrv."{nameof(InventoryEntityAttributeValue.Value)}" as "AttributeValue",
                     attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeAction)}" as "Scipt",
-                    MAX(attrp."{nameof(InventoryTemplateEntityAttributePermission.Writeable)}") as "Writeable",
+                    bool_or(attrp."{nameof(InventoryTemplateEntityAttributePermission.Writeable)}") as "Writeable",
                     attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}" as "TemplateName",
                     attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateVersion)}" as "TemplateVersion"
                 FROM "{nameof(InventoryContext.InventoryEntitiesAttributeValues)}" attrv
                 JOIN "{nameof(InventoryContext.InventoryTemplateEntityAttributes)}" attr
-                ON attrv."{nameof(InventoryEntityAttributeValue.InventoryTemplateEntityAttributeName)}" = attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}"
+                ON attrv."{nameof(InventoryEntityAttributeValue.InventoryTemplateEntityAttributeName)}" = attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}"
                     AND attrv."{nameof(InventoryEntityAttributeValue.InventoryTemplateName)}" = attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}"
                     AND attrv."{nameof(InventoryEntityAttributeValue.InventoryTemplateVersion)}" = attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateVersion)}"
                 JOIN "{nameof(InventoryContext.InventoryTemplateEntityAttributesPermissions)}" attrp
@@ -73,10 +73,10 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
                 SELECT attr."{nameof(InventoryTemplateAttribute.InventoryTemplateName)}" as "TemplateName",
                     attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}" as "TemplateVersion",
                     attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" as "AttributeName",
-                    attrv."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeValue)}" as "AttributeValue",
+                    attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeValue)}" as "AttributeValue",
                     attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeAction)}" as "Scipt"
                 FROM "{nameof(InventoryContext.InventoryTemplateAttributes)}" attr
-                JOIN "{nameof(InventoryContext.InventoryTemplateEntityAttributesPermissions)}" attrp
+                JOIN "{nameof(InventoryContext.InventoryTemplateAttributeReads)}" attrp
                 ON attr."{nameof(InventoryTemplateAttribute.InventoryTemplateName)}" = attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateName)}"
                     AND attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}" = attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateVersion)}"
                     AND attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" = attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateAttributeName)}"

@@ -23,7 +23,7 @@ namespace InventoryInfo.functionalities.readingInventory
 
         public async static Task<IResult> GetFiltered([FromBody] InventoryPropertyFilter filter, HttpContext context, [FromServices] PInventoryRepo repo)
         {
-            var permissions = context.User.Claims.Where(x => x.Type == "permission").Select(x => x.Value);
+            var permissions = context.User.Claims.Where(x => x.Type == "permission").Select(x => x.Value).ToArray();
 
             if(!permissions.Any())
                 return TypedResults.BadRequest("No permissions");
