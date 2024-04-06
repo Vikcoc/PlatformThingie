@@ -24,6 +24,10 @@ namespace InventoryInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.css"), "text/css"));
             endpoints.MapGet("/inventory/test/js",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.js"), "text/javascript"));
+            endpoints.MapGet("/inventory/actions/someaction",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "someaction.js"), "text/javascript"));
+            endpoints.MapGet("/inventory/actions/displayheader",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "displayheader.js"), "text/javascript"));
         }
 
         public void AddServices(IServiceCollection services)

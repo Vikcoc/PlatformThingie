@@ -16,6 +16,9 @@ namespace InventoryDbComponent.seeding
 
             await db.Database.MigrateAsync();
 
+            if (await db.InventoryEntities.AnyAsync())
+                return;
+
             var testEntity = new InventoryEntity();
             db.InventoryEntities.Add(testEntity);
             var testTemp = new InventoryTemplate()
@@ -30,9 +33,18 @@ namespace InventoryDbComponent.seeding
                 InventoryTemplateEntityAttributeName = "test attribute",
                 InventoryTemplateName = testTemp.InventoryTemplateName,
                 InventoryTemplateVersion = testTemp.InventoryTemplateVersion,
-                InventoryTemplateEntityAttributeAction = "someaction",
+                InventoryTemplateEntityAttributeAction = "/inventory/actions/someaction",
+            };
+            var testAttr2 = new InventoryTemplateEntityAttribute
+            {
+                InventoryTemplate = testTemp,
+                InventoryTemplateEntityAttributeName = "test attribute",
+                InventoryTemplateName = testTemp.InventoryTemplateName,
+                InventoryTemplateVersion = testTemp.InventoryTemplateVersion,
+                InventoryTemplateEntityAttributeAction = "/inventory/actions/displayheader",
             };
             db.InventoryTemplateEntityAttributes.Add(testAttr);
+            db.InventoryTemplateEntityAttributes.Add(testAttr2);
             var testAttrVal = new InventoryEntityAttributeValue
             { 
                 InventoryEntity = testEntity,
@@ -41,9 +53,20 @@ namespace InventoryDbComponent.seeding
                 InventoryTemplateEntityAttributeName = testAttr.InventoryTemplateEntityAttributeName,
                 InventoryTemplateName = testAttr.InventoryTemplateName,
                 InventoryTemplateVersion = testAttr.InventoryTemplateVersion,
-                Value = "somevalue"
+                Value = "/favicon.ico"
+            };
+            var testAttrVal2 = new InventoryEntityAttributeValue
+            {
+                InventoryEntity = testEntity,
+                InventoryEntityId = testEntity.InventoryEntityId,
+                InventoryTemplateEntityAttribute = testAttr2,
+                InventoryTemplateEntityAttributeName = testAttr2.InventoryTemplateEntityAttributeName,
+                InventoryTemplateName = testAttr2.InventoryTemplateName,
+                InventoryTemplateVersion = testAttr2.InventoryTemplateVersion,
+                Value = "The Name"
             };
             db.InventoryEntitiesAttributeValues.Add(testAttrVal);
+            db.InventoryEntitiesAttributeValues.Add(testAttrVal2);
             var testAttrPer = new InventoryTemplateEntityAttributePermission
             {
                 InventoryTemplateEntityAttribute = testAttr,
@@ -53,7 +76,17 @@ namespace InventoryDbComponent.seeding
                 Permission = "string",
                 Writeable = true
             };
+            var testAttrPer2 = new InventoryTemplateEntityAttributePermission
+            {
+                InventoryTemplateEntityAttribute = testAttr2,
+                InventoryTemplateEntityAttributeName = testAttr2.InventoryTemplateEntityAttributeName,
+                InventoryTemplateName = testAttr2.InventoryTemplateName,
+                InventoryTemplateVersion = testAttr2.InventoryTemplateVersion,
+                Permission = "string",
+                Writeable = true
+            };
             db.InventoryTemplateEntityAttributesPermissions.Add(testAttrPer);
+            db.InventoryTemplateEntityAttributesPermissions.Add(testAttrPer2);
             var testTpAttr = new InventoryTemplateAttribute
             {
                 InventoryTemplate = testTemp,
