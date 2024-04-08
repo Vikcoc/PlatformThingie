@@ -11,6 +11,7 @@
     <ProjectReference Include="..\AuthFrontend\AuthFrontend.csproj" />
     <ProjectReference Include="..\DefaultsAndStuff.Tests\DefaultsAndStuff.Tests.csproj" />
     <ProjectReference Include="..\InventoryInfo\InventoryInfo.csproj" />
+    <ProjectReference Include="..\InventoryScripts\InventoryScripts.csproj" />
     <ProjectReference Include="..\PublicInfo\PublicInfo.csproj" />
     <ProjectReference Include="..\TemplatingWeb\TemplatingWeb.csproj" />
     <ProjectReference Include="..\UserInfo\UserInfo.csproj" />

@@ -1,5 +1,4 @@
-﻿using InventoryInfo.functionalities.readingInventory;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +7,7 @@ using Npgsql;
 using PlatformInterfaces;
 using System.Data;
 
-namespace InventoryInfo
+namespace InventoryExtensions
 {
     public class ComponentDefinition : IPlatformComponentDefinition
     {
@@ -16,7 +15,7 @@ namespace InventoryInfo
 
         public void AddRoutes(IEndpointRouteBuilder endpoints)
         {
-            ReadInventoryController.AddRoutes(endpoints);
+            new InventoryScripts.ComponentDefinition().AddRoutes(endpoints);
 
             endpoints.MapGet("/inventory/test",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.html"), "text/html"));

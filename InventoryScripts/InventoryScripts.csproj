@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InventoryDbComponent\InventoryDbComponent.csproj" />
+    <ProjectReference Include="..\PlatformInterfaces\PlatformInterfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="pages\tests\test.html">
+    <None Update="scripts\displayheader.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\tests\test.js">
+    <None Update="scripts\someaction.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
