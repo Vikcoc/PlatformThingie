@@ -1,10 +1,12 @@
-﻿using InventoryInfo.functionalities.readingInventory.DTOs;
+﻿using Dependencies;
+using InventoryInfo.functionalities.readingInventory.DTOs;
 using InventoryInfo.functionalities.readingInventory.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security;
 
 namespace InventoryInfo.functionalities.readingInventory
 {
@@ -13,7 +15,7 @@ namespace InventoryInfo.functionalities.readingInventory
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapPost("/inventory/all/filtered", GetFiltered)
-                .RequireAuthorization(p => p.RequireClaim("purpose", "access"));
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -23,7 +25,7 @@ namespace InventoryInfo.functionalities.readingInventory
 
         public async static Task<IResult> GetFiltered([FromBody] InventoryPropertyFilter filter, HttpContext context, [FromServices] PInventoryRepo repo)
         {
-            var permissions = context.User.Claims.Where(x => x.Type == "permission").Select(x => x.Value).ToArray();
+            var permissions = context.User.Claims.Where(x => x.Type == ImportantStrings.PermissionSet).Select(x => x.Value).ToArray();
 
             if(!permissions.Any())
                 return TypedResults.BadRequest("No permissions");

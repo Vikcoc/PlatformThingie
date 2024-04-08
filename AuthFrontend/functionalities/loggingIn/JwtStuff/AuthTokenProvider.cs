@@ -1,6 +1,7 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.functionalities.loggingIn.Repositories;
 using AuthFrontend.seeds;
+using Dependencies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,13 +18,20 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
         public async Task<TokensDto?> MakeAccessToken(UserInfoDto userInfo)
         {
-            var userId = await _authRepo.GetUserByEmail(userInfo.Email);
-            if (!userId.HasValue)
-                userId = await _authRepo.CreateUser(userInfo);
+            var user = await _authRepo.GetUserByEmailWithPermissions(userInfo.Email);
+            if (user == null)
+            {
+                var userId = await _authRepo.CreateUser(userInfo);
 
-            if (!userId.HasValue)
-                return null;
+                if (!userId.HasValue)
+                    return null;
 
+                user = new Grouping<Guid, string> 
+                { 
+                    Key = userId.Value,
+                    Values = []
+                };
+            }
             #region Access
             JwtSecurityToken token;
             {
@@ -44,10 +52,12 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
                     Claims = new Dictionary<string, object>() {
-                        { SeedAuthClaimNames.UserId, userId.Value.ToString() },
+                        { SeedAuthClaimNames.UserId, user.Key.ToString() },
                         { SeedAuthClaimNames.Email, userInfo.Email },
-                        { SeedAuthClaimNames.Purpose, "access" },
-                        { "jti", Guid.NewGuid().ToString() }
+                        { ImportantStrings.Purpose, ImportantStrings.Access },
+                        { "jti", Guid.NewGuid().ToString() },
+                        //for test
+                        { ImportantStrings.PermissionSet, user.ToArray() }
                     }
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -75,9 +85,9 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                     IssuedAt = DateTimeOffset.Now.DateTime,
                     TokenType = "JWT",
                     Claims = new Dictionary<string, object>() {
-                        { SeedAuthClaimNames.UserId, userId.Value.ToString() },
+                        { SeedAuthClaimNames.UserId, user.Key.ToString() },
                         { SeedAuthClaimNames.Email, userInfo.Email },
-                        { SeedAuthClaimNames.Purpose, "refresh" },
+                        { ImportantStrings.Purpose, ImportantStrings.Refresh },
                         { "jti", Guid.NewGuid().ToString() }
                     }
                 };
@@ -93,7 +103,7 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
             var hashedRefreshToken = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(stringRefreshToken + salt)));
             var res = await _authRepo.AddRefreshToken(new RefreshTokenDto
             {
-                AuthUserId = userId.Value,
+                AuthUserId = user.Key,
                 Expire = new DateTimeOffset(refreshToken.ValidTo).ToUnixTimeMilliseconds(),
                 HashedToken = hashedRefreshToken,
                 JTI = Guid.Parse(refreshToken.Claims.First(x => x.Type == "jti").Value),

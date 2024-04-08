@@ -2,8 +2,10 @@
 using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.seeds;
 using Dapper;
+using Dependencies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using UsersDbComponent.entities;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories
 {
@@ -52,6 +54,43 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             });
 
             return res.FirstOrDefault();
+        }
+
+
+        public async Task<IGrouping<Guid, string>?> GetUserByEmailWithPermissions(string email)
+        {
+            var query = $"""
+                SELECT usr."{nameof(AuthUser.AuthUserId)}" as User, p."{nameof(AuthPermission.AuthPermissionName)}" as Permission
+                FROM "{nameof(AuthContext.AuthUsers)}" usr
+                JOIN "{nameof(AuthContext.AuthUserClaims)}" clm
+                ON usr."{nameof(AuthUser.AuthUserId)}" = clm."{nameof(AuthUserClaim.AuthUserId)}"
+                JOIN "{nameof(AuthContext.AuthUserGroups)}" ug
+                ON usr."{nameof(AuthUser.AuthUserId)}" = ug."{nameof(AuthUserGroup.AuthUserId)}"
+                JOIN "{nameof(AuthContext.AuthGroups)}" g
+                ON ug."{nameof(AuthUserGroup.AuthGroupName)}" = g."{nameof(AuthGroup.AuthGroupName)}"
+                JOIN "{nameof(AuthContext.AuthGroupPermissions)}" gp
+                ON g."{nameof(AuthGroup.AuthGroupName)}" = gp."{nameof(AuthGroupPermission.AuthGroupName)}"
+                JOIN "{nameof(AuthContext.AuthPermissions)}" p
+                ON gp."{nameof(AuthGroupPermission.AuthPermissionName)}" = p."{nameof(AuthPermission.AuthPermissionName)}"
+                WHERE clm."{nameof(AuthUserClaim.AuthClaimValue)}" = @Email;
+                """;
+            //todo make the query prioritise users that do not reference another user
+
+            var res = await _dbConnection.QueryAsync<(Guid User, string Permission)>(query, new
+            {
+                Email = email
+            });
+
+            if (!res.Any())
+                return null;
+
+            var grp = res.GroupBy(x => x.User).First();
+
+            return new Grouping<Guid, string>
+            {
+                Key = grp.Key,
+                Values = grp.Select(x => x.Permission)
+            };
         }
 
         public async Task<(string tokenHash, string tokenSalt)> GetTokenHashAndSalt(Guid jti)

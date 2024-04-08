@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UsersDbComponent.entities;
 
 namespace AuthFrontend.entities
 {
@@ -13,5 +14,9 @@ namespace AuthFrontend.entities
         public DbSet<AuthUserClaim> AuthUserClaims { get; set; }
         public DbSet<AuthClaim> AuthClaims { get; set; }
         public DbSet<AuthUserRefreshToken> AuthUserRefreshTokens { get; set; }
+        public DbSet<AuthUserGroup> AuthUserGroups { get; set; }
+        public DbSet<AuthGroup> AuthGroups { get; set; }
+        public DbSet<AuthGroupPermission> AuthGroupPermissions { get; set; }
+        public DbSet<AuthPermission> AuthPermissions { get; set; }
     }
 }
