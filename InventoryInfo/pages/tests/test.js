@@ -1,7 +1,7 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
 async function TryQuery() {
-    var res = await authenticatedFetch("/inventory/all/filtered", {
+    var res = await authenticatedFetch("/inventory/filtered", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -32,7 +32,7 @@ async function TryQuery() {
 
         await x.entityProperties.forEach(async y => {
             var module = await import(y.scriptName);
-            var element = await module.inlineDisplay(y.value);
+            var element = await module.inlineDisplay(y);
             sec.appendChild(element);
         });
         document.body.appendChild(sec);

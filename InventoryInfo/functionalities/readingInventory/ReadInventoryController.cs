@@ -14,8 +14,11 @@ namespace InventoryInfo.functionalities.readingInventory
     {
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("/inventory/all/filtered", GetFiltered)
+            endpoints.MapPost("/inventory/filtered", GetFiltered)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
+            endpoints.MapGet("/inventory/templates", GetTemplates)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, InventoryStrings.InventoryAdmin));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -27,7 +30,7 @@ namespace InventoryInfo.functionalities.readingInventory
         {
             var permissions = context.User.Claims.Where(x => x.Type == ImportantStrings.PermissionSet).Select(x => x.Value).ToArray();
 
-            if(!permissions.Any())
+            if(permissions.Length == 0)
                 return TypedResults.BadRequest("No permissions");
 
             if (filter.EntityProperties.Length == 0 || filter.TemplateProperties.Length == 0)
@@ -38,5 +41,11 @@ namespace InventoryInfo.functionalities.readingInventory
             return TypedResults.Ok(res);
         }
 
+        public async static Task<IResult> GetTemplates([FromServices] PInventoryRepo repo)
+        {
+            var res = await repo.GetLatestTemplates();
+
+            return TypedResults.Ok(res);
+        }
     }
 }

@@ -1,8 +1,7 @@
 ﻿namespace InventoryInfo.functionalities.readingInventory.DTOs
 {
-    public struct InventoryEntityDto
+    public struct InventoryTemplateDto
     {
-        public Guid InventoryEntityId {  get; set; }
         public string TemplateName { get; set; }
         public uint TemplateVersion { get; set; }
         public InventoryPropertyDto[] EntityProperties { get; set; }
