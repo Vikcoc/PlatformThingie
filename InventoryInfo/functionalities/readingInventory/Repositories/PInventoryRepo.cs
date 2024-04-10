@@ -206,8 +206,15 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
         {
             var newEntity = Guid.NewGuid();
 
+            _dbConnection.Open();
+            using var transaction = _dbConnection.BeginTransaction();
+
             var query = $"""
                 INSERT INTO "{nameof(InventoryContext.InventoryEntities)}" ("{nameof(InventoryEntity.InventoryEntityId)}") values (@EntityId);
+                
+                """;
+
+            var query2 = $"""
                 INSERT INTO "{nameof(InventoryContext.InventoryEntitiesAttributeValues)}"
                 ("{nameof(InventoryEntityAttributeValue.InventoryEntityId)}",
                  "{nameof(InventoryEntityAttributeValue.InventoryTemplateName)}",
@@ -219,19 +226,25 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
 
             var res = await _dbConnection.ExecuteAsync(query, new
             {
-                EntityId = newEntity,
-                PropertyValues = entity.EntityProperties.Select(p => new
-                {
-                    InventoryEntityId = newEntity,
-                    InventoryTemplateName = entity.TemplateName,
-                    InventoryTemplateVersion = (int)entity.TemplateVersion,
-                    InventoryTemplateEntityAttributeName = p.Name,
-                    Value = p.Value!
-                }).ToArray()
+                EntityId = newEntity
             });
 
             if (res == 0)
                 return null;
+            var res2 = await _dbConnection.ExecuteAsync(query2, entity.EntityProperties.Select(p => new
+            {
+                InventoryEntityId = newEntity,
+                InventoryTemplateName = entity.TemplateName,
+                InventoryTemplateVersion = (int)entity.TemplateVersion,
+                InventoryTemplateEntityAttributeName = p.Name,
+                Value = p.Value!
+            }).ToArray());
+
+            if (res2 == 0)
+                return null;
+
+            transaction.Commit();
+
             return newEntity;
         }
     }
