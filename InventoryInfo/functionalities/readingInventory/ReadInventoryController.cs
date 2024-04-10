@@ -19,6 +19,9 @@ namespace InventoryInfo.functionalities.readingInventory
             endpoints.MapGet("/inventory/templates", GetTemplates)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
                                             .RequireClaim(ImportantStrings.PermissionSet, InventoryStrings.InventoryAdmin));
+            endpoints.MapPost("/inventory", MakeEntity)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, InventoryStrings.InventoryAdmin));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -44,6 +47,28 @@ namespace InventoryInfo.functionalities.readingInventory
         public async static Task<IResult> GetTemplates([FromServices] PInventoryRepo repo)
         {
             var res = await repo.GetLatestTemplates();
+
+            return TypedResults.Ok(res);
+        }
+
+        public async static Task<IResult> MakeEntity(HttpContext context, [FromBody] InventoryCreateEntityDto entity,[FromServices] PInventoryRepo repo)
+        {
+            //var bodyStream = new StreamReader(context.Request.Body);
+            //bodyStream.BaseStream.Seek(0, SeekOrigin.Begin);
+            //var bodyText = await bodyStream.ReadToEndAsync();
+
+            var existingProps = await repo.GetEntityPropertiesOfTemplate(entity.TemplateName, entity.TemplateVersion);
+
+            if (entity.EntityProperties.Select(x => x.Name).Distinct().Count()
+                    != entity.EntityProperties.Length
+                || existingProps.Except(entity.EntityProperties.Select(x => x.Name)).Any()
+                || entity.EntityProperties.Select(x => x.Name).Except(existingProps).Any())
+                return TypedResults.BadRequest("Mismatch of properties");
+
+            var res = await repo.CreateEntity(entity);
+
+            if (!res.HasValue)
+                return TypedResults.Problem("Cannot create entity");
 
             return TypedResults.Ok(res);
         }

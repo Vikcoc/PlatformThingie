@@ -11,3 +11,7 @@ export async function editableDisplay(prop) {
     head.value = prop.value;
     return head;
 }
+
+export async function getValue(elem) {
+    return elem.value;
+}

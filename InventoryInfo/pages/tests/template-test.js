@@ -19,7 +19,7 @@ async function TryQuery() {
 
         var but = document.createElement("md-filled-tonal-button");
         but.textContent = "Create";
-        sec.appendChild(txt);
+        sec.appendChild(but);
 
         await x.entityProperties.forEach(async y => {
             var module = await import(y.scriptName);
@@ -27,31 +27,37 @@ async function TryQuery() {
             element.baseInfo = y;
             sec.appendChild(element);
         });
-        document.body.appendChild(sec);
 
         but.onclick = async () => {
             var values = [];
-            await sec.children.forEach(async y => {
+            for (const y of sec.children) {
                 //only entity properties are writeable
-                if (!y.baseInfo.writeable)
-                    return;
+                if (!y.baseInfo || !y.baseInfo.writeable)
+                    continue;
                 var module = await import(y.baseInfo.scriptName);
                 values.push({
-                    name: y.baseInfo.name,
-                    value = await module.getValue(y)
+                    Name: y.baseInfo.name,
+                    Value: await module.getValue(y)
                 });
-            });
+            }
 
             var res = await authenticatedFetch("/inventory", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(values)
+                body: JSON.stringify({
+                    templateName: x.templateName,
+                    templateVersion: x.templateVersion,
+                    EntityProperties: values
+                })
             });
 
-            window.alert("Failed to create");
+            if(!res.ok)
+                window.alert("Failed to create");
         };
+
+        document.body.appendChild(sec);
     });
 }
 

@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using InventoryDbComponent.entities;
 using InventoryInfo.functionalities.readingInventory.DTOs;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System.Data;
 
 namespace InventoryInfo.functionalities.readingInventory.Repositories
@@ -180,6 +182,57 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
                 }).ToArray();
 
             return dtos;
+        }
+
+        public async Task<IEnumerable<string>> GetEntityPropertiesOfTemplate(string templateName, uint templateVersion)
+        {
+            var query = $"""
+                SELECT attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}" as "AttributeName"
+                FROM "{nameof(InventoryContext.InventoryTemplateEntityAttributes)}" attr
+                WHERE attr. "{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}" = @Name
+                    AND attr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateVersion)}" = @Version;
+                """;
+
+            var res = await _dbConnection.QueryAsync<string>(query, new
+            {
+                Name = templateName,
+                Version = (int)templateVersion
+            });
+
+            return res;
+        }
+
+        internal async Task<Guid?> CreateEntity(InventoryCreateEntityDto entity)
+        {
+            var newEntity = Guid.NewGuid();
+
+            var query = $"""
+                INSERT INTO "{nameof(InventoryContext.InventoryEntities)}" ("{nameof(InventoryEntity.InventoryEntityId)}") values (@EntityId);
+                INSERT INTO "{nameof(InventoryContext.InventoryEntitiesAttributeValues)}"
+                ("{nameof(InventoryEntityAttributeValue.InventoryEntityId)}",
+                 "{nameof(InventoryEntityAttributeValue.InventoryTemplateName)}",
+                 "{nameof(InventoryEntityAttributeValue.InventoryTemplateVersion)}",
+                 "{nameof(InventoryEntityAttributeValue.InventoryTemplateEntityAttributeName)}",
+                 "{nameof(InventoryEntityAttributeValue.Value)}")
+                 values (@InventoryEntityId, @InventoryTemplateName, @InventoryTemplateVersion, @InventoryTemplateEntityAttributeName, @Value);
+                """;
+
+            var res = await _dbConnection.ExecuteAsync(query, new
+            {
+                EntityId = newEntity,
+                PropertyValues = entity.EntityProperties.Select(p => new
+                {
+                    InventoryEntityId = newEntity,
+                    InventoryTemplateName = entity.TemplateName,
+                    InventoryTemplateVersion = (int)entity.TemplateVersion,
+                    InventoryTemplateEntityAttributeName = p.Name,
+                    Value = p.Value!
+                }).ToArray()
+            });
+
+            if (res == 0)
+                return null;
+            return newEntity;
         }
     }
 }
