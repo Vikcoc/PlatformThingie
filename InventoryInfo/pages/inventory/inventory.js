@@ -1,6 +1,6 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
-async function TryQuery() {
+async function GetItems() {
     var res = await authenticatedFetch("/inventory/filtered", {
         method: "POST",
         headers: {
@@ -26,9 +26,11 @@ async function TryQuery() {
         var sec = document.createElement("section");
         sec.classList.add("horizontalLine");
 
-        var txt = document.createElement("p");
-        txt.textContent = x.inventoryEntityId;
-        sec.appendChild(txt);
+        await x.templateProperties.forEach(async y => {
+            var module = await import(y.scriptName);
+            var element = await module.inlineDisplay(y);
+            sec.appendChild(element);
+        });
 
         await x.entityProperties.forEach(async y => {
             var module = await import(y.scriptName);
@@ -39,4 +41,4 @@ async function TryQuery() {
     });
 }
 
-document.getElementById('load-button').onclick = TryQuery;
+await GetItems();

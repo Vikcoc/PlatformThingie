@@ -90,7 +90,7 @@ namespace InventoryDbComponent.seeding
             var testTpAttr = new InventoryTemplateAttribute
             {
                 InventoryTemplate = testTemp,
-                InventoryTemplateAttributeAction = "someaction2",
+                InventoryTemplateAttributeAction = "/inventory/actions/someaction2",
                 InventoryTemplateName = testTemp.InventoryTemplateName,
                 InventoryTemplateVersion = testTemp.InventoryTemplateVersion,
                 InventoryTemplateAttributeName = "test template attribute",

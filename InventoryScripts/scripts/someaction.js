@@ -15,3 +15,7 @@ export async function editableDisplay(prop) {
 export async function getValue(elem) {
     return elem.value;
 }
+
+export async function setEditableDisplay(elem, prop) {
+    elem.value = prop.value;
+}

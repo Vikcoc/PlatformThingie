@@ -11,16 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="pages\tests\template-test.html">
+    <None Update="pages\inventory\inventory.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\tests\template-test.js">
+    <None Update="pages\inventory\inventory.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\tests\test.html">
+    <None Update="pages\template\template.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\tests\test.js">
+    <None Update="pages\template\template.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

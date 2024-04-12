@@ -18,17 +18,14 @@ namespace InventoryInfo
         {
             ReadInventoryController.AddRoutes(endpoints);
 
-            endpoints.MapGet("/inventory/test",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.html"), "text/html"));
-            endpoints.MapGet("/inventory/test/style",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.css"), "text/css"));
-            endpoints.MapGet("/inventory/test/js",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "test.js"), "text/javascript"));
-
-            endpoints.MapGet("/inventory/test2",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "template-test.html"), "text/html"));
-            endpoints.MapGet("/inventory/test2/js",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "tests", "template-test.js"), "text/javascript"));
+            endpoints.MapGet("/inventory",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "inventory", "inventory.html"), "text/html"));
+            endpoints.MapGet("/inventory/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "inventory", "inventory.js"), "text/javascript"));
+            endpoints.MapGet("/inventory/template",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "template", "template.html"), "text/html"));
+            endpoints.MapGet("/inventory/template/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "template", "template.js"), "text/javascript"));
         }
 
         public void AddServices(IServiceCollection services)

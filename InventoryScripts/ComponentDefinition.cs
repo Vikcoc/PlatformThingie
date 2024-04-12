@@ -14,6 +14,8 @@ namespace InventoryScripts
         {
             endpoints.MapGet("/inventory/actions/someaction",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "someaction.js"), "text/javascript"));
+            endpoints.MapGet("/inventory/actions/someaction2",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "someaction2.js"), "text/javascript"));
             endpoints.MapGet("/inventory/actions/displayheader",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "displayheader.js"), "text/javascript"));
         }
