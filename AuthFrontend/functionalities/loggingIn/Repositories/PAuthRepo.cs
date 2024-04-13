@@ -5,6 +5,7 @@ using Dapper;
 using Dependencies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using System.Security.Claims;
 using UsersDbComponent.entities;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories
@@ -19,14 +20,15 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             //insert into "AuthUsers" ("AuthUserId") values(('b95482aa-0e73-46c4-b947-da782d0a3b60')) returning "AuthUserId" as value;
             var query = $"""
                 INSERT INTO "{nameof(AuthContext.AuthUsers)}" ("{nameof(AuthUser.AuthUserId)}") values (@UserId);
-                INSERT INTO "{nameof(AuthContext.AuthUserClaims)}" ("{nameof(AuthUserClaim.AuthUserId)}", "{nameof(AuthUserClaim.AuthClaimName)}", "{nameof(AuthUserClaim.AuthClaimValue)}")
-                    VALUES (@UserId, '{SeedAuthClaimNames.Email}', @Email);
+                INSERT INTO "{nameof(AuthContext.AuthUserClaims)}" ("{nameof(AuthUserClaim.AuthUserClaimId)}", "{nameof(AuthUserClaim.AuthUserId)}", "{nameof(AuthUserClaim.AuthClaimName)}", "{nameof(AuthUserClaim.AuthClaimValue)}")
+                    VALUES (@ClaimId, @UserId, '{SeedAuthClaimNames.Email}', @Email);
                 """;
 
             var userId = Guid.NewGuid();
 
             var res = await _dbConnection.ExecuteAsync(query, new
             {
+                ClaimId = Guid.NewGuid(),
                 UserId = userId,
                 user.Email,
             });
