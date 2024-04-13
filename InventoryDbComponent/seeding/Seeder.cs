@@ -38,7 +38,7 @@ namespace InventoryDbComponent.seeding
             var testAttr2 = new InventoryTemplateEntityAttribute
             {
                 InventoryTemplate = testTemp,
-                InventoryTemplateEntityAttributeName = "test attribute",
+                InventoryTemplateEntityAttributeName = "Header Name",
                 InventoryTemplateName = testTemp.InventoryTemplateName,
                 InventoryTemplateVersion = testTemp.InventoryTemplateVersion,
                 InventoryTemplateEntityAttributeAction = "/inventory/actions/displayheader",
