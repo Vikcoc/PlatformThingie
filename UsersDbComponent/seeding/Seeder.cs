@@ -30,9 +30,25 @@ namespace UsersDbComponent.seeding
                 AuthClaimRight = x.Value
             }));
 
-            foreach(var claim in toEdit) 
+            foreach(var (x, y) in toEdit) 
             {
-                claim.y.AuthClaimRight = claim.x.Value;
+                y.AuthClaimRight = x.Value;
+            }
+
+            if (!await db.AuthPermissions.AnyAsync(x => x.AuthPermissionName == "AuthAdmin"))
+            {
+                var permission = new AuthPermission { AuthPermissionName = "AuthAdmin" };
+                var group = new AuthGroup { AuthGroupName = "AuthAdmin" };
+                var groupPermission = new AuthGroupPermission
+                {
+                    AuthGroupName = group.AuthGroupName,
+                    AuthGroup = group,
+                    AuthPermission = permission,
+                    AuthPermissionName = permission.AuthPermissionName
+                };
+                db.AuthGroups.Add(group);
+                db.AuthPermissions.Add(permission);
+                db.AuthGroupPermissions.Add(groupPermission);
             }
 
             await db.SaveChangesAsync();

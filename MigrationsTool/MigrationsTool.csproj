@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InventoryDbComponent\InventoryDbComponent.csproj" />
     <ProjectReference Include="..\PlatformInterfaces\PlatformInterfaces.csproj" />
     <ProjectReference Include="..\UsersDbComponent\UsersDbComponent.csproj" />
   </ItemGroup>

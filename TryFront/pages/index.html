@@ -4,15 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./public/color">
-    <link rel="stylesheet" href="./public/font">
-    <link rel="stylesheet" href="./public/style">
-    <link rel="stylesheet" href="./public/topbar">
-    <script src="./public/material-components" type="module"></script>
+    <link rel="stylesheet" href="/public/color">
+    <link rel="stylesheet" href="/public/font">
+    <link rel="stylesheet" href="/public/style">
+    <link rel="stylesheet" href="/public/topbar">
+    <script src="/public/material-components" type="module"></script>
 
-    <link rel="stylesheet" href="./login/style">
+    <link rel="stylesheet" href="/public/centered-body">
     <!--<script src="./public/authenticated-fetch" type="module"></script>-->
     <!--<script src="./user/user-info" type="module"></script>-->
+    <script src="/moduleuser" type="module"></script>
 
 
     <title>Modsig Login</title>
@@ -30,41 +31,7 @@
         <h3>Hi</h3>
     </section>
 
-    <section class="horizontalLine">
-        <md-outlined-select>
-            <md-select-option aria-label="blank"></md-select-option>
-            <md-select-option value="apple">
-                <div slot="headline">Apple</div>
-            </md-select-option>
-            <md-select-option value="apricot">
-                <div slot="headline">Apricot</div>
-            </md-select-option>
-        </md-outlined-select>
-        <md-outlined-text-field label="Email" typeof="text" placeholder="you">
-        </md-outlined-text-field>
-        <md-filled-tonal-icon-button>
-            <img src="/public/trashcan-logo" alt="Delete" />
-        </md-filled-tonal-icon-button>
-    </section>
-
-    <section class="horizontalLine">
-        <md-filled-tonal-icon-button>
-            <img src="/public/plus-logo" alt="Plus" />
-        </md-filled-tonal-icon-button>
-
-        <md-filled-tonal-icon-button>
-            <img src="/public/save-logo" alt="Save" />
-        </md-filled-tonal-icon-button>
-    </section>
-    <md-outlined-select>
-        <md-select-option aria-label="blank"></md-select-option>
-        <md-select-option value="apple">
-            <div slot="headline">Apple</div>
-        </md-select-option>
-        <md-select-option value="apricot">
-            <div slot="headline">Apricot</div>
-        </md-select-option>
-    </md-outlined-select>
+    <md-filled-tonal-button id="load-button">Load module</md-filled-tonal-button>
 </body>
 
 </html>

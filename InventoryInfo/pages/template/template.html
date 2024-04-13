@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/public/color">
+    <link rel="stylesheet" href="/public/font">
+    <link rel="stylesheet" href="/public/style">
+    <link rel="stylesheet" href="/public/topbar">
+    <script src="/public/material-components" type="module"></script>
+
+    <link rel="stylesheet" href="/public/centered-body">
+    <script src="/public/authenticated-fetch" type="module"></script>
+    <script src="/inventory/template/script" type="module"></script>
+
+
+    <title>Templates</title>
+</head>
+
+<body>
+    <div id="topBar">
+        <md-filled-tonal-icon-button onclick="history.back();">
+            <img src="/public/back-logo" alt="Back arrow" />
+        </md-filled-tonal-icon-button>
+        <img src="/favicon.ico" alt="Modsig logo" />
+        <md-filled-tonal-button onclick="location.href='/inventory';">Items</md-filled-tonal-button>
+    </div>
+
+</body>
+
+</html>

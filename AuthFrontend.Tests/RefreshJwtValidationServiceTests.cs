@@ -37,6 +37,11 @@ namespace AuthFrontend.Tests
                 throw new NotImplementedException();
             }
 
+            public Task<IGrouping<Guid, string>?> GetUserByEmailWithPermissions(string email)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<bool> RemoveToken(Guid jti)
             {
                 throw new NotImplementedException();

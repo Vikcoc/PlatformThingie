@@ -99,6 +99,56 @@ namespace AuthFrontend.Migrations
                     b.ToTable("AuthUserRefreshTokens");
                 });
 
+            modelBuilder.Entity("UsersDbComponent.entities.AuthGroup", b =>
+                {
+                    b.Property<string>("AuthGroupName")
+                        .HasColumnType("text");
+
+                    b.HasKey("AuthGroupName");
+
+                    b.ToTable("AuthGroups");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthGroupPermission", b =>
+                {
+                    b.Property<string>("AuthGroupName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AuthPermissionName")
+                        .HasColumnType("text");
+
+                    b.HasKey("AuthGroupName", "AuthPermissionName");
+
+                    b.HasIndex("AuthPermissionName");
+
+                    b.ToTable("AuthGroupPermissions");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthPermission", b =>
+                {
+                    b.Property<string>("AuthPermissionName")
+                        .HasColumnType("text");
+
+                    b.HasKey("AuthPermissionName");
+
+                    b.ToTable("AuthPermissions");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthUserGroup", b =>
+                {
+                    b.Property<Guid>("AuthUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AuthGroupName")
+                        .HasColumnType("text");
+
+                    b.HasKey("AuthUserId", "AuthGroupName");
+
+                    b.HasIndex("AuthGroupName");
+
+                    b.ToTable("AuthUserGroups");
+                });
+
             modelBuilder.Entity("AuthFrontend.entities.AuthUserClaim", b =>
                 {
                     b.HasOne("AuthFrontend.entities.AuthClaim", "AuthClaim")
@@ -129,6 +179,44 @@ namespace AuthFrontend.Migrations
                     b.Navigation("AuthUser");
                 });
 
+            modelBuilder.Entity("UsersDbComponent.entities.AuthGroupPermission", b =>
+                {
+                    b.HasOne("UsersDbComponent.entities.AuthGroup", "AuthGroup")
+                        .WithMany("GroupPermissions")
+                        .HasForeignKey("AuthGroupName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersDbComponent.entities.AuthPermission", "AuthPermission")
+                        .WithMany("GroupPermissions")
+                        .HasForeignKey("AuthPermissionName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuthGroup");
+
+                    b.Navigation("AuthPermission");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthUserGroup", b =>
+                {
+                    b.HasOne("UsersDbComponent.entities.AuthGroup", "AuthGroup")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("AuthGroupName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AuthFrontend.entities.AuthUser", "AuthUser")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("AuthUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuthGroup");
+
+                    b.Navigation("AuthUser");
+                });
+
             modelBuilder.Entity("AuthFrontend.entities.AuthClaim", b =>
                 {
                     b.Navigation("AuthUserClaims");
@@ -139,6 +227,20 @@ namespace AuthFrontend.Migrations
                     b.Navigation("AuthUserClaims");
 
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("UserGroups");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthGroup", b =>
+                {
+                    b.Navigation("GroupPermissions");
+
+                    b.Navigation("UserGroups");
+                });
+
+            modelBuilder.Entity("UsersDbComponent.entities.AuthPermission", b =>
+                {
+                    b.Navigation("GroupPermissions");
                 });
 #pragma warning restore 612, 618
         }

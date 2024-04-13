@@ -144,6 +144,37 @@ spec:
         secret:
           secretName: user-secret
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-deployment
+  labels:
+    app: inventory
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+        type: api-server
+    spec:
+      containers:
+      - name: inventory
+        image: vikcoc/inventory_platform:sha-90ce07c
+        ports:
+        - containerPort: 80
+        name: inventory-port
+        volumeMounts:
+          - name: inventory-secrets
+            mountPath: /app/conf
+      volumes:
+      - name: user-secrets
+        secret:
+          secretName: user-secret
+---
 apiVersion: v1
 kind: Pod
 metadata:

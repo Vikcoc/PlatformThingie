@@ -10,7 +10,6 @@ namespace AuthFrontend.seeds
         public const string Email = "email";
         public const string Username = "username";
         public const string UserId = "userId";
-        public const string Purpose = "purpose";
 
         public ICollection<string> Keys => this.GetType()
             .GetFields()
@@ -34,7 +33,6 @@ namespace AuthFrontend.seeds
                 Email => AuthClaimRights.Readable,
                 Username => AuthClaimRights.Editable,
                 UserId => AuthClaimRights.Invisible,
-                Purpose => AuthClaimRights.Invisible,
                 _ => throw new NotImplementedException(),
             };
 

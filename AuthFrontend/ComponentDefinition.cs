@@ -20,13 +20,9 @@ namespace AuthFrontend
 
             endpoints.MapGet("/login",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.html"), "text/html"));
-            endpoints.MapGet("/login/style",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.css"), "text/css"));
+            
             endpoints.MapGet("/login/script",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "login", "login.js"), "text/javascript"));
-
-
-
         }
 
         public void AddServices(IServiceCollection services)

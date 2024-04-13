@@ -9,7 +9,7 @@ export async function authenticatedFetch(route, request) {
     if (sessionStorage["refreshToken"]
         && new Date(JSON.parse(atob(sessionStorage["refreshToken"].split('.')[1])).exp * 1000) > Date.now()) {
 
-        var res = await fetch("./login/refresh", {
+        var res = await fetch("/login/refresh", {
             method: "POST",
             body: '"' + sessionStorage["refreshToken"] + '"',
             headers: {
@@ -18,7 +18,7 @@ export async function authenticatedFetch(route, request) {
         });
 
         if (!res.ok)
-            location.href = './login';
+            location.href = '/login';
 
         var payload = await res.json();
 
@@ -29,5 +29,5 @@ export async function authenticatedFetch(route, request) {
         return await fetch(route, request);
     }
 
-    location.href = './login';
+    location.href = '/login';
 }

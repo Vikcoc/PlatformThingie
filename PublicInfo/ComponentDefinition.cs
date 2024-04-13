@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlatformInterfaces;
+using PublicInfo.dtos;
 
 namespace PublicInfo
 {
@@ -37,9 +39,14 @@ namespace PublicInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "signed-in.js"), "text/javascript"));
             endpoints.MapGet("/public/authenticated-fetch",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "authenticated-fetch.js"), "text/javascript"));
+            endpoints.MapGet("/public/centered-body",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "centered-body.css"), "text/css"));
 
             //the index i guess
-            endpoints.MapGet("/", () => Results.Redirect("/about"));
+            endpoints.MapGet("/",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "landing", "index.html"), "text/html"));
+            endpoints.MapGet("/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "landing", "index.js"), "text/javascript"));
 
             //the about page
             endpoints.MapGet("/about",
@@ -51,6 +58,9 @@ namespace PublicInfo
             endpoints.MapGet("/privacy",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "privacy", "privacy.html"), "text/html"));
 
+            endpoints.MapGet("/sites",
+                (IConfiguration config) =>
+                config.GetSection("Sites").Get<AvailableSite[]>());
         }
 
         public void AddServices(IServiceCollection services)

@@ -1,4 +1,5 @@
 ﻿using AuthFrontend.seeds;
+using Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,13 @@ namespace UserInfo.functionalities.user
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/profile/info", GetUserProps)
-                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
 
             endpoints.MapGet("/profile/claims", GetClaims)
-                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
 
             endpoints.MapPost("/profile/info", UpdateEditableClaims)
-                .RequireAuthorization(p => p.RequireClaim(SeedAuthClaimNames.Purpose, "access"));
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
         }
 
         public static void AddServices(IServiceCollection services)
