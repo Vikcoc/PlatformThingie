@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PlatformInterfaces;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.Sources.Add(new JsonConfigurationSource()
