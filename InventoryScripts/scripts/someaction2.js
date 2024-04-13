@@ -1,6 +1,6 @@
 export async function inlineDisplay(prop){
-    var head = document.createElement("h2");
-    head.textContent = '[' + prop.name + ": " + prop.value + ']';
+    var head = document.createElement("h3");
+    head.textContent = prop.value;
     return head;
 }
 

@@ -21,6 +21,10 @@ async function GetTemplates() {
         but.textContent = "Create";
         sec.appendChild(but);
 
+        var temp = document.createElement("h2");
+        temp.textContent = x.templateName + ' V' + x.templateVersion;
+        sec.appendChild(temp);
+
         await x.templateProperties.forEach(async y => {
             var module = await import(y.scriptName);
             var element = await module.inlineDisplay(y);

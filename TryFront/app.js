@@ -31,7 +31,7 @@ app.get("/public/signed-in", function (req, res) {
 app.get("/public/style", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'style.css'));
 });
-app.get("/login/style", function (req, res) {
+app.get("/public/centered-body", function (req, res) {
     res.sendFile(path.join(__dirname, 'styles', 'login.css'));
 });
 
