@@ -17,8 +17,6 @@ builder.Services.AddSingleton<ICollection<IMigrationProvider>>(x =>
     new InventoryDbComponent.seeding.Seeder()
 ]);
 
-builder.Services.AddHostedService<MigratorService>();
-
 using IHost host = builder.Build();
 
 var providers = host.Services.GetRequiredService<ICollection<IMigrationProvider>>();
