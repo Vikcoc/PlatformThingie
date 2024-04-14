@@ -1,0 +1,16 @@
+#threeQuarters {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    justify-items: center;
+    row-gap: 1em;
+}
+
+.verticalLine {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /*padding-top: 1em;
+    padding-bottom: 1em;*/
+    gap: 1em;
+}

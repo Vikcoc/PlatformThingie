@@ -12,13 +12,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="pages\user\profile.css">
+    <None Update="pages\profile\profile.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\user\profile.js">
+    <None Update="pages\profile\profile.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="pages\user\profile.html">
+    <None Update="pages\profile\profile.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pages\user\user.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pages\user\user.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
