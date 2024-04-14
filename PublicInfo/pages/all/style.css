@@ -44,3 +44,8 @@ md-outlined-text-field {
     gap: 1em;
     flex-wrap: wrap;
 }
+
+label {
+    display: flex;
+    align-items: center;
+}

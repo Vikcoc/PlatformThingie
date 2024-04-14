@@ -1,3 +1,4 @@
 async function getUsers() {
-    //todo use checbockses to represent user groups
+    //todo store the array of groups on the section
+    //use edit icon and then save and reset icons
 }
