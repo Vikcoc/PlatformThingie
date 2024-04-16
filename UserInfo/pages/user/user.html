@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/public/centered-body">
     <link rel="stylesheet" href="/user/style">
     <script src="/public/authenticated-fetch" type="module"></script>
+    <script src="/user/script" type="module"></script>
 
 
     <title>User Info</title>
@@ -31,25 +32,7 @@
     </section>
 
     <div id="halves">
-        <div class="verticalLine">
-            <section class="horizontalLine">
-                <div class="verticalLine">
-                    email1@email.com
-                    <br />
-                    email2@email.com
-                </div>
-                <md-filled-tonal-icon-button id="saveButton">
-                    <img src="/public/save-logo" alt="Save" />
-                </md-filled-tonal-icon-button>
-            </section>
-            <section class="horizontalLine">
-                <div class="verticalLine">
-                    some@email.com
-                </div>
-                <md-filled-tonal-icon-button id="saveButton">
-                    <img src="/public/save-logo" alt="Save" />
-                </md-filled-tonal-icon-button>
-            </section>
+        <div class="verticalLine" id="userContainer">
         </div>
 
         <section class="verticalLine">

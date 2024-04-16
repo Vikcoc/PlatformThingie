@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using UserInfo.functionalities.user.dtos;
 using UserInfo.functionalities.user.Repositories;
+using UsersDbComponent;
 
 namespace UserInfo.functionalities.user
 {
@@ -23,6 +24,12 @@ namespace UserInfo.functionalities.user
 
             endpoints.MapPost("/profile/info", UpdateEditableClaims)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
+
+            endpoints.MapGet("/user/all", GetUsersWithGroups)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
+
+
         }
 
         public static void AddServices(IServiceCollection services)
@@ -57,6 +64,22 @@ namespace UserInfo.functionalities.user
             await profileRepo.DeleteAndRewriteEditableClaims(userId, claims);
             
             return TypedResults.NoContent();
+        }
+
+        public static IResult GetUsersWithGroups()
+        {
+            return TypedResults.Ok<UserWithGroupDto[]>([
+                new UserWithGroupDto{
+                    Emails = ["yo@email.email"],
+                    UserId = Guid.NewGuid(),
+                    Groups = ["Group1","Group2"]
+                },
+                new UserWithGroupDto{
+                    Emails = ["user2@email.email", "sameUser2@email.email"],
+                    UserId = Guid.NewGuid(),
+                    Groups = ["Group4", "Group6"]
+                }
+                ]);
         }
     }
 }
