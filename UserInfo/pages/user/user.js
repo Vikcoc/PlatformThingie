@@ -14,7 +14,12 @@ function grabEdit(parent) {
         buttons[1].style = "display: none";
         buttons[2].style = "display: none";
     }
+
     editedUser = parent;
+    if (parent == null) {
+        resetGroups([]);
+        return;
+    }
     resetGroups(editedUser.groups);
     var buttons = editedUser.getElementsByTagName("md-filled-tonal-icon-button");
     buttons[0].style = "display: none";
@@ -22,8 +27,6 @@ function grabEdit(parent) {
     buttons[2].style = "display: true";
 }
 async function getUsersWithGroups() {
-    //todo store the array of groups on the section
-    //use edit icon and then save and reset icons
     var res = await authenticatedFetch("/user/all", {
         method: "GET",
         headers: {
@@ -35,11 +38,11 @@ async function getUsersWithGroups() {
         return;
 
     var dto = await res.json();
-    userContainer = document.getElementById("userContainer");
+    var userContainer = document.getElementById("userContainer");
     dto.forEach(us => {
         var sec = document.createElement("section");
         sec.classList.add("horizontalLine");
-        sec.groups = us.groups;
+        sec.groups = us.groups.filter( val => true);
         sec.userId = us.userId;
 
         var emails = document.createElement("div");
@@ -47,8 +50,29 @@ async function getUsersWithGroups() {
         sec.appendChild(emails);
 
         for (const i of [["/public/edit-logo", "Edit", () => grabEdit(sec), "display: true"],
-            ["/public/save-logo", "Save", () => console.log('dummy'), "display: none"],
-            ["/public/reset-logo", "Reset", () => console.log('dummy'), "display: none"]
+            ["/public/save-logo", "Save", async () => {
+                var res = await authenticatedFetch("/user", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId: sec.userId,
+                        groups: sec.groups
+                    })
+                });
+
+                if (!res.ok)
+                    window.alert("Couldn't save");
+                else {
+                    grabEdit(null);
+                    us.groups = sec.groups;
+                }
+            }, "display: none"],
+            ["/public/reset-logo", "Reset", () => {
+                sec.groups = us.groups.filter(val => true);
+                resetGroups(sec.groups);
+            }, "display: none"]
         ]) {
             var but = document.createElement("md-filled-tonal-icon-button");
             but.onclick = i[2];
@@ -66,4 +90,38 @@ async function getUsersWithGroups() {
     });
 }
 
+async function getGroups() {
+    var res = await authenticatedFetch("/user/groups", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (!res.ok)
+        return;
+
+    var dto = await res.json();
+    var groupsContainer = document.getElementById("groupsContainer");
+    dto.forEach(gr => {
+        var sec = document.createElement("label");
+        var check = document.createElement("md-checkbox");
+        check.setAttribute('touch-target', 'wrapper');
+        sec.appendChild(check);
+        sec.innerHTML += "\n" + gr;
+        sec.onclick = (hand) => {
+            if (editedUser == null)
+                return;
+            if (!hand.target.checked)
+                editedUser.groups.push(gr);
+            else
+                editedUser.groups = editedUser.groups.filter(val => val != gr);
+            
+        }
+
+        groupsContainer.appendChild(sec);
+    });
+}
+
+await getGroups();
 await getUsersWithGroups();

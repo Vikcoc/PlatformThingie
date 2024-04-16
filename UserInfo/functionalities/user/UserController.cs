@@ -29,7 +29,13 @@ namespace UserInfo.functionalities.user
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
                                             .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
 
+            endpoints.MapGet("/user/groups", GetGroups)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
 
+            endpoints.MapPost("/user", SaveUser)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -66,20 +72,19 @@ namespace UserInfo.functionalities.user
             return TypedResults.NoContent();
         }
 
-        public static IResult GetUsersWithGroups()
+        public static async Task<IResult> GetUsersWithGroups([FromServices] PProfileRepo profileRepo)
         {
-            return TypedResults.Ok<UserWithGroupDto[]>([
-                new UserWithGroupDto{
-                    Emails = ["yo@email.email"],
-                    UserId = Guid.NewGuid(),
-                    Groups = ["Group1","Group2"]
-                },
-                new UserWithGroupDto{
-                    Emails = ["user2@email.email", "sameUser2@email.email"],
-                    UserId = Guid.NewGuid(),
-                    Groups = ["Group4", "Group6"]
-                }
-                ]);
+            return TypedResults.Ok(await profileRepo.GetUsersWithEmailAndGroups());
+        }
+        public static async Task<IResult> GetGroups([FromServices] PProfileRepo profileRepo)
+        {
+            return TypedResults.Ok(await profileRepo.GetGroups());
+        }
+
+        public static async Task<IResult> SaveUser([FromBody]UserWithGroupDto user, [FromServices] PProfileRepo profileRepo)
+        {
+            await profileRepo.DeleteAndRewriteUserGroups(user.UserId, user.Groups);
+            return TypedResults.NoContent();
         }
     }
 }
