@@ -89,7 +89,7 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
             return new Grouping<Guid, string>
             {
                 Key = grp.Key,
-                Values = grp.Select(x => x.Permission)
+                Values = grp.Where(x => x.Permission != null).Select(x => x.Permission)
             };
         }
 

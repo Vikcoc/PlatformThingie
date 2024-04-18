@@ -192,15 +192,30 @@ namespace UserInfo.functionalities.user.Repositories
         public async Task<GroupWithPermissionsDto[]> GetGroupsWithPermissions()
         {
             var query = $"""
+                SELECT "{nameof(AuthGroup.AuthGroupName)}" as Value
+                FROM "{nameof(AuthContext.AuthGroups)}";
+
                 SELECT "{nameof(AuthGroupPermission.AuthGroupName)}" as Group, "{nameof(AuthGroupPermission.AuthPermissionName)}" as Permission
-                FROM "{nameof(AuthContext.AuthGroupPermissions)}"
+                FROM "{nameof(AuthContext.AuthGroupPermissions)}";
                 """;
-            var res = await _dbConnection.QueryAsync<(string Group, string Permission)>(query);
-            return res.GroupBy(x => x.Group).Select(x => new GroupWithPermissionsDto
+            var queries = await _dbConnection.QueryMultipleAsync(query);
+
+            var res = await queries.ReadAsync<string>();
+            var res2 = await queries.ReadAsync<(string Group, string Permission)>();
+
+            var groups = res2.GroupBy(x => x.Group).Select(x => new GroupWithPermissionsDto
             {
                 GroupName = x.Key,
                 Permissions = x.Select(y => y.Permission).ToArray()
-            }).ToArray();
+            }).ToList();
+
+            groups.AddRange(res.Except(groups.Select(x => x.GroupName)).Select(x => new GroupWithPermissionsDto
+            {
+                GroupName = x,
+                Permissions = []
+            }));
+
+            return [.. groups];
         }
 
         public async Task<string[]> GetPermissions()
