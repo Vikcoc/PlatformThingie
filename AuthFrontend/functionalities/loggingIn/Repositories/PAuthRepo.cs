@@ -62,18 +62,16 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
         public async Task<IGrouping<Guid, string>?> GetUserByEmailWithPermissions(string email)
         {
             var query = $"""
-                SELECT usr."{nameof(AuthUser.AuthUserId)}" as User, p."{nameof(AuthPermission.AuthPermissionName)}" as Permission
+                SELECT usr."{nameof(AuthUser.AuthUserId)}" as User, gp."{nameof(AuthGroupPermission.AuthPermissionName)}" as Permission
                 FROM "{nameof(AuthContext.AuthUsers)}" usr
                 JOIN "{nameof(AuthContext.AuthUserClaims)}" clm
                 ON usr."{nameof(AuthUser.AuthUserId)}" = clm."{nameof(AuthUserClaim.AuthUserId)}"
-                JOIN "{nameof(AuthContext.AuthUserGroups)}" ug
+                LEFT JOIN "{nameof(AuthContext.AuthUserGroups)}" ug
                 ON usr."{nameof(AuthUser.AuthUserId)}" = ug."{nameof(AuthUserGroup.AuthUserId)}"
-                JOIN "{nameof(AuthContext.AuthGroups)}" g
+                LEFT JOIN "{nameof(AuthContext.AuthGroups)}" g
                 ON ug."{nameof(AuthUserGroup.AuthGroupName)}" = g."{nameof(AuthGroup.AuthGroupName)}"
-                JOIN "{nameof(AuthContext.AuthGroupPermissions)}" gp
+                LEFT JOIN "{nameof(AuthContext.AuthGroupPermissions)}" gp
                 ON g."{nameof(AuthGroup.AuthGroupName)}" = gp."{nameof(AuthGroupPermission.AuthGroupName)}"
-                JOIN "{nameof(AuthContext.AuthPermissions)}" p
-                ON gp."{nameof(AuthGroupPermission.AuthPermissionName)}" = p."{nameof(AuthPermission.AuthPermissionName)}"
                 WHERE clm."{nameof(AuthUserClaim.AuthClaimValue)}" = @Email;
                 """;
             //todo make the query prioritise users that do not reference another user
