@@ -35,6 +35,10 @@ namespace PublicInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "save-logo.svg"), "image/svg+xml"));
             endpoints.MapGet("/public/trashcan-logo",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "trashcan-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/edit-logo",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "edit-logo.svg"), "image/svg+xml"));
+            endpoints.MapGet("/public/reset-logo",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "reset-logo.svg"), "image/svg+xml"));
             endpoints.MapGet("/public/topbar/signed-in",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "all", "signed-in.js"), "text/javascript"));
             endpoints.MapGet("/public/authenticated-fetch",

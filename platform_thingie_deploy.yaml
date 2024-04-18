@@ -19,7 +19,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - modsig
+          - {InsertNodeNameHere}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -191,6 +191,23 @@ spec:
   - name: database-secrets
     secret:
       secretName: migration-secret
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: add-users-pod
+spec:
+  containers:
+  - name: migration
+    image: vikcoc/add_users_platform:sha-bbb5664
+    volumeMounts:
+    - name: add-users-secrets
+      mountPath: /app/conf
+  restartPolicy: Never
+  volumes:
+  - name: add-users-secrets
+    secret:
+      secretName: add-users-secret
 ---
 kind: Service
 apiVersion: v1

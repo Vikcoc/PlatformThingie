@@ -11,23 +11,15 @@
     <script src="/public/material-components" type="module"></script>
 
     <link rel="stylesheet" href="/public/centered-body">
+    <link rel="stylesheet" href="/profile/style">
+    <script src="/public/authenticated-fetch" type="module"></script>
+    <script src="/profile/script" type="module"></script>
 
-    <script src="/login/script"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
-    <title>Modsig Login</title>
+
+    <title>User Info</title>
 </head>
 
 <body>
-    <div id="g_id_onload"
-         data-client_id="735272745075-c17fa1lkpsv22cafukoae9f9voqbfmcg.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-
-    
     <div id="topBar">
         <md-filled-tonal-icon-button onclick="history.back();">
             <img src="/public/back-logo" alt="Back arrow" />
@@ -36,17 +28,22 @@
     </div>
 
     <section>
-        <h3>Log in using one of the following providers:</h3>
+        <h3>Hi</h3>
     </section>
 
-    <div class="g_id_signin"
-            data-type="standard"
-            data-shape="pill"
-            data-theme="filled_black"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left">
+    <div id="claimsContainer">
+
     </div>
+
+    <section class="horizontalLine">
+        <md-filled-tonal-icon-button id="plusButton">
+            <img src="/public/plus-logo" alt="Plus" />
+        </md-filled-tonal-icon-button>
+
+        <md-filled-tonal-icon-button id="saveButton">
+            <img src="/public/save-logo" alt="Save" />
+        </md-filled-tonal-icon-button>
+    </section>
 
 </body>
 

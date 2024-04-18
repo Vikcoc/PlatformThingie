@@ -11,12 +11,12 @@
     <script src="/public/material-components" type="module"></script>
 
     <link rel="stylesheet" href="/public/centered-body">
-    <link rel="stylesheet" href="/profile/style">
+    <link rel="stylesheet" href="/user/style">
     <script src="/public/authenticated-fetch" type="module"></script>
-    <script src="/profile/profile" type="module"></script>
+    <script src="/user/script" type="module"></script>
 
 
-    <title>User Info</title>
+    <title>Users</title>
 </head>
 
 <body>
@@ -24,26 +24,23 @@
         <md-filled-tonal-icon-button onclick="history.back();">
             <img src="/public/back-logo" alt="Back arrow" />
         </md-filled-tonal-icon-button>
-        <img src="/favicon.ico" alt="Modsig logo" />
+        <a href="/"><img src="/favicon.ico" alt="Modsig logo" /></a>
+        <md-filled-tonal-button onclick="location.href='/user/group';">Groups</md-filled-tonal-button>
     </div>
 
     <section>
-        <h3>Hi</h3>
+        <h3>Existing users</h3>
     </section>
 
-    <div id="claimsContainer">
+    <div id="halves">
+        <div class="verticalLine" id="userContainer">
+        </div>
+
+        <section class="verticalLine" id="groupsContainer">
+            
+        </section>
 
     </div>
-
-    <section class="horizontalLine">
-        <md-filled-tonal-icon-button id="plusButton">
-            <img src="/public/plus-logo" alt="Plus" />
-        </md-filled-tonal-icon-button>
-
-        <md-filled-tonal-icon-button id="saveButton">
-            <img src="/public/save-logo" alt="Save" />
-        </md-filled-tonal-icon-button>
-    </section>
 
 </body>
 

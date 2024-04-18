@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,11 +11,12 @@
     <script src="/public/material-components" type="module"></script>
 
     <link rel="stylesheet" href="/public/centered-body">
+    <link rel="stylesheet" href="/user/style">
     <script src="/public/authenticated-fetch" type="module"></script>
-    <script src="/inventory/template/script" type="module"></script>
+    <script src="/user/group/script" type="module"></script>
 
 
-    <title>Templates</title>
+    <title>Groups</title>
 </head>
 
 <body>
@@ -24,7 +25,27 @@
             <img src="/public/back-logo" alt="Back arrow" />
         </md-filled-tonal-icon-button>
         <a href="/"><img src="/favicon.ico" alt="Modsig logo" /></a>
-        <md-filled-tonal-button onclick="location.href='/inventory';">Items</md-filled-tonal-button>
+    </div>
+
+    <section>
+        <h3>Groups</h3>
+    </section>
+
+    <div id="halves">
+        <div class="verticalLine" id="groupContainer">
+            <section class="horizontalLine" id="plusContainer">
+                <md-outlined-text-field id="groupName" label="Group Name" value="">
+                </md-outlined-text-field>
+
+                <md-filled-tonal-icon-button id="plusButton">
+                    <img src="/public/plus-logo" alt="Plus" />
+                </md-filled-tonal-icon-button>
+            </section>
+        </div>
+
+        <section class="verticalLine" id="permissionContainer">
+        </section>
+
     </div>
 
 </body>

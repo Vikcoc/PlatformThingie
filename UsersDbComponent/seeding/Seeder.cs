@@ -35,10 +35,10 @@ namespace UsersDbComponent.seeding
                 y.AuthClaimRight = x.Value;
             }
 
-            if (!await db.AuthPermissions.AnyAsync(x => x.AuthPermissionName == "AuthAdmin"))
+            if (!await db.AuthPermissions.AnyAsync(x => x.AuthPermissionName == UserStrings.AuthAdmin))
             {
-                var permission = new AuthPermission { AuthPermissionName = "AuthAdmin" };
-                var group = new AuthGroup { AuthGroupName = "AuthAdmin" };
+                var permission = new AuthPermission { AuthPermissionName = UserStrings.AuthAdmin };
+                var group = new AuthGroup { AuthGroupName = UserStrings.AuthAdmin };
                 var groupPermission = new AuthGroupPermission
                 {
                     AuthGroupName = group.AuthGroupName,

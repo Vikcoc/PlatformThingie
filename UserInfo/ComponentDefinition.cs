@@ -30,11 +30,24 @@ namespace UserInfo
         public void AddRoutes(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/profile",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.html"), "text/html"));
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "profile", "profile.html"), "text/html"));
             endpoints.MapGet("/profile/style",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.css"), "text/css"));
-            endpoints.MapGet("/profile/profile",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "profile.js"), "text/javascript"));
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "profile", "profile.css"), "text/css"));
+            endpoints.MapGet("/profile/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "profile", "profile.js"), "text/javascript"));
+
+            endpoints.MapGet("/user",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "user.html"), "text/html"));
+            endpoints.MapGet("/user/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "user.css"), "text/css"));
+            endpoints.MapGet("/user/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "user.js"), "text/javascript"));
+            endpoints.MapGet("/user/group",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.html"), "text/html"));
+            endpoints.MapGet("/user/group/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.css"), "text/css"));
+            endpoints.MapGet("/user/group/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.js"), "text/javascript"));
 
             UserController.AddRoutes(endpoints);
         }
