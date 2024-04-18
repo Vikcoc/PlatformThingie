@@ -149,9 +149,6 @@ async function getPermissions() {
     });
 }
 
-document.getElementsByTagName("section")[0].onclick =
-    () => console.log("toDebug");
-
 function makeGroupButton() {
     var name = document.getElementById("groupName");
     var grp = createGroup(name.value, []);
