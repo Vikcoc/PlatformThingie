@@ -42,6 +42,12 @@ namespace UserInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "user.css"), "text/css"));
             endpoints.MapGet("/user/script",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "user", "user.js"), "text/javascript"));
+            endpoints.MapGet("/user/group",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.html"), "text/html"));
+            endpoints.MapGet("/user/group/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.css"), "text/css"));
+            endpoints.MapGet("/user/group/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "group", "group.js"), "text/javascript"));
 
             UserController.AddRoutes(endpoints);
         }

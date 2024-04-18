@@ -36,6 +36,21 @@ namespace UserInfo.functionalities.user
             endpoints.MapPost("/user", SaveUser)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
                                             .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
+
+            endpoints.MapGet("/user/group/all", GetGroupsWithPermissions)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
+
+            endpoints.MapGet("/user/group/permissions", GetPermissions)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
+
+            endpoints.MapPost("/user/group", CreateOrSaveGroup)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
+            endpoints.MapDelete("/user/group", DeleteGroup)
+                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
+                                            .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -85,6 +100,39 @@ namespace UserInfo.functionalities.user
         {
             await profileRepo.DeleteAndRewriteUserGroups(user.UserId, user.Groups);
             return TypedResults.NoContent();
+        }
+
+        public static async Task<IResult> GetGroupsWithPermissions([FromServices] PProfileRepo profileRepo)
+        {
+            return TypedResults.Ok(await profileRepo.GetGroupsWithPermissions());
+        }
+
+        public static async Task<IResult> GetPermissions([FromServices] PProfileRepo profileRepo)
+        {
+            return TypedResults.Ok(await profileRepo.GetPermissions());
+        }
+
+        public static async Task<IResult> CreateOrSaveGroup([FromBody] GroupWithPermissionsDto group, [FromServices] PProfileRepo profileRepo)
+        {
+            if (await profileRepo.GroupExists(group.GroupName))
+            {
+                await profileRepo.DeleteAndRewriteGroupPermissions(group.GroupName, group.Permissions);
+                return TypedResults.NoContent();
+            }
+            var success = await profileRepo.CreateGroupPermissions(group.GroupName, group.Permissions);
+            if(success) 
+                return TypedResults.NoContent();
+            return TypedResults.Problem("Cannot create");
+        }
+
+        public static async Task<IResult> DeleteGroup([FromBody] string groupName, [FromServices] PProfileRepo profileRepo)
+        {
+            if(!await profileRepo.GroupExists(groupName))
+                return TypedResults.BadRequest("Wrong group");
+            var success = await profileRepo.DeleteGroup(groupName);
+            if (success)
+                return TypedResults.NoContent();
+            return TypedResults.Problem("Cannot delete");
         }
     }
 }

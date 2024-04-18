@@ -3,6 +3,7 @@ using AuthFrontend.seeds;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using System.Text.RegularExpressions;
 using UserInfo.functionalities.user.dtos;
 using UsersDbComponent.entities;
 using static Dapper.SqlMapper;
@@ -168,7 +169,7 @@ namespace UserInfo.functionalities.user.Repositories
                 INSERT INTO "{nameof(AuthContext.AuthUserGroups)}"
                 ("{nameof(AuthUserGroup.AuthUserId)}",
                 "{nameof(AuthUserGroup.AuthGroupName)}")
-                VALUES (@UserId, @Group)
+                VALUES (@UserId, @Group);
                 """;
 
             _dbConnection.Open();
@@ -186,6 +187,128 @@ namespace UserInfo.functionalities.user.Repositories
             }).ToArray());
 
             transaction.Commit();
+        }
+
+        public async Task<GroupWithPermissionsDto[]> GetGroupsWithPermissions()
+        {
+            var query = $"""
+                SELECT "{nameof(AuthGroupPermission.AuthGroupName)}" as Group, "{nameof(AuthGroupPermission.AuthPermissionName)}" as Permission
+                FROM "{nameof(AuthContext.AuthGroupPermissions)}"
+                """;
+            var res = await _dbConnection.QueryAsync<(string Group, string Permission)>(query);
+            return res.GroupBy(x => x.Group).Select(x => new GroupWithPermissionsDto
+            {
+                GroupName = x.Key,
+                Permissions = x.Select(y => y.Permission).ToArray()
+            }).ToArray();
+        }
+
+        public async Task<string[]> GetPermissions()
+        {
+            var query = $"""
+                SELECT "{nameof(AuthPermission.AuthPermissionName)}" as Value
+                FROM "{nameof(AuthContext.AuthPermissions)}"
+                """;
+            var res = await _dbConnection.QueryAsync<string>(query);
+            return res.ToArray();
+        }
+
+        public async Task DeleteAndRewriteGroupPermissions(string groupName, IEnumerable<string> permissions)
+        {
+            var query = $"""
+                DELETE FROM "{nameof(AuthContext.AuthGroupPermissions)}"
+                WHERE "{nameof(AuthGroupPermission.AuthGroupName)}" = @GroupName;
+                """;
+            var query2 = $"""
+                INSERT INTO "{nameof(AuthContext.AuthGroupPermissions)}"
+                ("{nameof(AuthGroupPermission.AuthGroupName)}",
+                "{nameof(AuthGroupPermission.AuthPermissionName)}")
+                VALUES (@GroupName, @Permission);
+                """;
+
+            _dbConnection.Open();
+            using var transaction = _dbConnection.BeginTransaction();
+
+            var res = await _dbConnection.ExecuteAsync(query, new
+            {
+                GroupName = groupName
+            });
+
+            var res2 = await _dbConnection.ExecuteAsync(query2, permissions.Select(g => new
+            {
+                GroupName = groupName,
+                Permission = g
+            }).ToArray());
+
+            transaction.Commit();
+        }
+
+        public async Task<bool> CreateGroupPermissions(string groupName, string[] permissions)
+        {
+            var query = $"""
+                INSERT INTO "{nameof(AuthContext.AuthGroups)}"
+                ("{nameof(AuthGroup.AuthGroupName)}")
+                VALUES (@GroupName);
+                """;
+            var query2 = $"""
+                INSERT INTO "{nameof(AuthContext.AuthGroupPermissions)}"
+                ("{nameof(AuthGroupPermission.AuthGroupName)}",
+                "{nameof(AuthGroupPermission.AuthPermissionName)}")
+                VALUES (@GroupName, @Permission);
+                """;
+
+            _dbConnection.Open();
+            using var transaction = _dbConnection.BeginTransaction();
+
+            var res = await _dbConnection.ExecuteAsync(query, new
+            {
+                GroupName = groupName
+            });
+
+            if (res == 0)
+                return false;
+
+            var res2 = await _dbConnection.ExecuteAsync(query2, permissions.Select(g => new
+            {
+                GroupName = groupName,
+                Permission = g
+            }).ToArray());
+
+            //groups can have no permissions
+            transaction.Commit();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteGroup(string groupName)
+        {
+            var query = $"""
+                DELETE FROM "{nameof(AuthContext.AuthGroupPermissions)}"
+                WHERE "{nameof(AuthGroupPermission.AuthGroupName)}" = @GroupName;
+
+                DELETE FROM "{nameof(AuthContext.AuthGroups)}"
+                WHERE "{nameof(AuthGroup.AuthGroupName)}" = @GroupName;
+                """;
+
+            return await _dbConnection.ExecuteAsync(query, new
+            {
+                GroupName = groupName
+            }) != 0;
+        }
+
+        public async Task<bool> GroupExists(string groupName)
+        {
+            var query = $"""
+                SELECT COUNT(1) FROM "{nameof(AuthContext.AuthGroups)}" as Value
+                WHERE "{nameof(AuthGroup.AuthGroupName)}" = @GroupName;
+                """;
+
+            var res = await _dbConnection.QueryAsync<int>(query, new
+            {
+                GroupName = groupName
+            });
+
+            return res.First() != 0;
         }
     }
 }

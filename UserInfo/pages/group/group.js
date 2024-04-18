@@ -6,28 +6,95 @@ function resetPermissions(active) {
         ch.getElementsByTagName("md-checkbox")[0].checked = active.includes(ch.innerText));
 }
 
-let editedUser = null;
+let editedGroup = null;
 function grabEdit(parent) {
-    if (editedUser != null) {
-        var buttons = editedUser.getElementsByTagName("md-filled-tonal-icon-button");
+    if (editedGroup != null) {
+        var buttons = editedGroup.getElementsByTagName("md-filled-tonal-icon-button");
         buttons[0].style = "display: true";
         buttons[1].style = "display: none";
         buttons[2].style = "display: none";
+        buttons[3].style = "display: none";
     }
 
-    editedUser = parent;
+    editedGroup = parent;
     if (parent == null) {
         resetPermissions([]);
         return;
     }
-    resetPermissions(editedUser.groups);
-    var buttons = editedUser.getElementsByTagName("md-filled-tonal-icon-button");
+    resetPermissions(editedGroup.permissions);
+    var buttons = editedGroup.getElementsByTagName("md-filled-tonal-icon-button");
     buttons[0].style = "display: none";
     buttons[1].style = "display: true";
     buttons[2].style = "display: true";
+    buttons[3].style = "display: true";
+}
+
+function createGroup(groupName, permissions) {
+    var sec = document.createElement("section");
+    sec.classList.add("horizontalLine");
+    sec.permissions = permissions.filter(val => true);
+    sec.groupName = groupName;
+
+    var group = document.createElement("div");
+    group.innerText = groupName;
+    sec.appendChild(group);
+
+    for (const i of [["/public/edit-logo", "Edit", () => grabEdit(sec), "display: true"],
+    ["/public/save-logo", "Save", async () => {
+        var res = await authenticatedFetch("/user/group", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                groupName: sec.groupName,
+                permissions: sec.permissions
+            })
+        });
+
+        if (!res.ok)
+            window.alert("Couldn't save");
+        else {
+            grabEdit(null);
+            permissions = sec.permissions;
+        }
+    }, "display: none"],
+    ["/public/reset-logo", "Reset", () => {
+        sec.permissions = permissions.filter(() => true);
+        resetPermissions(sec.permissions);
+    }, "display: none"],
+    ["/public/trashcan-logo", "Remove", async () => {
+        var res = await authenticatedFetch("/user/group", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sec.groupName)
+        });
+
+        if (!res.ok)
+            window.alert("Couldn't delete");
+        else {
+            sec.parentElement.removeChild(sec);
+            resetPermissions([]);
+        }
+    }, "display: none"]
+    ]) {
+        var but = document.createElement("md-filled-tonal-icon-button");
+        but.onclick = i[2];
+        but.style = i[3];
+
+        var icon = document.createElement("img");
+        icon.src = i[0];
+        icon.alt = i[1];
+        but.appendChild(icon);
+        sec.appendChild(but);
+    }
+
+    return sec
 }
 async function getGroupsWithPermissions() {
-    var res = await authenticatedFetch("/group/all", {
+    var res = await authenticatedFetch("/user/group/all", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -38,60 +105,19 @@ async function getGroupsWithPermissions() {
         return;
 
     var dto = await res.json();
-    var userContainer = document.getElementById("groupContainer");
+    var groupsContainer = document.getElementById("groupContainer");
     dto.forEach(us => {
-        var sec = document.createElement("section");
-        sec.classList.add("horizontalLine");
-        sec.groups = us.groups.filter(val => true);
-        sec.userId = us.userId;
-
-        var emails = document.createElement("div");
-        emails.innerText = us.emails.reduce((a, b) => a + "\n" + b);
-        sec.appendChild(emails);
-
-        for (const i of [["/public/edit-logo", "Edit", () => grabEdit(sec), "display: true"],
-        ["/public/save-logo", "Save", async () => {
-            var res = await authenticatedFetch("/group", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    userId: sec.userId,
-                    groups: sec.groups
-                })
-            });
-
-            if (!res.ok)
-                window.alert("Couldn't save");
-            else {
-                grabEdit(null);
-                us.groups = sec.groups;
-            }
-        }, "display: none"],
-        ["/public/reset-logo", "Reset", () => {
-            sec.groups = us.groups.filter(val => true);
-            resetPermissions(sec.groups);
-        }, "display: none"]
-        ]) {
-            var but = document.createElement("md-filled-tonal-icon-button");
-            but.onclick = i[2];
-            but.style = i[3];
-
-            var icon = document.createElement("img");
-            icon.src = i[0];
-            icon.alt = i[1];
-            but.appendChild(icon);
-
-            sec.appendChild(but);
-        }
-
-        userContainer.appendChild(sec);
+        groupsContainer.appendChild(createGroup(us.groupName, us.permissions));
     });
+
+    var pCont = document.getElementById("plusContainer");
+    groupsContainer.removeChild(pCont);
+    groupsContainer.appendChild(pCont);
+
 }
 
-async function getGroups() {
-    var res = await authenticatedFetch("/group/permissions", {
+async function getPermissions() {
+    var res = await authenticatedFetch("/user/group/permissions", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -102,7 +128,7 @@ async function getGroups() {
         return;
 
     var dto = await res.json();
-    var groupsContainer = document.getElementById("permissionContainer");
+    var permissionsContainer = document.getElementById("permissionContainer");
     dto.forEach(gr => {
         var sec = document.createElement("label");
         var check = document.createElement("md-checkbox");
@@ -110,18 +136,38 @@ async function getGroups() {
         sec.appendChild(check);
         sec.innerHTML += "\n" + gr;
         sec.onclick = (hand) => {
-            if (editedUser == null)
+            if (editedGroup == null)
                 return;
             if (!hand.target.checked)
-                editedUser.groups.push(gr);
+                editedGroup.permissions.push(gr);
             else
-                editedUser.groups = editedUser.groups.filter(val => val != gr);
+                editedGroup.permissions = editedGroup.permissions.filter(val => val != gr);
 
         }
 
-        groupsContainer.appendChild(sec);
+        permissionsContainer.appendChild(sec);
     });
 }
 
-await getGroups();
+document.getElementsByTagName("section")[0].onclick =
+    () => console.log("toDebug");
+
+function makeGroupButton() {
+    var name = document.getElementById("groupName");
+    var grp = createGroup(name.value, []);
+
+    var groupsContainer = document.getElementById("groupContainer");
+    groupsContainer.appendChild(grp);
+    grabEdit(grp);
+
+    name.value = "";
+    var pCont = document.getElementById("plusContainer");
+    groupsContainer.removeChild(pCont);
+    groupsContainer.appendChild(pCont);
+    
+}
+
+document.getElementById("plusButton").onclick = makeGroupButton
+
+await getPermissions();
 await getGroupsWithPermissions();

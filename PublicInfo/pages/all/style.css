@@ -53,5 +53,5 @@ label {
 .verticalLine {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 0.5em;
 }
