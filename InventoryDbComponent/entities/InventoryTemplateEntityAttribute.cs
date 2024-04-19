@@ -11,7 +11,7 @@ namespace InventoryDbComponent.entities
         //[ForeignKey(nameof(InventoryTemplate))]
         public uint InventoryTemplateVersion { get; set; }
         public required string InventoryTemplateEntityAttributeName { get; set; }
-        public string? InventoryTemplateEntityAttributeAction { get; set; }
+        public required string InventoryTemplateEntityAttributeAction { get; set; }
 
         public required InventoryTemplate InventoryTemplate { get; set; }
         public IList<InventoryEntityAttributeValue> InventoryEntityAttributeValues { get; set; } = [];
