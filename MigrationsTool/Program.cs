@@ -14,7 +14,8 @@ builder.Configuration.Sources.Add(new JsonConfigurationSource()
 builder.Services.AddSingleton<ICollection<IMigrationProvider>>(x =>
 [
     new UsersDbComponent.seeding.Seeder(),
-    new InventoryDbComponent.seeding.Seeder()
+    new InventoryDbComponent.seeding.Seeder(),
+    new InvTemplateDbComponent.seeding.Seeder()
 ]);
 
 using IHost host = builder.Build();
