@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryWeb", "InventoryWe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthAddUsersToGroups", "AuthAddUsersToGroups\AuthAddUsersToGroups.csproj", "{DB0BDE43-0395-4723-8651-E83D0BAAE883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvTemplateDbComponent", "InvTemplateDbComponent\InvTemplateDbComponent.csproj", "{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvTemplateDbComponent", "InvTemplateDbComponent\InvTemplateDbComponent.csproj", "{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvTemplateInfo", "InvTemplateInfo\InvTemplateInfo.csproj", "{635F8A36-2A3E-4AB8-B367-FE562849E8C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,6 +151,10 @@ Global
 		{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{635F8A36-2A3E-4AB8-B367-FE562849E8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{635F8A36-2A3E-4AB8-B367-FE562849E8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{635F8A36-2A3E-4AB8-B367-FE562849E8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{635F8A36-2A3E-4AB8-B367-FE562849E8C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

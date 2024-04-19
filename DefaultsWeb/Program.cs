@@ -7,4 +7,5 @@ Startup.BuildAndStart(args,
     new UserInfo.ComponentDefinition(),
     new InventoryInfo.ComponentDefinition(),
     new InventoryScripts.ComponentDefinition(),
+    new InvTemplateInfo.ComponentDefinition(),
 ]);
