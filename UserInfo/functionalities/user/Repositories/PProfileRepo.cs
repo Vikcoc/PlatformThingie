@@ -3,7 +3,6 @@ using AuthFrontend.seeds;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
-using System.Text.RegularExpressions;
 using UserInfo.functionalities.user.dtos;
 using UsersDbComponent.entities;
 using static Dapper.SqlMapper;

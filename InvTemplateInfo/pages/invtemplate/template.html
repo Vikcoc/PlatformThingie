@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/public/color">
+    <link rel="stylesheet" href="/public/font">
+    <link rel="stylesheet" href="/public/style">
+    <link rel="stylesheet" href="/public/topbar">
+    <script src="/public/material-components" type="module"></script>
+
+    <link rel="stylesheet" href="/public/centered-body">
+    <link rel="stylesheet" href="/invtemplate/style">
+    <script src="/public/authenticated-fetch" type="module"></script>
+    <script src="/invtemplate/script" type="module"></script>
+
+
+    <title>Groups</title>
+</head>
+
+<body>
+    <div id="topBar">
+        <md-filled-tonal-icon-button onclick="history.back();">
+            <img src="/public/back-logo" alt="Back arrow" />
+        </md-filled-tonal-icon-button>
+        <a href="/"><img src="/favicon.ico" alt="Modsig logo" /></a>
+        <md-filled-tonal-button onclick="location.href='/invtemplate/permission';">Permissions</md-filled-tonal-button>
+    </div>
+
+    <section>
+        <h3>Inventory Templates</h3>
+    </section>
+
+    <div id="quarters">
+        <div class="verticalLine" id="templateContainer">
+
+            <section class="horizontalLine">
+                <h4>Template1</h4>
+                <h4>0</h4>
+                <md-filled-tonal-icon-button>
+                    <img src="/public/save-logo" alt="Save" />
+                </md-filled-tonal-icon-button>
+                <md-filled-tonal-button>Release</md-filled-tonal-button>
+            </section>
+
+            <section class="horizontalLine" id="plusContainer">
+                <md-outlined-text-field id="templateName" label="Template Name" value="">
+                </md-outlined-text-field>
+
+                <md-filled-tonal-icon-button id="plusButton">
+                    <img src="/public/plus-logo" alt="Plus" />
+                </md-filled-tonal-icon-button>
+            </section>
+        </div>
+
+        <div class="verticalLine" id="attributeContainer">
+            <section class="horizontalLine" id="attrPlusContainer">
+                <md-outlined-select>
+                    <md-select-option selected value="apple">
+                        <div slot="headline">Apple</div>
+                    </md-select-option>
+                    <md-select-option value="apricot">
+                        <div slot="headline">Apricot</div>
+                    </md-select-option>
+                </md-outlined-select>
+                <md-filled-tonal-icon-button id="attrPlusButton">
+                    <img src="/public/plus-logo" alt="Plus" />
+                </md-filled-tonal-icon-button>
+            </section>
+        </div>
+
+        <div class="verticalLine" id="entityAttributeContainer">
+            <section class="horizontalLine" id="entAttrPlusContainer">
+                <md-outlined-select>
+                    <md-select-option selected value="apple">
+                        <div slot="headline">Apple</div>
+                    </md-select-option>
+                    <md-select-option value="apricot">
+                        <div slot="headline">Apricot</div>
+                    </md-select-option>
+                </md-outlined-select>
+                <md-filled-tonal-icon-button id="entAttrPlusButton">
+                    <img src="/public/plus-logo" alt="Plus" />
+                </md-filled-tonal-icon-button>
+            </section>
+        </div>
+
+        <div class="verticalLine" id="permissionContainer">
+            <section class="horizontalLine">
+                <label>
+                    <md-checkbox touch-target="wrapper"></md-checkbox>
+                    Permission 1
+                </label>
+                <label>
+                    <md-checkbox touch-target="wrapper"></md-checkbox>
+                    Writeable
+                </label>
+            </section>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
