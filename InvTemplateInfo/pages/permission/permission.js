@@ -1,7 +1,5 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
-
-
 function createButton(name, canDelete, canSave) {
     var sec = document.createElement("section");
     sec.classList.add("horizontalLine");

@@ -14,13 +14,13 @@ namespace InvTemplateInfo.functionalities.permission
         {
             endpoints.MapGet("/invtemplate/permission/all", GetPermission)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
-                                            .RequireClaim(ImportantStrings.PermissionSet, "AuthAdmin"));
+                                            .RequireClaim(ImportantStrings.PermissionSet, TemplatesStrings.TemplateAdmin));
             endpoints.MapPost("/invtemplate/permission", CreatePermission)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
-                                            .RequireClaim(ImportantStrings.PermissionSet, "AuthAdmin"));
+                                            .RequireClaim(ImportantStrings.PermissionSet, TemplatesStrings.TemplateAdmin));
             endpoints.MapDelete("/invtemplate/permission", DeletePermission)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
-                                            .RequireClaim(ImportantStrings.PermissionSet, "AuthAdmin"));
+                                            .RequireClaim(ImportantStrings.PermissionSet, TemplatesStrings.TemplateAdmin));
         }
 
         public static void AddServices(IServiceCollection services)
@@ -36,7 +36,7 @@ namespace InvTemplateInfo.functionalities.permission
         public static async Task<IResult> DeletePermission([FromBody] string permission, [FromServices] PPermissionRepo permissionRepo)
         {
             var existing = await permissionRepo.GetTemplatesWithAttributesByPermission(permission);
-            if(existing.Any())
+            if(existing.Length != 0)
                 return TypedResults.BadRequest(existing);
             await permissionRepo.DeletePermission(permission);
             return TypedResults.NoContent();

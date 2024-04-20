@@ -86,8 +86,7 @@ namespace UserInfo.functionalities.user.Repositories
                 foreach (var pair in theData.SelectMany(x => (IEnumerable<KeyValuePair<string, object>>)x))
                     dbArgs.Add(pair.Key, pair.Value);
 
-                query = query +
-                    $"""
+                query += $"""
 
                     INSERT INTO "{nameof(AuthContext.AuthUserClaims)}"
                         ("{nameof(AuthUserClaim.AuthUserClaimId)}"

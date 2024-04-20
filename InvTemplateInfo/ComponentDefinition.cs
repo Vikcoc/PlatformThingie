@@ -1,4 +1,5 @@
-﻿using InvTemplateInfo.functionalities.permission;
+﻿using InvTemplateInfo.functionalities.invtemplate;
+using InvTemplateInfo.functionalities.permission;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -36,6 +37,7 @@ namespace InvTemplateInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "permission", "permission.js"), "text/javascript"));
 
             PermissionController.AddRoutes(endpoints);
+            InvTemplateController.AddRoutes(endpoints);
 
         }
 
@@ -48,6 +50,7 @@ namespace InvTemplateInfo
             });
 
             PermissionController.AddServices(services);
+            InvTemplateController.AddServices(services);
         }
     }
 }

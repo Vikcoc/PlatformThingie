@@ -53,11 +53,6 @@ namespace UserInfo.functionalities.user
                                             .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
         }
 
-        public static void AddServices(IServiceCollection services)
-        {
-            
-        }
-
         public static async Task<IResult> GetUserProps(HttpContext context, [FromServices] PProfileRepo profileRepo)
         {
             var userId = Guid.Parse(context.User.Claims.First(x => x.Type == SeedAuthClaimNames.UserId).Value);

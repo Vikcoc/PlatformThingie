@@ -23,8 +23,6 @@ namespace UserInfo
                 return new NpgsqlConnection(theConnection);
             });
             services.AddScoped<PProfileRepo>();
-
-            UserController.AddServices(services);
         }
 
         public void AddRoutes(IEndpointRouteBuilder endpoints)
