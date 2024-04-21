@@ -3,6 +3,7 @@ using InvTemplateDbComponent.entities;
 using InvTemplateInfo.functionalities.invtemplate.dtos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace InvTemplateInfo.functionalities.invtemplate.repo
 {
@@ -139,6 +140,197 @@ namespace InvTemplateInfo.functionalities.invtemplate.repo
 
             var res = await _dbConnection.QueryAsync<string>(query);
             return res.ToArray();
+        }
+
+        public async Task<bool> ExistsTemplate(string templateName, int templateVersion)
+        {
+            var query = $"""
+                SELECT COUNT(1) as Value
+                FROM "{nameof(InvTemplateContext.InvTemplates)}"
+                WHERE "{nameof(InvTemplate.InvTemplateName)}" = @TemplateName
+                AND "{nameof(InvTemplate.InvTemplateVersion)}" = @TemplateVersion;
+                """;
+
+            var res = await _dbConnection.QueryFirstAsync<int>(query, new
+            {
+                TemplateName = templateName,
+                TemplateVersion = templateVersion
+            });
+            return 0 != res;
+        }
+
+        public async Task CreateTemplate(TemplateForCreationDto dto)
+        {
+            var tempQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplates)}"
+                ("{nameof(InvTemplate.InvTemplateName)}", "{nameof(InvTemplate.InvTemplateVersion)}", "{nameof(InvTemplate.Released)}")
+                VALUES (@TemplateName, @TemplateVersion, false);
+                """;
+            var tempAttrQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplatesAttrs)}"
+                ("{nameof(InvTemplateAttr.InvTemplateName)}", "{nameof(InvTemplateAttr.InvTemplateVersion)}", "{nameof(InvTemplateAttr.InvTemplateAttrName)}", "{nameof(InvTemplateAttr.InvTemplateAttrAction)}", "{nameof(InvTemplateAttr.InvTemplateAttrValue)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrAction, @AttrValue);
+                """;
+
+            var tempAttrPermQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplatesAttrPermissions)}"
+                ("{nameof(InvTemplateAttrPermission.InvTemplateName)}", "{nameof(InvTemplateAttrPermission.InvTemplateVersion)}", "{nameof(InvTemplateAttrPermission.InvTemplateAttrName)}", "{nameof(InvTemplateAttrPermission.InvTemplatePermissionName)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrPerm);
+                """;
+
+            var entAttrQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplateEntAttrs)}"
+                ("{nameof(InvTemplateEntAttr.InvTemplateName)}", "{nameof(InvTemplateEntAttr.InvTemplateVersion)}", "{nameof(InvTemplateEntAttr.InvTemplateEntAttrName)}", "{nameof(InvTemplateEntAttr.InvTemplateEntAttrAction)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrAction);
+                """;
+
+            var entAttrPermQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplateEntAttrPermissions)}"
+                ("{nameof(InvTemplateEntAttrPermission.InvTemplateName)}", "{nameof(InvTemplateEntAttrPermission.InvTemplateVersion)}", "{nameof(InvTemplateEntAttrPermission.InvTemplateEntAttrName)}", "{nameof(InvTemplateEntAttrPermission.InvTemplatePermissionName)}", "{nameof(InvTemplateEntAttrPermission.Writeable)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrPerm, @Writeable);
+                """;
+
+            _dbConnection.Open();
+            using var transaction = _dbConnection.BeginTransaction();
+
+            await _dbConnection.ExecuteAsync(tempQuery, new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion
+            });
+
+            await _dbConnection.ExecuteAsync(tempAttrQuery, dto.TemplateAttributes.Select(x => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrAction = x.AttrAction,
+                AttrValue = x.AttrValue,
+            }).ToArray());
+            await _dbConnection.ExecuteAsync(tempAttrPermQuery, dto.TemplateAttributes.SelectMany(x => x.Permissions.Select(y => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrPerm = y
+            })).ToArray());
+
+            await _dbConnection.ExecuteAsync(entAttrQuery, dto.EntityAttributes.Select(x => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrAction = x.AttrAction
+            }).ToArray());
+            await _dbConnection.ExecuteAsync(entAttrPermQuery, dto.EntityAttributes.SelectMany(x => x.Permissions.Select(y => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrPerm = y.Permission,
+                Writeable = y.Writeable
+            })).ToArray());
+
+            transaction.Commit();
+        }
+
+        public async Task DeleteAndRecreateParams(TemplateForCreationDto dto)
+        {
+            var tempQuery = $"""
+                DELETE FROM "{nameof(InvTemplateContext.InvTemplateEntAttrPermissions)}"
+                WHERE "{nameof(InvTemplateEntAttrPermission.InvTemplateName)}" = @TemplateName AND "{nameof(InvTemplateEntAttrPermission.InvTemplateVersion)}" = @TemplateVersion;
+
+                DELETE FROM "{nameof(InvTemplateContext.InvTemplateEntAttrs)}"
+                WHERE "{nameof(InvTemplateEntAttr.InvTemplateName)}" = @TemplateName AND "{nameof(InvTemplateEntAttr.InvTemplateVersion)}" = @TemplateVersion;
+
+                DELETE FROM "{nameof(InvTemplateContext.InvTemplatesAttrPermissions)}"
+                WHERE "{nameof(InvTemplateAttrPermission.InvTemplateName)}" = @TemplateName AND "{nameof(InvTemplateAttrPermission.InvTemplateVersion)}" = @TemplateVersion;
+
+                DELETE FROM "{nameof(InvTemplateContext.InvTemplatesAttrs)}"
+                WHERE "{nameof(InvTemplateAttr.InvTemplateName)}" = @TemplateName AND "{nameof(InvTemplateAttr.InvTemplateVersion)}" = @TemplateVersion;
+                """;
+            var tempAttrQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplatesAttrs)}"
+                ("{nameof(InvTemplateAttr.InvTemplateName)}", "{nameof(InvTemplateAttr.InvTemplateVersion)}", "{nameof(InvTemplateAttr.InvTemplateAttrName)}", "{nameof(InvTemplateAttr.InvTemplateAttrAction)}", "{nameof(InvTemplateAttr.InvTemplateAttrValue)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrAction, @AttrValue);
+                """;
+
+            var tempAttrPermQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplatesAttrPermissions)}"
+                ("{nameof(InvTemplateAttrPermission.InvTemplateName)}", "{nameof(InvTemplateAttrPermission.InvTemplateVersion)}", "{nameof(InvTemplateAttrPermission.InvTemplateAttrName)}", "{nameof(InvTemplateAttrPermission.InvTemplatePermissionName)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrPerm);
+                """;
+
+            var entAttrQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplateEntAttrs)}"
+                ("{nameof(InvTemplateEntAttr.InvTemplateName)}", "{nameof(InvTemplateEntAttr.InvTemplateVersion)}", "{nameof(InvTemplateEntAttr.InvTemplateEntAttrName)}", "{nameof(InvTemplateEntAttr.InvTemplateEntAttrAction)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrAction);
+                """;
+
+            var entAttrPermQuery = $"""
+                INSERT INTO "{nameof(InvTemplateContext.InvTemplateEntAttrPermissions)}"
+                ("{nameof(InvTemplateEntAttrPermission.InvTemplateName)}", "{nameof(InvTemplateEntAttrPermission.InvTemplateVersion)}", "{nameof(InvTemplateEntAttrPermission.InvTemplateEntAttrName)}", "{nameof(InvTemplateEntAttrPermission.InvTemplatePermissionName)}", "{nameof(InvTemplateEntAttrPermission.Writeable)}")
+                VALUES (@TemplateName, @TemplateVersion, @AttrName, @AttrPerm, @Writeable);
+                """;
+
+            _dbConnection.Open();
+            using var transaction = _dbConnection.BeginTransaction();
+
+            await _dbConnection.ExecuteAsync(tempQuery, new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion
+            });
+
+            await _dbConnection.ExecuteAsync(tempAttrQuery, dto.TemplateAttributes.Select(x => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrAction = x.AttrAction,
+                AttrValue = x.AttrValue,
+            }).ToArray());
+            await _dbConnection.ExecuteAsync(tempAttrPermQuery, dto.TemplateAttributes.SelectMany(x => x.Permissions.Select(y => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrPerm = y
+            })).ToArray());
+
+            await _dbConnection.ExecuteAsync(entAttrQuery, dto.EntityAttributes.Select(x => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrAction = x.AttrAction
+            }).ToArray());
+            await _dbConnection.ExecuteAsync(entAttrPermQuery, dto.EntityAttributes.SelectMany(x => x.Permissions.Select(y => new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion,
+                AttrName = x.AttrName,
+                AttrPerm = y.Permission,
+                Writeable = y.Writeable
+            })).ToArray());
+
+            transaction.Commit();
+        }
+
+        public async Task ReleaseTemplate(TemplateForReleaseDto dto)
+        {
+            var tempQuery = $"""
+                UPDATE "{nameof(InvTemplateContext.InvTemplates)}"
+                SET "{nameof(InvTemplate.Released)}" = true
+                WHERE "{nameof(InvTemplate.InvTemplateName)}" = @TemplateName
+                AND "{nameof(InvTemplate.InvTemplateVersion)}" = @TemplateVersion;
+                """;
+
+            await _dbConnection.ExecuteAsync(tempQuery, new
+            {
+                TemplateName = dto.TemplateName,
+                TemplateVersion = dto.TemplateVersion
+            });
         }
     }
 }

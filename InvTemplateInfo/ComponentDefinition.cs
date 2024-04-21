@@ -17,26 +17,12 @@ namespace InvTemplateInfo
 
         public void AddRoutes(IEndpointRouteBuilder endpoints)
         {
-            //design
-            //4 vertical columns (similar to the 2 of user admin)
-            //1 for group (one of each version)
-            //1 for template attributes
-            //1 for entity attributes
-            //1 for the access rights (with writeable check that gets hidden for template attributes)
-
             endpoints.MapGet("/invtemplate",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "invtemplate", "template.html"), "text/html"));
             endpoints.MapGet("/invtemplate/style",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "invtemplate", "template.css"), "text/css"));
             endpoints.MapGet("/invtemplate/script",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "invtemplate", "template.js"), "text/javascript"));
-
-            endpoints.MapGet("/invtemplate/test",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.html"), "text/html"));
-            endpoints.MapGet("/invtemplate/test/style",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.css"), "text/css"));
-            endpoints.MapGet("/invtemplate/test/script",
-                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.js"), "text/javascript"));
 
             endpoints.MapGet("/invtemplate/permission",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "permission", "permission.html"), "text/html"));

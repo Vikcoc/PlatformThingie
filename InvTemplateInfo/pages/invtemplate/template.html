@@ -16,7 +16,7 @@
     <script src="/invtemplate/script" type="module"></script>
 
 
-    <title>Groups</title>
+    <title>Templates</title>
 </head>
 
 <body>
@@ -32,65 +32,81 @@
         <h3>Inventory Templates</h3>
     </section>
 
-    <div id="quarters">
+    <div id="onetwo">
         <div class="verticalLine" id="templateContainer">
-
-            <section class="horizontalLine">
-                <h4>Template1</h4>
-                <h4>0</h4>
-                <md-filled-tonal-icon-button>
-                    <img src="/public/save-logo" alt="Save" />
-                </md-filled-tonal-icon-button>
-                <md-filled-tonal-button>Release</md-filled-tonal-button>
-            </section>
-
-            <section class="horizontalLine" id="plusContainer">
-                <md-outlined-text-field id="templateName" label="Template Name" value="">
+            <section class="horizontalLine plusContainer">
+                <md-outlined-text-field class="name" label="Template Name" value="">
                 </md-outlined-text-field>
 
-                <md-filled-tonal-icon-button id="plusButton">
+                <md-filled-tonal-icon-button class="plusButton">
                     <img src="/public/plus-logo" alt="Plus" />
                 </md-filled-tonal-icon-button>
             </section>
         </div>
 
         <div class="verticalLine" id="attributeContainer">
-            <section class="horizontalLine" id="attrPlusContainer">
-                <md-outlined-text-field id="attrName" label="Template Name" value="">
-                </md-outlined-text-field>
-                <md-outlined-select id="attrAct">
+            <section class="horizontalLine">
+                <h3>Property1</h3>
+                <p>Script name</p>
+                <p>Actual edit</p>
+                <md-filled-tonal-icon-button class="deleteButton">
+                    <img src="/public/trashcan-logo" alt="Delete" />
+                </md-filled-tonal-icon-button>
+                <md-filled-tonal-icon-button class="editButton">
+                    <img src="/public/edit-logo" alt="Edit" />
+                </md-filled-tonal-icon-button>
+                <md-filled-tonal-icon-button class="resetButton">
+                    <img src="/public/reset-logo" alt="Reset" />
+                </md-filled-tonal-icon-button>
+            </section>
 
+            <section class="horizontalLine plusContainer">
+                <md-outlined-text-field class="name" label="Template Name" value="">
+                </md-outlined-text-field>
+
+                <md-outlined-select class="actionsContainer">
                 </md-outlined-select>
-                <md-filled-tonal-icon-button id="attrPlusButton">
+
+                <md-filled-tonal-icon-button class="plusButton">
                     <img src="/public/plus-logo" alt="Plus" />
                 </md-filled-tonal-icon-button>
             </section>
+        </div>
+
+        <div class="verticalLine" id="attributePermissionsContainer">
+            
         </div>
 
         <div class="verticalLine" id="entityAttributeContainer">
-            <section class="horizontalLine" id="entAttrPlusContainer">
-                <md-outlined-text-field id="entAttrName" label="Template Name" value="">
-                </md-outlined-text-field>
-                <md-outlined-select id="entAttrAct">
+            <section class="horizontalLine">
+                <h3>Property1</h3>
+                <p>Script name</p>
+                <md-filled-tonal-icon-button class="deleteButton">
+                    <img src="/public/trashcan-logo" alt="Delete" />
+                </md-filled-tonal-icon-button>
+                <md-filled-tonal-icon-button class="editButton">
+                    <img src="/public/edit-logo" alt="Edit" />
+                </md-filled-tonal-icon-button>
+                <md-filled-tonal-icon-button class="resetButton">
+                    <img src="/public/reset-logo" alt="Reset" />
+                </md-filled-tonal-icon-button>
+            </section>
 
+            <section class="horizontalLine plusContainer">
+                <md-outlined-text-field class="name" label="Template Name" value="">
+                </md-outlined-text-field>
+
+                <md-outlined-select class="actionsContainer">
                 </md-outlined-select>
-                <md-filled-tonal-icon-button id="entAttrPlusButton">
+
+                <md-filled-tonal-icon-button class="plusButton">
                     <img src="/public/plus-logo" alt="Plus" />
                 </md-filled-tonal-icon-button>
             </section>
         </div>
 
-        <div class="verticalLine" id="permissionContainer">
-            <!--<section class="horizontalLine">
-                <label>
-                    <md-checkbox touch-target="wrapper"></md-checkbox>
-                    Permission 1
-                </label>
-                <label>
-                    <md-checkbox touch-target="wrapper"></md-checkbox>
-                    Writeable
-                </label>
-            </section>-->
+        <div class="verticalLine" id="entityAttributePermissionsContainer">
+            
         </div>
 
     </div>
