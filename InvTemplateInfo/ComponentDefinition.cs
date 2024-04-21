@@ -31,6 +31,13 @@ namespace InvTemplateInfo
             endpoints.MapGet("/invtemplate/script",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "invtemplate", "template.js"), "text/javascript"));
 
+            endpoints.MapGet("/invtemplate/test",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.html"), "text/html"));
+            endpoints.MapGet("/invtemplate/test/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.css"), "text/css"));
+            endpoints.MapGet("/invtemplate/test/script",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "testtemp", "template.js"), "text/javascript"));
+
             endpoints.MapGet("/invtemplate/permission",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "permission", "permission.html"), "text/html"));
             endpoints.MapGet("/invtemplate/permission/script",
