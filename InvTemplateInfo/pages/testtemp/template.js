@@ -69,7 +69,7 @@ async function getPermissions() {
 }
 
 var editedTemplate = null;
-function createTemplate(templateDto, exists) {
+function createTemplateFromParent(parent, templateDto, exists) {
     function editAction(arg) {
         var parent = arg.target.parentElement;
         //draw the attributes
@@ -103,11 +103,20 @@ function createTemplate(templateDto, exists) {
     function plusAction(arg) {
         var parent = arg.target.parentElement;
         //create new template and add to parent.parentElement
-
-        Array.from(parent.getElementsByClassName("saveButton"))
+        var el = createTemplateFromParent(parent, {
+            templateName: parent.dto.templateName,
+            templateVersion: parent.dto.templateVersion + 1,
+            released: false,
+            latest: true,
+            templateAttributes: parent.dto.templateAttributes,
+            entityAttributes: parent.dto.entityAttributes
+        })
+        el.makeParentLatest = parent.makeLatest;
+        parent.parentElement.insertBefore(el, parent.parentElement.firstChild);
+        document.scrollIntoView();
+        Array.from(parent.getElementsByClassName("plusButton"))
             .forEach(x => x.style.display = 'none');
-        Array.from(parent.getElementsByClassName("editButton"))
-            .forEach(x => x.style.display = '');
+        parent.dto.latest = false;
     }
     function releaseAction(arg) {
         var parent = arg.target.parentElement;
@@ -116,11 +125,16 @@ function createTemplate(templateDto, exists) {
             .forEach(x => parent.removeChild(x));
         Array.from(parent.getElementsByClassName("editButton"))
             .forEach(x => parent.removeChild(x));
+        Array.from(parent.getElementsByClassName("plusButton"))
+            .forEach(x => x.style.display = parent.dto.latest ? '' : 'none');
+        parent.dto.released = true;
     }
     function deleteAction(arg) {
         var parent = arg.target.parentElement;
         var parentContainer = parent.parentElement;
         parentContainer.removeChild(parent);
+        if (parent.makeParentLatest)
+            parent.makeParentLatest();
     }
 
     var sec = document.createElement("section");
@@ -133,6 +147,11 @@ function createTemplate(templateDto, exists) {
         Array.from(sec.getElementsByClassName("releaseButton"))
             .forEach(x => x.style.display = sec.getElementsByClassName("deleteButton").length == 0 ? '' : 'none');
     };
+    sec.makeLatest = () => {
+        Array.from(sec.getElementsByClassName("plusButton"))
+            .forEach(x => x.style.display = '');
+        sec.dto.latest = true;
+    }
 
     sec.classList.add("horizontalLine");
     sec.dto = templateDto;
@@ -161,7 +180,7 @@ function createTemplate(templateDto, exists) {
         sec.appendChild(but);
     }
 
-    if (exists && templateDto.latest) {
+    if (templateDto.latest) {
         var but = document.createElement("md-filled-tonal-icon-button");
         var img = document.createElement("img");
         but.classList.add("plusButton");
@@ -170,6 +189,9 @@ function createTemplate(templateDto, exists) {
         img.alt = "Add";
         but.appendChild(img);
         sec.appendChild(but);
+
+        if (!templateDto.released)
+            but.style.display = 'none';
     }
 
     
@@ -191,6 +213,10 @@ function createTemplate(templateDto, exists) {
     }
 
     return sec;
+}
+
+function createTemplate(templateDto, exists) {
+    return createTemplateFromParent(null, templateDto, exists);
 }
 
 async function getTemplates() {
@@ -223,7 +249,7 @@ Array.from(document.getElementById("templateContainer").getElementsByClassName("
             released: false,
             latest: true,
             templateAttributes: [],
-            EntityAttributes: []
+            entityAttributes: []
         }, false);
         arg.target.parentElement.parentElement.insertBefore(temp, arg.target.parentElement.parentElement.firstChild)
         Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
