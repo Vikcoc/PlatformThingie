@@ -1,4 +1,12 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
+
+//i know it's a bad page
+//and that this should just be a list of templates, that sends you to the list of attributes
+//and that list of attributes would send you further to edit the attribute and permissions
+//but that is nicer with ssr or spa
+//and i don't want to parse the route for these arguments
+//and it is also kinda interesting to manage such a large state machine
+
 async function getActions() {
     var res = await authenticatedFetch("/invtemplate/action", {
         method: "GET",
@@ -69,10 +77,101 @@ async function getPermissions() {
 }
 
 var editedTemplate = null;
+
+async function createAttribute(attrDto) {
+    //for editedTemplate
+
+    if (editedTemplate == null)
+        return;
+
+    var sec = document.createElement("section");
+    sec.classList.add("horizontalLine");
+
+    var nam = document.createElement("h3");
+    nam.innerText = attrDto.attrName;
+    sec.appendChild(nam);
+    var scr = document.createElement("p");
+    scr.innerText = attrDto.attrAction;
+    sec.appendChild(scr);
+    var module = await import(attrDto.attrAction);
+    var element = await module.inlineDisplay({
+        name: attrDto.attrName,
+        value: attrDto.attrValue
+    });
+    sec.appendChild(element);
+    {
+        //delete
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("deleteButton");
+        img.src = "/public/trashcan-logo";
+        img.alt = "Delete";
+        but.appendChild(img);
+        but.onclick = () => {
+            sec.parentElement.removeChild(sec);
+            editedTemplate.dto.templateAttributes.splice(editedTemplate.dto.templateAttributes.indexOf(attrDto), 1);
+        }
+        sec.appendChild(but);
+    }
+    {
+        //edit
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("editButton");
+        img.src = "/public/edit-logo";
+        img.alt = "Edit";
+        but.appendChild(img);
+        but.onclick = () => {
+            Array.from(sec.getElementsByClassName("editButton"))
+                .forEach(x => x.style.display = 'none');
+            Array.from(sec.getElementsByClassName("resetButton"))
+                .forEach(x => x.style.display = '');
+        }
+        sec.appendChild(but);
+    }
+    {
+        //reset
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("resetButton");
+        img.src = "/public/reset-logo";
+        img.alt = "Reset";
+        but.appendChild(img);
+        but.onclick = () => {
+            Array.from(sec.getElementsByClassName("editButton"))
+                .forEach(x => x.style.display = '');
+            Array.from(sec.getElementsByClassName("resetButton"))
+                .forEach(x => x.style.display = 'none');
+        }
+        sec.appendChild(but);
+        Array.from(sec.getElementsByClassName("resetButton"))
+            .forEach(x => x.style.display = 'none');
+    }
+    return sec;
+}
+
+async function flushAttributes(dtos) {
+    var container = document.getElementById("attributeContainer");
+    var pluses = Array.from(container.getElementsByClassName("plusContainer"));
+    container.innerHTML = '';
+
+    for (const x of dtos) {
+        var elem = await createAttribute(x);
+        container.appendChild(elem);
+    }
+
+    pluses.forEach(x => container.appendChild(x));
+}
+
 function createTemplate(templateDto, exists) {
-    function editAction(arg) {
+    async function editAction(arg) {
+        if (editedTemplate)
+            editedTemplate.deselectAction();
+
         var parent = arg.target.parentElement;
-        //draw the attributes
+        editedTemplate = parent;
+
+        await flushAttributes(parent.dto.templateAttributes);
 
         Array.from(parent.getElementsByClassName("saveButton"))
             .forEach(x => x.style.display = '');
@@ -80,9 +179,6 @@ function createTemplate(templateDto, exists) {
             .forEach(x => x.style.display = 'none');
         Array.from(parent.getElementsByClassName("releaseButton"))
             .forEach(x => x.style.display = 'none');
-        if (editedTemplate)
-            editedTemplate.deselectAction();
-        editedTemplate = arg.target.parentElement;
     }
     async function saveAction(arg) {
         var parent = arg.target.parentElement;
@@ -95,8 +191,26 @@ function createTemplate(templateDto, exists) {
             body: JSON.stringify({
                 templateName: parent.dto.templateName,
                 templateVersion: parent.dto.templateVersion,
-                templateAttributes: parent.dto.templateAttributes,
-                entityAttributes: parent.dto.entityAttributes
+                templateAttributes: parent.dto.templateAttributes/*.map(x => {
+                    return {
+                        attrName: x.attrName,
+                        attrValue: x.attrValue,
+                        attrAction: x.attrAction,
+                        permissions: x.permissions,
+                    }
+                })*/,
+                entityAttributes: parent.dto.entityAttributes/*.map(x => {
+                    return {
+                        attrName: x.attrName,
+                        attrAction: x.attrAction,
+                        permissions: x.permissions.map(y => {
+                            return {
+                                permission: y.permission,
+                                writeable: y.writeable
+                            }
+                        })
+                    }
+                })*/
             })
         });
 
@@ -278,26 +392,47 @@ async function getTemplates() {
         })
 }
 
+function templatesPlusButton() {
+    Array.from(document.getElementById("templateContainer").getElementsByClassName("plusContainer"))
+        .flatMap(x => Array.from(x.getElementsByClassName("plusButton")))
+        .forEach(x => x.onclick = (arg) => {
+            var temp = createTemplate({
+                templateName: Array.from(arg.target.parentElement.getElementsByClassName("name")).map(x => x.value).reduce((a, b) => a + b),
+                templateVersion: 0,
+                released: false,
+                latest: true,
+                templateAttributes: [],
+                entityAttributes: []
+            }, false);
+            arg.target.parentElement.parentElement.insertBefore(temp, arg.target.parentElement.parentElement.firstChild)
+            Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
+            if (editedTemplate)
+                editedTemplate.deselectAction();
+            editedTemplate = temp;
+            document.body.scrollIntoView();
+        });
+}
+function attributesPlusButton() {
+    Array.from(document.getElementById("attributeContainer").getElementsByClassName("plusContainer"))
+        .flatMap(x => Array.from(x.getElementsByClassName("plusButton")))
+        .forEach(x => x.onclick = async (arg) => {
+            if (editedTemplate == null)
+                return;
+            var dto = {
+                attrName: Array.from(arg.target.parentElement.getElementsByClassName("name")).map(x => x.value).reduce((a, b) => a + b),
+                attrValue: "",
+                attrAction: arg.target.parentElement.getElementsByClassName("actionsContainer")[0]?.lastSelectedOption.value ?? '',
+                permissions: []
+            };
+            editedTemplate.dto.templateAttributes.push(dto);
+            var temp = await createAttribute(dto);
+            arg.target.parentElement.parentElement.insertBefore(temp, arg.target.parentElement)
+            Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
+        });
+}
 
-Array.from(document.getElementById("templateContainer").getElementsByClassName("plusContainer"))
-    .flatMap(x => Array.from(x.getElementsByClassName("plusButton")))
-    .forEach(x => x.onclick = (arg) => {
-        var temp = createTemplate({
-            templateName: Array.from(arg.target.parentElement.getElementsByClassName("name")).map(x => x.value).reduce((a, b) => a + b),
-            templateVersion: 0,
-            released: false,
-            latest: true,
-            templateAttributes: [],
-            entityAttributes: []
-        }, false);
-        arg.target.parentElement.parentElement.insertBefore(temp, arg.target.parentElement.parentElement.firstChild)
-        Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
-        if (editedTemplate)
-            editedTemplate.deselectAction();
-        editedTemplate = temp;
-        document.body.scrollIntoView();
-    });
-
+templatesPlusButton();
+attributesPlusButton();
 await getActions();
 await getPermissions();
 await getTemplates();
