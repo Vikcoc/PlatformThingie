@@ -171,6 +171,11 @@ function createTemplate(templateDto, exists) {
         var parent = arg.target.parentElement;
         editedTemplate = parent;
 
+        var pparent = parent.parentElement;
+        pparent.removeChild(parent);
+        pparent.insertBefore(parent, pparent.firstChild);
+        document.body.scrollIntoView();
+
         await flushAttributes(parent.dto.templateAttributes);
 
         Array.from(parent.getElementsByClassName("saveButton"))
@@ -191,26 +196,8 @@ function createTemplate(templateDto, exists) {
             body: JSON.stringify({
                 templateName: parent.dto.templateName,
                 templateVersion: parent.dto.templateVersion,
-                templateAttributes: parent.dto.templateAttributes/*.map(x => {
-                    return {
-                        attrName: x.attrName,
-                        attrValue: x.attrValue,
-                        attrAction: x.attrAction,
-                        permissions: x.permissions,
-                    }
-                })*/,
-                entityAttributes: parent.dto.entityAttributes/*.map(x => {
-                    return {
-                        attrName: x.attrName,
-                        attrAction: x.attrAction,
-                        permissions: x.permissions.map(y => {
-                            return {
-                                permission: y.permission,
-                                writeable: y.writeable
-                            }
-                        })
-                    }
-                })*/
+                templateAttributes: parent.dto.templateAttributes,
+                entityAttributes: parent.dto.entityAttributes
             })
         });
 
@@ -218,6 +205,8 @@ function createTemplate(templateDto, exists) {
             window.alert("Cannot save");
             return;
         }
+
+        flushAttributes([]);
 
         Array.from(parent.getElementsByClassName("saveButton"))
             .forEach(x => x.style.display = 'none');
