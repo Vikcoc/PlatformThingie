@@ -77,6 +77,7 @@ async function getPermissions() {
 }
 
 var editedTemplate = null;
+var editedAttribute = null;
 
 async function createAttribute(attrDto) {
     //for editedTemplate
@@ -121,11 +122,16 @@ async function createAttribute(attrDto) {
         img.src = "/public/edit-logo";
         img.alt = "Edit";
         but.appendChild(img);
-        but.onclick = () => {
+        but.onclick = async () => {
             Array.from(sec.getElementsByClassName("editButton"))
                 .forEach(x => x.style.display = 'none');
             Array.from(sec.getElementsByClassName("resetButton"))
                 .forEach(x => x.style.display = '');
+            var editable = await module.editableDisplay({
+                name: attrDto.attrName,
+                value: attrDto.attrValue
+            });
+            sec.replaceChild(editable, element);
         }
         sec.appendChild(but);
     }
@@ -154,6 +160,7 @@ async function flushAttributes(dtos) {
     var container = document.getElementById("attributeContainer");
     var pluses = Array.from(container.getElementsByClassName("plusContainer"));
     container.innerHTML = '';
+    editedAttribute = null;
 
     for (const x of dtos) {
         var elem = await createAttribute(x);
