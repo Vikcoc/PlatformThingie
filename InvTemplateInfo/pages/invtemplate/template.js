@@ -62,12 +62,34 @@ async function getPermissions() {
         spa.appendChild(label);
 
         if (canWrite) {
-            label = document.createElement("label");
-            check = document.createElement("md-checkbox");
-            check.setAttribute('touch-target', 'wrapper');
-            label.appendChild(check);
-            label.innerHTML += "\nWriteable";
-            spa.appendChild(label);
+            var wlabel = document.createElement("label");
+            var wcheck = document.createElement("md-checkbox");
+            wcheck.setAttribute('touch-target', 'wrapper');
+            wlabel.appendChild(wcheck);
+            wlabel.innerHTML += "\nWriteable";
+            spa.appendChild(wlabel);
+
+            label.onclick = (hand) => {
+                if (editedEntAttribute == null)
+                    return;
+                if (!hand.target.checked)
+                    editedEntAttribute.dto.permissions.push({
+                        permission: name,
+                        writeable: hand.target.parentElement.parentElement.getElementsByTagName("md-checkbox")[1].checked
+                    });
+                else
+                    editedEntAttribute.dto.permissions
+                        .splice(editedEntAttribute.dto.permissions
+                            .map(x => x.permission).indexOf(name), 1);
+            }
+            wlabel.onclick = (hand) => {
+                if (editedEntAttribute == null || !hand.target.parentElement.parentElement.getElementsByTagName("md-checkbox")[0].checked)
+                    return;
+                editedEntAttribute.dto.permissions[editedEntAttribute.dto.permissions
+                    .map(x => x.permission).indexOf(
+                        hand.target.parentElement.parentElement.getElementsByTagName("label")[0].innerText)
+                ].writeable = !hand.target.checked
+            }
         }
         else {
             label.onclick = (hand) => {
@@ -91,9 +113,21 @@ async function getPermissions() {
 
 function flushEntAttrPermissions(list) {
     var container = document.getElementById("entityAttributePermissionsContainer");
-    var checks = Array.from(container.getElementsByTagName("label"));
-    checks.forEach(ch =>
-        ch.getElementsByTagName("md-checkbox")[0].checked = list.includes(ch.innerText));
+    var checks = Array.from(container.getElementsByTagName("section"));
+    checks.forEach(ch => {
+        var name = ch.getElementsByTagName("label")[0].innerText;
+        var index = list.map(x => x.permission).indexOf(name);
+        if (index == -1) {
+            ch.getElementsByTagName("md-checkbox")[0].checked = false;
+            ch.getElementsByTagName("md-checkbox")[1].checked = false;
+        }
+        else {
+            ch.getElementsByTagName("md-checkbox")[0].checked = true;
+            ch.getElementsByTagName("md-checkbox")[1].checked = list[index].writeable;
+        }
+        
+    });
+        
 }
 
 function createEntAttribute(attrDto) {
@@ -136,6 +170,7 @@ function createEntAttribute(attrDto) {
             editedTemplate.dto.entityAttributes.splice(editedTemplate.dto.entityAttributes.indexOf(attrDto), 1);
             if (editedEntAttribute == sec)
                 editedEntAttribute = null;
+            flushEntAttrPermissions([]);
         }
         sec.appendChild(but);
     }
@@ -153,7 +188,7 @@ function createEntAttribute(attrDto) {
             Array.from(sec.getElementsByClassName("resetButton"))
                 .forEach(x => x.style.display = '');
             flushEntAttrPermissions(sec.dto.permissions);
-            if (editedEntAttribute == sec)
+            if (editedEntAttribute)
                 editedEntAttribute.deselectAction();
             editedEntAttribute = sec;
         }
@@ -187,6 +222,7 @@ async function flushEntAttributes(dtos) {
     var container = document.getElementById("entityAttributeContainer");
     var pluses = Array.from(container.getElementsByClassName("plusContainer"));
     container.innerHTML = '';
+    flushEntAttrPermissions([]);
     editedEntAttribute = null;
 
     for (const x of dtos) {
@@ -259,6 +295,7 @@ async function createAttribute(attrDto) {
             editedTemplate.dto.templateAttributes.splice(editedTemplate.dto.templateAttributes.indexOf(attrDto), 1);
             if (editedAttribute == sec)
                 editedAttribute = null;
+            flushAttrPermissions([]);
         }
         sec.appendChild(but);
     }
@@ -318,6 +355,7 @@ async function flushAttributes(dtos) {
     var pluses = Array.from(container.getElementsByClassName("plusContainer"));
     container.innerHTML = '';
     editedAttribute = null;
+    flushAttrPermissions([]);
 
     for (const x of dtos) {
         var elem = await createAttribute(x);
@@ -400,6 +438,8 @@ function createTemplate(templateDto, exists) {
         if (editedTemplate)
             editedTemplate.deselectAction();
         editedTemplate = el;
+        flushAttributes(el.dto.templateAttributes);
+        flushEntAttributes(el.dto.entityAttributes);
         Array.from(parent.getElementsByClassName("plusButton"))
             .forEach(x => x.style.display = 'none');
         parent.dto.latest = false;
@@ -437,6 +477,8 @@ function createTemplate(templateDto, exists) {
         parentContainer.removeChild(parent);
         if (parent.makeParentLatest)
             parent.makeParentLatest();
+        flushAttributes([]);
+        flushEntAttributes([]);
     }
 
     var sec = document.createElement("section");
@@ -565,6 +607,8 @@ function templatesPlusButton() {
                 editedTemplate.deselectAction();
             editedTemplate = temp;
             document.body.scrollIntoView();
+            flushAttributes([]);
+            flushEntAttributes([]);
         });
 }
 function attributesPlusButton() {
