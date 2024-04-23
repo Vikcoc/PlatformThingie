@@ -31,6 +31,8 @@ async function getActions() {
     });
 }
 
+var editedTemplate = null;
+var editedAttribute = null;
 async function getPermissions() {
     var res = await authenticatedFetch("/invtemplate/allpermissions", {
         method: "GET",
@@ -66,6 +68,16 @@ async function getPermissions() {
             label.innerHTML += "\nWriteable";
             spa.appendChild(label);
         }
+        else {
+            label.onclick = (hand) => {
+                if (editedAttribute == null)
+                    return;
+                if (!hand.target.checked)
+                    editedAttribute.dto.permissions.push(name);
+                else
+                    editedAttribute.dto.permissions.splice(editedAttribute.dto.permissions.indexOf(name), 1);
+            }
+        }
         
         return spa;
     }
@@ -76,8 +88,12 @@ async function getPermissions() {
     });
 }
 
-var editedTemplate = null;
-var editedAttribute = null;
+function flushAttrPermissions(list) {
+    var container = document.getElementById("attributePermissionsContainer");
+    var checks = Array.from(container.getElementsByTagName("label"));
+    checks.forEach(ch =>
+        ch.getElementsByTagName("md-checkbox")[0].checked = list.includes(ch.innerText));
+}
 
 async function createAttribute(attrDto) {
     //for editedTemplate
@@ -86,6 +102,7 @@ async function createAttribute(attrDto) {
         return;
 
     var sec = document.createElement("section");
+    sec.dto = attrDto;
     sec.classList.add("horizontalLine");
     sec.deselectAction = async () => {
         Array.from(sec.getElementsByClassName("editButton"))
@@ -104,6 +121,8 @@ async function createAttribute(attrDto) {
         Array.from(sec.getElementsByClassName("attrDisplay"))
             .forEach(x => sec.replaceChild(element, x));
     }
+    sec.oldPermissions = sec.dto.permissions.filter(() => true);
+
 
     var nam = document.createElement("h3");
     nam.innerText = attrDto.attrName;
@@ -157,6 +176,7 @@ async function createAttribute(attrDto) {
             if (editedAttribute)
                 editedAttribute.deselectAction();
             editedAttribute = sec;
+            flushAttrPermissions(sec.dto.permissions);
         }
         sec.appendChild(but);
     }
@@ -168,12 +188,15 @@ async function createAttribute(attrDto) {
         img.src = "/public/reset-logo";
         img.alt = "Reset";
         but.appendChild(img);
-        //but.onclick = () => {
-        //    Array.from(sec.getElementsByClassName("editButton"))
-        //        .forEach(x => x.style.display = '');
-        //    Array.from(sec.getElementsByClassName("resetButton"))
-        //        .forEach(x => x.style.display = 'none');
-        //}
+        but.onclick = async () => {
+            for (const x of Array.from(sec.getElementsByClassName("attrDisplay")))
+                await module.setEditableDisplay(x, {
+                    name: attrDto.attrName,
+                    value: attrDto.attrValue
+                });
+            sec.dto.permissions = sec.oldPermissions.filter(() => true);
+            flushAttrPermissions(sec.dto.permissions);
+        }
         sec.appendChild(but);
         Array.from(sec.getElementsByClassName("resetButton"))
             .forEach(x => x.style.display = 'none');
