@@ -33,6 +33,7 @@ async function getActions() {
 
 var editedTemplate = null;
 var editedAttribute = null;
+var editedEntAttribute = null;
 async function getPermissions() {
     var res = await authenticatedFetch("/invtemplate/allpermissions", {
         method: "GET",
@@ -86,6 +87,114 @@ async function getPermissions() {
         permContainer.appendChild(createPermission(x, false));
         entPermContainer.appendChild(createPermission(x, true));
     });
+}
+
+function flushEntAttrPermissions(list) {
+    var container = document.getElementById("entityAttributePermissionsContainer");
+    var checks = Array.from(container.getElementsByTagName("label"));
+    checks.forEach(ch =>
+        ch.getElementsByTagName("md-checkbox")[0].checked = list.includes(ch.innerText));
+}
+
+function createEntAttribute(attrDto) {
+    if (editedTemplate == null)
+        return;
+
+    var sec = document.createElement("section");
+    sec.dto = attrDto;
+    sec.classList.add("horizontalLine");
+    sec.deselectAction = () => {
+        Array.from(sec.getElementsByClassName("editButton"))
+            .forEach(x => x.style.display = '');
+        Array.from(sec.getElementsByClassName("resetButton"))
+            .forEach(x => x.style.display = 'none');
+    }
+    sec.oldPermissions = sec.dto.permissions.map(x => {
+        return {
+            permission: x.permission,
+            writeable: x.writeable
+        }
+    });
+
+
+    var nam = document.createElement("h3");
+    nam.innerText = attrDto.attrName;
+    sec.appendChild(nam);
+    var scr = document.createElement("p");
+    scr.innerText = attrDto.attrAction;
+    sec.appendChild(scr);
+    {
+        //delete
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("deleteButton");
+        img.src = "/public/trashcan-logo";
+        img.alt = "Delete";
+        but.appendChild(img);
+        but.onclick = () => {
+            sec.parentElement.removeChild(sec);
+            editedTemplate.dto.entityAttributes.splice(editedTemplate.dto.entityAttributes.indexOf(attrDto), 1);
+            if (editedEntAttribute == sec)
+                editedEntAttribute = null;
+        }
+        sec.appendChild(but);
+    }
+    {
+        //edit
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("editButton");
+        img.src = "/public/edit-logo";
+        img.alt = "Edit";
+        but.appendChild(img);
+        but.onclick = async () => {
+            Array.from(sec.getElementsByClassName("editButton"))
+                .forEach(x => x.style.display = 'none');
+            Array.from(sec.getElementsByClassName("resetButton"))
+                .forEach(x => x.style.display = '');
+            flushEntAttrPermissions(sec.dto.permissions);
+            if (editedEntAttribute == sec)
+                editedEntAttribute.deselectAction();
+            editedEntAttribute = sec;
+        }
+        sec.appendChild(but);
+    }
+    {
+        //reset
+        var but = document.createElement("md-filled-tonal-icon-button");
+        var img = document.createElement("img");
+        but.classList.add("resetButton");
+        img.src = "/public/reset-logo";
+        img.alt = "Reset";
+        but.appendChild(img);
+        but.onclick = async () => {
+            sec.dto.permissions = sec.oldPermissions.map(x => {
+                return {
+                    permission: x.permission,
+                    writeable: x.writeable
+                }
+            });
+            flushEntAttrPermissions(sec.dto.permissions);
+        }
+        sec.appendChild(but);
+        Array.from(sec.getElementsByClassName("resetButton"))
+            .forEach(x => x.style.display = 'none');
+    }
+    return sec;
+}
+
+async function flushEntAttributes(dtos) {
+    var container = document.getElementById("entityAttributeContainer");
+    var pluses = Array.from(container.getElementsByClassName("plusContainer"));
+    container.innerHTML = '';
+    editedEntAttribute = null;
+
+    for (const x of dtos) {
+        var elem = createEntAttribute(x);
+        container.appendChild(elem);
+    }
+
+    pluses.forEach(x => container.appendChild(x));
 }
 
 function flushAttrPermissions(list) {
@@ -232,6 +341,7 @@ function createTemplate(templateDto, exists) {
         document.body.scrollIntoView();
 
         await flushAttributes(parent.dto.templateAttributes);
+        flushEntAttributes(parent.dto.entityAttributes);
 
         Array.from(parent.getElementsByClassName("saveButton"))
             .forEach(x => x.style.display = '');
@@ -262,6 +372,7 @@ function createTemplate(templateDto, exists) {
         }
 
         flushAttributes([]);
+        flushEntAttributes([]);
 
         Array.from(parent.getElementsByClassName("saveButton"))
             .forEach(x => x.style.display = 'none');
@@ -474,9 +585,27 @@ function attributesPlusButton() {
             Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
         });
 }
+function entAttributesPlusButton() {
+    Array.from(document.getElementById("entityAttributeContainer").getElementsByClassName("plusContainer"))
+        .flatMap(x => Array.from(x.getElementsByClassName("plusButton")))
+        .forEach(x => x.onclick = async (arg) => {
+            if (editedTemplate == null)
+                return;
+            var dto = {
+                attrName: Array.from(arg.target.parentElement.getElementsByClassName("name")).map(x => x.value).reduce((a, b) => a + b),
+                attrAction: arg.target.parentElement.getElementsByClassName("actionsContainer")[0]?.lastSelectedOption.value ?? '',
+                permissions: []
+            };
+            editedTemplate.dto.entityAttributes.push(dto);
+            var temp = await createEntAttribute(dto);
+            arg.target.parentElement.parentElement.insertBefore(temp, arg.target.parentElement)
+            Array.from(arg.target.parentElement.getElementsByClassName("name")).forEach(x => x.value = "");
+        });
+}
 
 templatesPlusButton();
 attributesPlusButton();
+entAttributesPlusButton();
 await getActions();
 await getPermissions();
 await getTemplates();
