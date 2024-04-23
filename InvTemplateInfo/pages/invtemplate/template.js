@@ -87,6 +87,23 @@ async function createAttribute(attrDto) {
 
     var sec = document.createElement("section");
     sec.classList.add("horizontalLine");
+    sec.deselectAction = async () => {
+        Array.from(sec.getElementsByClassName("editButton"))
+            .forEach(x => x.style.display = '');
+        Array.from(sec.getElementsByClassName("resetButton"))
+            .forEach(x => x.style.display = 'none');
+
+        var mod = sec.getElementsByClassName("attrDisplay")[0];
+        if (mod)
+            attrDto.attrValue = await module.getValue(mod);
+        var element = await module.inlineDisplay({
+            name: attrDto.attrName,
+            value: attrDto.attrValue
+        });
+        element.classList.add("attrDisplay");
+        Array.from(sec.getElementsByClassName("attrDisplay"))
+            .forEach(x => sec.replaceChild(element, x));
+    }
 
     var nam = document.createElement("h3");
     nam.innerText = attrDto.attrName;
@@ -99,6 +116,7 @@ async function createAttribute(attrDto) {
         name: attrDto.attrName,
         value: attrDto.attrValue
     });
+    element.classList.add("attrDisplay");
     sec.appendChild(element);
     {
         //delete
@@ -111,6 +129,8 @@ async function createAttribute(attrDto) {
         but.onclick = () => {
             sec.parentElement.removeChild(sec);
             editedTemplate.dto.templateAttributes.splice(editedTemplate.dto.templateAttributes.indexOf(attrDto), 1);
+            if (editedAttribute == sec)
+                editedAttribute = null;
         }
         sec.appendChild(but);
     }
@@ -131,7 +151,12 @@ async function createAttribute(attrDto) {
                 name: attrDto.attrName,
                 value: attrDto.attrValue
             });
-            sec.replaceChild(editable, element);
+            editable.classList.add("attrDisplay");
+            Array.from(sec.getElementsByClassName("attrDisplay"))
+                .forEach(x => sec.replaceChild(editable, x));
+            if (editedAttribute)
+                editedAttribute.deselectAction();
+            editedAttribute = sec;
         }
         sec.appendChild(but);
     }
@@ -143,12 +168,12 @@ async function createAttribute(attrDto) {
         img.src = "/public/reset-logo";
         img.alt = "Reset";
         but.appendChild(img);
-        but.onclick = () => {
-            Array.from(sec.getElementsByClassName("editButton"))
-                .forEach(x => x.style.display = '');
-            Array.from(sec.getElementsByClassName("resetButton"))
-                .forEach(x => x.style.display = 'none');
-        }
+        //but.onclick = () => {
+        //    Array.from(sec.getElementsByClassName("editButton"))
+        //        .forEach(x => x.style.display = '');
+        //    Array.from(sec.getElementsByClassName("resetButton"))
+        //        .forEach(x => x.style.display = 'none');
+        //}
         sec.appendChild(but);
         Array.from(sec.getElementsByClassName("resetButton"))
             .forEach(x => x.style.display = 'none');
