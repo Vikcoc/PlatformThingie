@@ -44,7 +44,7 @@ jobs:
       with:
         name: PlatformThingie
     - name: Test
-      run: dotnet test --no-build --verbosity detailed
+      run: dotnet test --no-build
   
   package_public:
     runs-on: ubuntu-latest
