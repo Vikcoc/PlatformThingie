@@ -160,5 +160,35 @@ namespace AuthFrontend.functionalities.loggingIn.Repositories
 
             return !(res == 0);
         }
+
+        public async Task<bool> GroupExists(string? group)
+        {
+            var query = $"""
+                SELECT COUNT(1) FROM "{nameof(AuthContext.AuthGroups)}" as Value
+                WHERE "{nameof(AuthGroup.AuthGroupName)}" = @GroupName;
+                """;
+
+            var res = await _dbConnection.QueryFirstAsync<int>(query, new
+            {
+                GroupName = group,
+            });
+
+            return res != 0;
+        }
+
+        public async Task AddUserToGroup(Guid userId, string group)
+        {
+            var query = $"""
+                INSERT INTO "{nameof(AuthContext.AuthUserGroups)}"
+                ("{nameof(AuthUserGroup.AuthGroupName)}", "{nameof(AuthUserGroup.AuthUserId)}")
+                VALUES (@GroupName, @UserId);
+                """;
+
+            await _dbConnection.ExecuteAsync(query, new
+            {
+                GroupName = group,
+                UserId = userId,
+            });
+        }
     }
 }

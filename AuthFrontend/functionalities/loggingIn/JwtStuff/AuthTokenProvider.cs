@@ -26,6 +26,10 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
                 if (!userId.HasValue)
                     return null;
 
+                //todo put this in the creation of the user
+                if (await _authRepo.GroupExists(_configuration["DefaultUserGroup"] ))
+                    await _authRepo.AddUserToGroup(userId.Value, _configuration["DefaultUserGroup"]!);
+
                 user = new Grouping<Guid, string> 
                 { 
                     Key = userId.Value,
