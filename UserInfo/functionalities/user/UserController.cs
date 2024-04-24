@@ -1,5 +1,4 @@
-﻿using AuthFrontend.seeds;
-using Dependencies;
+﻿using Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using System.Data;
 using UserInfo.functionalities.user.dtos;
 using UserInfo.functionalities.user.Repositories;
 using UsersDbComponent;
+using UsersDbComponent.seeding;
 
 namespace UserInfo.functionalities.user
 {
@@ -51,11 +51,6 @@ namespace UserInfo.functionalities.user
             endpoints.MapDelete("/user/group", DeleteGroup)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access)
                                             .RequireClaim(ImportantStrings.PermissionSet, UserStrings.AuthAdmin));
-        }
-
-        public static void AddServices(IServiceCollection services)
-        {
-            
         }
 
         public static async Task<IResult> GetUserProps(HttpContext context, [FromServices] PProfileRepo profileRepo)

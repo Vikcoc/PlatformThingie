@@ -1,11 +1,15 @@
 {
-  "Connections" : [
+  "Connections": [
     {
       "ProviderName": "User",
       "ConnectionString": "someString"
     },
     {
       "ProviderName": "Inventory",
+      "ConnectionString": "someString"
+    },
+    {
+      "ProviderName": "InvTemplate",
       "ConnectionString": "someString"
     }
   ]

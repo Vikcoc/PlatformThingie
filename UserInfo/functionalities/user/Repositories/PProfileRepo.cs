@@ -1,11 +1,9 @@
-﻿using AuthFrontend.entities;
-using AuthFrontend.seeds;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
-using System.Text.RegularExpressions;
 using UserInfo.functionalities.user.dtos;
 using UsersDbComponent.entities;
+using UsersDbComponent.seeding;
 using static Dapper.SqlMapper;
 
 namespace UserInfo.functionalities.user.Repositories
@@ -87,8 +85,7 @@ namespace UserInfo.functionalities.user.Repositories
                 foreach (var pair in theData.SelectMany(x => (IEnumerable<KeyValuePair<string, object>>)x))
                     dbArgs.Add(pair.Key, pair.Value);
 
-                query = query +
-                    $"""
+                query += $"""
 
                     INSERT INTO "{nameof(AuthContext.AuthUserClaims)}"
                         ("{nameof(AuthUserClaim.AuthUserClaimId)}"

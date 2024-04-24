@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using UsersDbComponent.entities;
-using UsersDbComponent.seeding;
 
-namespace AuthFrontend.seeds
+namespace UsersDbComponent.seeding
 {
     public class SeedAuthClaimNames : IDictionary<string, AuthClaimRights>
     {
@@ -11,7 +10,7 @@ namespace AuthFrontend.seeds
         public const string Username = "username";
         public const string UserId = "userId";
 
-        public ICollection<string> Keys => this.GetType()
+        public ICollection<string> Keys => GetType()
             .GetFields()
             .Where(x => x.IsStatic && x.FieldType == typeof(string))
             .Select(f => (string)f.GetValue(null)!)
@@ -19,14 +18,14 @@ namespace AuthFrontend.seeds
 
         public ICollection<AuthClaimRights> Values => Enum.GetValues<AuthClaimRights>();
 
-        public int Count => this.GetType()
+        public int Count => GetType()
             .GetFields()
             .Where(x => x.IsStatic && x.FieldType == typeof(string))
             .Count();
 
         public bool IsReadOnly => true;
 
-        public AuthClaimRights this[string key] 
+        public AuthClaimRights this[string key]
         {
             get => key switch
             {
@@ -36,7 +35,7 @@ namespace AuthFrontend.seeds
                 _ => throw new NotImplementedException(),
             };
 
-            set => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
         }
 
         public void Add(string key, AuthClaimRights value)
@@ -61,9 +60,10 @@ namespace AuthFrontend.seeds
             {
                 value = this[key];
             }
-            catch {
+            catch
+            {
                 value = default;
-                return false; 
+                return false;
             }
             return true;
         }

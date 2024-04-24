@@ -1,0 +1,16 @@
+{
+  "ConnectionString": "Include Error Detail=true;",
+  "Conf": [
+    {
+      "Group": "AuthAdmin",
+      "Users": [
+        "user"
+      ],
+      "Permissions": [
+        "AuthAdmin",
+        "InventoryAdmin",
+        "InvTempAdmin"
+      ]
+    }
+  ]
+}

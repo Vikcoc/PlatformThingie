@@ -19,6 +19,11 @@ namespace AuthFrontend.Tests
                 throw new NotImplementedException();
             }
 
+            public Task AddUserToGroup(Guid userId, string group)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<bool> CheckHashExists(string hash)
             {
                 throw new NotImplementedException();
@@ -38,6 +43,11 @@ namespace AuthFrontend.Tests
             }
 
             public Task<IGrouping<Guid, string>?> GetUserByEmailWithPermissions(string email)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<bool> GroupExists(string? group)
             {
                 throw new NotImplementedException();
             }

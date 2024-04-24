@@ -12,7 +12,7 @@ namespace InventoryDbComponent.entities
         public uint InventoryTemplateVersion { get; set; }
         public required string InventoryTemplateAttributeName { get; set; }
         public required string InventoryTemplateAttributeValue { get; set; }
-        public string? InventoryTemplateAttributeAction { get; set; }
+        public required string InventoryTemplateAttributeAction { get; set; }
 
         public required InventoryTemplate InventoryTemplate {  get; set; }
         public IList<InventoryTemplateAttributeRead> InventoryTemplateAttributeReads { get; set; } = [];

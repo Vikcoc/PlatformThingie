@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UsersDbComponent.entities;
 
-namespace AuthFrontend.entities
+namespace UsersDbComponent.entities
 {
     public class AuthContext : DbContext
     {
-        public AuthContext():base(new DbContextOptionsBuilder().UseNpgsql().Options) { }
+        public AuthContext() : base(new DbContextOptionsBuilder().UseNpgsql().Options) { }
 
-        public AuthContext(DbContextOptions options): base(options) { }
-        
+        public AuthContext(DbContextOptions options) : base(options) { }
+
 
         public DbSet<AuthUser> AuthUsers { get; set; }
         public DbSet<AuthUserClaim> AuthUserClaims { get; set; }

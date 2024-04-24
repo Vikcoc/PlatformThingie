@@ -23,11 +23,9 @@ namespace UserInfo
                 return new NpgsqlConnection(theConnection);
             });
             services.AddScoped<PProfileRepo>();
-
-            UserController.AddServices(services);
         }
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             endpoints.MapGet("/profile",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "profile", "profile.html"), "text/html"));

@@ -12,7 +12,7 @@ namespace PublicInfo
     {
         public string GivenName => "Public info";
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             //general stuff
             endpoints.MapGet("/public/color",

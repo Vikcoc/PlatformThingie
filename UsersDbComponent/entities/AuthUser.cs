@@ -1,6 +1,4 @@
-﻿using UsersDbComponent.entities;
-
-namespace AuthFrontend.entities
+﻿namespace UsersDbComponent.entities
 {
     public class AuthUser
     {

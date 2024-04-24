@@ -46,9 +46,11 @@ namespace TemplatingWeb
             {
                 app.Use(async (context, next) =>
                 {
-                    //context.Request.EnableBuffering();
                     Console.WriteLine(context.Request.Path);
+                    //context.Request.EnableBuffering();
                     await next.Invoke();
+                    //context.Request.Body.Seek(0, SeekOrigin.Begin);
+                    //var req = await new StreamReader(context.Request.Body).ReadToEndAsync();
                 });
 
                 app.UseSwagger();
@@ -58,7 +60,7 @@ namespace TemplatingWeb
             app.UseAuthorization();
 
             foreach (var component in components)
-                component.AddRoutes(app);
+                component.AddRoutes(app, builder.Configuration);
 
             app.Run();
         }

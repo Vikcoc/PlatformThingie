@@ -1,12 +1,12 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.functionalities.loggingIn.Repositories;
-using AuthFrontend.seeds;
 using Dependencies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
+using UsersDbComponent.seeding;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {
@@ -25,6 +25,10 @@ namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 
                 if (!userId.HasValue)
                     return null;
+
+                //todo put this in the creation of the user
+                if (await _authRepo.GroupExists(_configuration["DefaultUserGroup"] ))
+                    await _authRepo.AddUserToGroup(userId.Value, _configuration["DefaultUserGroup"]!);
 
                 user = new Grouping<Guid, string> 
                 { 

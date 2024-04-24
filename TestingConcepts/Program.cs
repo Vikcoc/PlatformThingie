@@ -1,5 +1,4 @@
-﻿using AuthFrontend.seeds;
-
+﻿using UsersDbComponent.seeding;
 
 var seeder = new SeedAuthClaimNames();
 

@@ -1,5 +1,4 @@
-﻿using AuthFrontend.entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace UsersDbComponent.entities
 {
