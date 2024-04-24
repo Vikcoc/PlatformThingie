@@ -10,7 +10,7 @@ WORKDIR /src
 
 COPY . .
 
-WORKDIR /src/AuthAddUsersToGroups
+WORKDIR /src/AuthAddUPToGroups
 RUN dotnet publish -c Release -o /app
 
 FROM build AS publish
@@ -19,4 +19,4 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "AuthAddUsersToGroups.dll"]
+ENTRYPOINT ["dotnet", "AuthAddUPToGroups.dll"]

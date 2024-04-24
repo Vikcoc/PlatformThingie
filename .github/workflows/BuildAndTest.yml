@@ -231,7 +231,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          file: AddUsersToGroup.Dockerfile
+          file: AuthAddUPToGroups.Dockerfile
   package_template:
     runs-on: ubuntu-latest
     needs: test
