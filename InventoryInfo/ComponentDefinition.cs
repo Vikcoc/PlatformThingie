@@ -14,7 +14,7 @@ namespace InventoryInfo
     {
         public string GivenName => "Inventory";
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             ReadInventoryController.AddRoutes(endpoints);
 

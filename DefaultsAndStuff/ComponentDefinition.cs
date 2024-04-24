@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlatformInterfaces;
 
@@ -14,7 +15,7 @@ public class ComponentDefinition : IPlatformComponentDefinition
         services.AddScoped<SampleService>();
     }
 
-    public void AddRoutes(IEndpointRouteBuilder endpoints)
+    public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
     {
         endpoints.MapGet("/woo", () => "This is woo");
         endpoints.MapGet("/clamp", SomeInjectTest);

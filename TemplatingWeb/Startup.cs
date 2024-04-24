@@ -60,7 +60,7 @@ namespace TemplatingWeb
             app.UseAuthorization();
 
             foreach (var component in components)
-                component.AddRoutes(app);
+                component.AddRoutes(app, builder.Configuration);
 
             app.Run();
         }

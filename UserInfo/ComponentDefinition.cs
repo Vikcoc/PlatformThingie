@@ -25,7 +25,7 @@ namespace UserInfo
             services.AddScoped<PProfileRepo>();
         }
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             endpoints.MapGet("/profile",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "profile", "profile.html"), "text/html"));

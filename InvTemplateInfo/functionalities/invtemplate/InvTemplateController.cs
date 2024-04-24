@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InvTemplateInfo.functionalities.invtemplate
@@ -43,11 +44,11 @@ namespace InvTemplateInfo.functionalities.invtemplate
             return TypedResults.Ok(await templateRepo.GetTemplates());
         }
 
-        public static IResult GetActions()
+        public static IResult GetActions([FromServices] IConfiguration configuration)
         {
             var files = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "scripts"));
             
-            return TypedResults.Ok(files.Select(x => "/inventory/actions/" + Path.GetFileNameWithoutExtension(x)).ToArray());
+            return TypedResults.Ok(files.Select(x => configuration["ScriptsRoute"] + Path.GetFileNameWithoutExtension(x)).ToArray());
         }
 
         public static async Task<IResult> GetPermissions([FromServices] PTemplateRepo templateRepo)

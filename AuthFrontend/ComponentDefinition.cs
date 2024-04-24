@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlatformInterfaces;
 
@@ -11,7 +12,7 @@ namespace AuthFrontend
     {
         public string GivenName => "Login with Google";
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             LogInController.AddRoutes(endpoints);
 

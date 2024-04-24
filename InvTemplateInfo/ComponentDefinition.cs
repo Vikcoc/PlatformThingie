@@ -15,7 +15,7 @@ namespace InvTemplateInfo
     {
         public string GivenName => "InvTemplate";
 
-        public void AddRoutes(IEndpointRouteBuilder endpoints)
+        public void AddRoutes(IEndpointRouteBuilder endpoints, IConfiguration config)
         {
             endpoints.MapGet("/invtemplate",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "invtemplate", "template.html"), "text/html"));
