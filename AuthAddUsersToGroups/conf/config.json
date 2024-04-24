@@ -1,9 +1,0 @@
-{
-  "Conf": {
-    "ConnectionString": "Include Error Detail=true",
-    "Group": "AuthAdmin",
-    "List": [
-      ""
-    ]
-  }
-}

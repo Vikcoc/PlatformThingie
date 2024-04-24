@@ -45,11 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryScripts", "Invento
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryWeb", "InventoryWeb\InventoryWeb.csproj", "{21C59757-9DCE-410C-B2B1-ECA93F6D78F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthAddUsersToGroups", "AuthAddUsersToGroups\AuthAddUsersToGroups.csproj", "{DB0BDE43-0395-4723-8651-E83D0BAAE883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthAddUPToGroups", "AuthAddUPToGroups\AuthAddUPToGroups.csproj", "{DB0BDE43-0395-4723-8651-E83D0BAAE883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvTemplateDbComponent", "InvTemplateDbComponent\InvTemplateDbComponent.csproj", "{4B912BBC-65D0-4C02-9BC2-789BC7C732B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvTemplateInfo", "InvTemplateInfo\InvTemplateInfo.csproj", "{635F8A36-2A3E-4AB8-B367-FE562849E8C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvTemplateInfo", "InvTemplateInfo\InvTemplateInfo.csproj", "{635F8A36-2A3E-4AB8-B367-FE562849E8C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
