@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using UsersDbComponent.entities;
 
-namespace AuthFrontend.entities
+namespace UsersDbComponent.entities
 {
     public class AuthClaim
     {

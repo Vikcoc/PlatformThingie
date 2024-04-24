@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuthFrontend.entities
+namespace UsersDbComponent.entities
 {
     public class AuthUserRefreshToken
     {

@@ -1,5 +1,4 @@
-﻿using AuthFrontend.seeds;
-using Dependencies;
+﻿using Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using System.Data;
 using UserInfo.functionalities.user.dtos;
 using UserInfo.functionalities.user.Repositories;
 using UsersDbComponent;
+using UsersDbComponent.seeding;
 
 namespace UserInfo.functionalities.user
 {

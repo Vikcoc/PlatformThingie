@@ -1,5 +1,4 @@
-﻿using AuthFrontend.seeds;
-using System.Collections;
+﻿using System.Collections;
 using UsersDbComponent.entities;
 
 namespace UsersDbComponent.seeding

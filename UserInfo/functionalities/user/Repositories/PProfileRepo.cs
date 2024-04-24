@@ -1,10 +1,9 @@
-﻿using AuthFrontend.entities;
-using AuthFrontend.seeds;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using UserInfo.functionalities.user.dtos;
 using UsersDbComponent.entities;
+using UsersDbComponent.seeding;
 using static Dapper.SqlMapper;
 
 namespace UserInfo.functionalities.user.Repositories

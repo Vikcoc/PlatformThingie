@@ -1,12 +1,12 @@
 ﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using AuthFrontend.functionalities.loggingIn.Repositories;
-using AuthFrontend.seeds;
 using Dependencies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
+using UsersDbComponent.seeding;
 
 namespace AuthFrontend.functionalities.loggingIn.JwtStuff
 {

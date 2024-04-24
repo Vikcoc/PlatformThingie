@@ -1,12 +1,11 @@
-﻿using AuthFrontend.entities;
-using AuthFrontend.functionalities.loggingIn.DTOs;
-using AuthFrontend.seeds;
+﻿using AuthFrontend.functionalities.loggingIn.DTOs;
 using Dapper;
 using Dependencies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using System.Security.Claims;
 using UsersDbComponent.entities;
+using UsersDbComponent.seeding;
 
 namespace AuthFrontend.functionalities.loggingIn.Repositories
 {

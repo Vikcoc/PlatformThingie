@@ -1,10 +1,10 @@
-﻿using AuthFrontend.entities;
-using AuthFrontend.seeds;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using UsersDbComponent.entities;
+using UsersDbComponent.seeding;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.Sources.Add(new JsonConfigurationSource()

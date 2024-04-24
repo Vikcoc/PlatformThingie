@@ -1,6 +1,4 @@
-﻿using AuthFrontend.entities;
-using AuthFrontend.seeds;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PlatformInterfaces;
 using UsersDbComponent.entities;
 
