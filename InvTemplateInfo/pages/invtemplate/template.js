@@ -391,6 +391,11 @@ function createTemplate(templateDto, exists) {
     async function saveAction(arg) {
         var parent = arg.target.parentElement;
 
+        if (editedAttribute)
+            await editedAttribute.deselectAction();
+        if (editedEntAttribute)
+            editedEntAttribute.deselectAction();
+
         var res = await authenticatedFetch("/invtemplate", {
             method: "POST",
             headers: {
