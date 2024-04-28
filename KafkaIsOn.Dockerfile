@@ -1,4 +1,4 @@
-FROM bash:rc-alpine3.19 AS base
+FROM debian:stable-slim AS base
 
 FROM apache/kafka:3.7.0 AS build
 WORKDIR /
