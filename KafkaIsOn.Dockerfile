@@ -1,4 +1,4 @@
-FROM busybox:1.36 AS base
+FROM bash:rc-alpine3.19 AS base
 
 FROM apache/kafka:3.7.0 AS build
 WORKDIR /
