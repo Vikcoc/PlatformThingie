@@ -10,45 +10,262 @@ on:
   #   branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Upload build
-      uses: actions/upload-artifact@v4
-      with:
-        name: PlatformThingie
-        path: .
-        if-no-files-found: error
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Setup .NET
+  #     uses: actions/setup-dotnet@v4
+  #     with:
+  #       dotnet-version: 8.x
+  #   - name: Restore dependencies
+  #     run: dotnet restore
+  #   - name: Build
+  #     run: dotnet build --no-restore
+  #   - name: Upload build
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: PlatformThingie
+  #       path: .
+  #       if-no-files-found: error
 
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.x
-    - name: Download build
-      uses: actions/download-artifact@v4
-      with:
-        name: PlatformThingie
-    - name: Test
-      run: dotnet test --no-build
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #   - name: Setup .NET
+  #     uses: actions/setup-dotnet@v4
+  #     with:
+  #       dotnet-version: 8.x
+  #   - name: Download build
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: PlatformThingie
+  #   - name: Test
+  #     run: dotnet test --no-build
   
-  package_public:
+  # package_public:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/public_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: Public.Dockerfile
+  # package_auth:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/auth_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: Auth.Dockerfile
+  # package_tool:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/migration_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: Migration.Dockerfile
+  # package_user:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/user_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: User.Dockerfile
+  # package_inventory:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/inventory_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: Inventory.Dockerfile
+  # package_add_users:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/add_users_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: AuthAddUPToGroups.Dockerfile
+  # package_template:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #           # list of Docker images to use as base name for tags
+  #           images: |
+  #             ${{ secrets.DOCKERHUB_USERNAME }}/template_platform
+  #           # generate Docker tags based on the following events/attributes
+  #           tags: |
+  #             latest
+  #             type=sha
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: InvTemplate.Dockerfile
+  package_kafka_check:
     runs-on: ubuntu-latest
-    needs: test
+    # needs: test
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -65,7 +282,7 @@ jobs:
         with:
             # list of Docker images to use as base name for tags
             images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/public_platform
+              ${{ secrets.DOCKERHUB_USERNAME }}/kafka_platform
             # generate Docker tags based on the following events/attributes
             tags: |
               latest
@@ -76,190 +293,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          file: Public.Dockerfile
-  package_auth:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/auth_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: Auth.Dockerfile
-  package_tool:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/migration_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: Migration.Dockerfile
-  package_user:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/user_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: User.Dockerfile
-  package_inventory:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/inventory_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: Inventory.Dockerfile
-  package_add_users:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/add_users_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: AuthAddUPToGroups.Dockerfile
-  package_template:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-            # list of Docker images to use as base name for tags
-            images: |
-              ${{ secrets.DOCKERHUB_USERNAME }}/template_platform
-            # generate Docker tags based on the following events/attributes
-            tags: |
-              latest
-              type=sha
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: InvTemplate.Dockerfile
+          file: KafkaIsOn.Dockerfile
