@@ -5,7 +5,7 @@ WORKDIR /
 
 FROM base as final
 WORKDIR /script
-COPY --from=build /opt/kafka/bin/kafka-topics.sh kafka-topics.sh
+COPY --from=build /opt/kafka/bin .
 COPY kafka-wait-and-topics.sh kafka-wait-and-topics.sh
 RUN chmod +x kafka-wait-and-topics.sh
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["./kafka-wait-and-topics.sh"]
