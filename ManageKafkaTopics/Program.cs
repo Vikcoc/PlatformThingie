@@ -60,7 +60,7 @@ foreach (var x in newTopics)
     Console.WriteLine(x.Name);
 await adminClient.CreateTopicsAsync(newTopics, new CreateTopicsOptions
 {
-    RequestTimeout = TimeSpan.FromMilliseconds(300)
+    RequestTimeout = new TimeSpan(500)
 });
 
 await Task.Delay(10000);
