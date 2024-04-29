@@ -1,0 +1,7 @@
+{
+  "Broker": "default",
+  "Conf": [
+    "permissions",
+    "templates"
+  ]
+}
