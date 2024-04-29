@@ -1,6 +1,6 @@
 {
   "Broker": "default",
-  "Topics": [
+  "Conf": [
     "permissions",
     "templates"
   ]
