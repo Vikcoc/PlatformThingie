@@ -1,11 +1,5 @@
-FROM debian:stable-slim AS base
-
-FROM apache/kafka:3.7.0 AS build
-WORKDIR /
-
-FROM base as final
-WORKDIR /script
-COPY --from=build /opt/kafka/bin .
+FROM apache/kafka:3.7.0
+WORKDIR /opt/kafka/bin
 COPY kafka-wait-and-topics.sh kafka-wait-and-topics.sh
 RUN chmod +x kafka-wait-and-topics.sh
 ENTRYPOINT ["./kafka-wait-and-topics.sh"]
