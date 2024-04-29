@@ -13,23 +13,11 @@ builder.Configuration.Sources.Add(new JsonConfigurationSource()
 var connection = builder.Configuration["Broker"];
 var topics = builder.Configuration.GetSection("Topics").Get<string[]>();
 
-
-
-var tcs = new TaskCompletionSource<bool>();
-async Task TimerToOk()
-{
-    for(int i = 10; i > 0; i--)
-    {
-        Console.WriteLine("Going in {0} seonds", i);
-        await Task.Delay(1000);
-    }
-    tcs.TrySetResult(true);
-}
-
 var config = new AdminClientConfig { 
     BootstrapServers = connection,
 };
 
+var tcs = new TaskCompletionSource<bool>();
 //because it runs on a background thread
 //because fuck me i guess
 Console.WriteLine("Before build");
@@ -40,7 +28,6 @@ var adminClient = new AdminClientBuilder(config)
         tcs.TrySetResult(b.Level != SyslogLevel.Error);
         })
     .Build();
-var tsk = TimerToOk();
 Console.WriteLine("After build");
 var res = await tcs.Task;
 Console.WriteLine("After await");
