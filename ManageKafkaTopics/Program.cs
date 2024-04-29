@@ -47,11 +47,7 @@ Console.WriteLine("After await");
 if (!res)
     throw new Exception("Could not work");
 Console.WriteLine("After error check");
-var existingTopics = adminClient.GetMetadata(new TimeSpan(0, 1, 0)).Topics.Select(x => x.Topic);
-Console.WriteLine(existingTopics == null);
-foreach (var x in existingTopics!)
-    Console.WriteLine(existingTopics);
-var newTopics = topics!.Except(existingTopics)
+var newTopics = topics!.Except(adminClient.GetMetadata(new TimeSpan(0, 1, 0)).Topics.Select(x => x.Topic))
     .Select(x => new TopicSpecification
     {
         Name = x,
