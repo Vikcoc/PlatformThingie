@@ -20,6 +20,7 @@ var config = new AdminClientConfig {
 var tcs = new TaskCompletionSource<bool>();
 //because it runs on a background thread
 //because fuck me i guess
+Console.WriteLine("Before build");
 var adminClient = new AdminClientBuilder(config)
     .SetLogHandler((a, b) => {
         //I hope that it will always have error as the first log if error
@@ -27,12 +28,12 @@ var adminClient = new AdminClientBuilder(config)
         tcs.TrySetResult(b.Level != SyslogLevel.Error);
         })
     .Build();
-
+Console.WriteLine("After build");
 var res = await tcs.Task;
-
+Console.WriteLine("After await");
 if (!res)
     throw new Exception("Could not work");
-    
+Console.WriteLine("After error check");
 var newTopics = topics!.Except(adminClient.GetMetadata(new TimeSpan(0, 1, 0)).Topics.Select(x => x.Topic))
     .Select(x => new TopicSpecification
     {
