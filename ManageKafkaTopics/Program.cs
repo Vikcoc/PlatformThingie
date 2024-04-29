@@ -50,7 +50,7 @@ Console.WriteLine("After error check");
 var existingTopics = adminClient.GetMetadata(new TimeSpan(0, 1, 0)).Topics.Select(x => x.Topic);
 Console.WriteLine(existingTopics == null);
 foreach (var x in existingTopics!)
-    Console.WriteLine(x);
+    Console.WriteLine(existingTopics);
 var newTopics = topics!.Except(existingTopics)
     .Select(x => new TopicSpecification
     {
