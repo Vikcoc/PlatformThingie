@@ -54,13 +54,11 @@ foreach (var x in existingTopics!)
 var newTopics = topics!.Except(existingTopics)
     .Select(x => new TopicSpecification
     {
-        Name = x,
-        NumPartitions = 1,
-        ReplicationFactor = 1
+        Name = x
     });
 foreach (var x in newTopics)
     Console.WriteLine(x.Name);
 await adminClient.CreateTopicsAsync(newTopics, new CreateTopicsOptions
 {
-    RequestTimeout = TimeSpan.FromSeconds(5)
+    RequestTimeout = TimeSpan.FromSeconds(2)
 });
