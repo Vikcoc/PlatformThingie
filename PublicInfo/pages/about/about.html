@@ -54,15 +54,14 @@
                 </p>
                 <ul>
                     <li>
-                        One service to define the inventory. It is supposed to manage information about manufacturer,
-                        sque,
-                        colors and other properties of the items
+                        One service to define the inventory, called the template. It will let users define what common attributes and individual ones an item can have. The appereance and operation of these fields can be later defined with new javascript files.
                     </li>
-                    <li>One service to actually keep track of the items</li>
-                    <li>One service to plan the aquisition of items</li>
-                    <li>One service to plan the dispozal of items</li>
+                    <li>One service to actually create and use these items.</li>
+                    <li>One service to manage the users with their permissions.</li>
+                    <li>One service to do the authentication.</li>
                 </ul>
             </div>
+            <p>Will use <a href="https://www.rabbitmq.com/">RabbitMQ</a> for the messaging between the services because the <a href="https://kafka.apache.org/">Kafka</a> brokers are too opaque in their usage.</p>
         </section>
         <br />
         <section>
