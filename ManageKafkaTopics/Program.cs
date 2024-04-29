@@ -59,8 +59,6 @@ var newTopics = topics!.Except(existingTopics)
         ReplicationFactor = 1
     });
 foreach (var x in newTopics)
-    Console.WriteLine(x.Name);
-await adminClient.CreateTopicsAsync(newTopics, new CreateTopicsOptions
-{
-    RequestTimeout = TimeSpan.FromSeconds(5)
-});
+    Console.WriteLine(x);
+return;
+await adminClient.CreateTopicsAsync(newTopics);
