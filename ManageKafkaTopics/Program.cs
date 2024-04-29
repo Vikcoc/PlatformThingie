@@ -58,5 +58,7 @@ var newTopics = topics!.Except(existingTopics)
         NumPartitions = 1,
         ReplicationFactor = 1
     });
-
+foreach (var x in newTopics)
+    Console.WriteLine(x);
+return;
 await adminClient.CreateTopicsAsync(newTopics);
