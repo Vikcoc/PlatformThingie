@@ -240,6 +240,37 @@ spec:
     secret:
       secretName: add-users-secret
 ---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: background-pod
+spec:
+  containers:
+  - name: background
+    image: vikcoc/background_platform:sha-bbb5664
+    volumeMounts:
+    - name: background-secrets
+      mountPath: /app/conf
+  volumes:
+  - name: background-secrets
+    secret:
+      secretName: background-secret
+---
+apiVersion: v1
+kind: Pod
+metadata:
+    name: dev-rabbit-pod
+    labels:
+        app: dev-rabbit-label
+        type: broker
+spec:
+    containers:
+    - name: dev-rabbit-container
+      image: rabbitmq:3.13.1
+      ports:
+      - containerPort: 5672
+      #- containerPort: 15672
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -327,3 +358,23 @@ spec:
       port: 30005
       targetPort: 80
       nodePort: 30005
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dev-rabbit-service
+spec:
+  ports:
+    - name: mqt
+      port: 30013
+      targetPort: 5672
+      # nodePort: 30013
+      protocol: TCP
+    # - name: admin
+    #   port: 30014
+    #   targetPort: 15672
+    #   nodePort: 30014
+    #   protocol: TCP
+  selector:
+    app: dev-rabbit-label
+  type: ClusterIP

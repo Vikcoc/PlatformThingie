@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using System.Text;
 
 namespace InvTemplateInfo.functionalities.invtemplate
 {
@@ -15,6 +18,16 @@ namespace InvTemplateInfo.functionalities.invtemplate
         public static void AddServices(IServiceCollection services)
         {
             services.AddScoped<PTemplateRepo>();
+            services.AddKeyedSingleton<IConnection>("InvTemplate", (ser, key) =>
+            {
+                var config = ser.GetRequiredService<IConfiguration>();
+                var factory = new ConnectionFactory
+                {
+                    HostName = config["Rabbit:Host"],
+                    Port = int.Parse(config["Rabbit:Port"]!)
+                };
+                return factory.CreateConnection();
+            });
         }
 
         public static void AddRoutes(IEndpointRouteBuilder endpoints)
@@ -65,14 +78,54 @@ namespace InvTemplateInfo.functionalities.invtemplate
             return TypedResults.NoContent();
         }
 
-        public static async Task<IResult> ReleaseTemplate([FromBody] TemplateForReleaseDto dto, [FromServices] PTemplateRepo templateRepo)
+        public static async Task<IResult> ReleaseTemplate([FromBody] TemplateForReleaseDto dto
+            , [FromServices] PTemplateRepo templateRepo
+            , [FromKeyedServices("InvTemplate")] IConnection connection)
         {
-            if (await templateRepo.ExistsTemplate(dto.TemplateName, dto.TemplateVersion))
-            {
-                await templateRepo.ReleaseTemplate(dto);
-                return TypedResults.NoContent();
-            }
-            return TypedResults.BadRequest("Bad template");
+            //does not make sense to export template without attributes and permissions on attributes
+            var template = await templateRepo.GetTemplate(dto.TemplateName, dto.TemplateVersion);
+            if (!template.HasValue 
+                || template.Value.TemplateAttributes.Length == 0
+                || template.Value.TemplateAttributes.Any(x => x.Permissions.Length == 0)
+                || template.Value.EntityAttributes.Length == 0
+                || template.Value.EntityAttributes.Any(x => x.Permissions.Length == 0))
+                return TypedResults.BadRequest("Bad template");
+            
+            await templateRepo.ReleaseTemplate(dto);
+            
+            //template
+            var message = await Task.Run(() => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(template)));
+            using var channel = connection.CreateModel();
+            await Task.Run(() => channel.QueueDeclare(queue: TemplatesStrings.TemplateRelease,
+                     durable: false,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null));
+            await Task.Run(() => channel.BasicPublish(exchange: string.Empty,
+                     routingKey: TemplatesStrings.TemplateRelease,
+                     basicProperties: null,
+                     body: message));
+
+            //permissions
+            var perm = await Task.Run(() =>
+            Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+            template.Value.TemplateAttributes.SelectMany(x => x.Permissions)
+            .Concat(template.Value.EntityAttributes.SelectMany(x => x.Permissions.Select(x => x.Permission)))
+            .Distinct()
+            .Where(x => x != null)
+            )));
+            using var permissionChannel = connection.CreateModel();
+            await Task.Run(() => channel.QueueDeclare(queue: TemplatesStrings.PermissionRelease,
+                     durable: false,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null));
+            await Task.Run(() => channel.BasicPublish(exchange: string.Empty,
+                     routingKey: TemplatesStrings.PermissionRelease,
+                     basicProperties: null,
+                     body: perm));
+
+            return TypedResults.NoContent();
         }
 
     }

@@ -332,5 +332,83 @@ namespace InvTemplateInfo.functionalities.invtemplate.repo
                 TemplateVersion = dto.TemplateVersion
             });
         }
+
+        public async Task<ReleaseTemplateDto?> GetTemplate(string templateName, int templateVersion)
+        {
+            var query = $"""
+                SELECT tp."{nameof(InvTemplate.InvTemplateName)}" as TemplateName,
+                tp."{nameof(InvTemplate.InvTemplateVersion)}" as TemplateVersion
+                FROM "{nameof(InvTemplateContext.InvTemplates)}" tp
+                WHERE "{nameof(InvTemplate.InvTemplateName)}" = @TemplateName
+                AND "{nameof(InvTemplate.InvTemplateVersion)}" = @TemplateVersion;
+
+                SELECT a."{nameof(InvTemplateAttr.InvTemplateName)}" as TemplateName,
+                a."{nameof(InvTemplateAttr.InvTemplateVersion)}" as TemplateVersion,
+                a."{nameof(InvTemplateAttr.InvTemplateAttrName)}" as AttrName,
+                a."{nameof(InvTemplateAttr.InvTemplateAttrValue)}" as AttrValue,
+                a."{nameof(InvTemplateAttr.InvTemplateAttrAction)}" as AttrAction,
+                ap."{nameof(InvTemplateAttrPermission.InvTemplatePermissionName)}" as PermissionName
+                FROM "{nameof(InvTemplateContext.InvTemplatesAttrs)}" a
+                LEFT JOIN "{nameof(InvTemplateContext.InvTemplatesAttrPermissions)}" ap
+                ON ap."{nameof(InvTemplateAttrPermission.InvTemplateName)}" = a."{nameof(InvTemplateAttr.InvTemplateName)}"
+                AND ap."{nameof(InvTemplateAttrPermission.InvTemplateVersion)}" = a."{nameof(InvTemplateAttr.InvTemplateVersion)}"
+                AND ap."{nameof(InvTemplateAttrPermission.InvTemplateAttrName)}" = a."{nameof(InvTemplateAttr.InvTemplateAttrName)}"
+                WHERE a."{nameof(InvTemplateAttr.InvTemplateName)}" = @TemplateName
+                AND a."{nameof(InvTemplateAttr.InvTemplateVersion)}" = @TemplateVersion;
+
+                SELECT ea."{nameof(InvTemplateEntAttr.InvTemplateName)}" as TemplateName,
+                ea."{nameof(InvTemplateEntAttr.InvTemplateVersion)}" as TemplateVersion,
+                ea."{nameof(InvTemplateEntAttr.InvTemplateEntAttrName)}" as AttrName,
+                ea."{nameof(InvTemplateEntAttr.InvTemplateEntAttrAction)}" as AttrAction,
+                eap."{nameof(InvTemplateEntAttrPermission.InvTemplatePermissionName)}" as PermissionName,
+                eap."{nameof(InvTemplateEntAttrPermission.Writeable)}" as Writeable
+                FROM "{nameof(InvTemplateContext.InvTemplateEntAttrs)}" ea
+                LEFT JOIN "{nameof(InvTemplateContext.InvTemplateEntAttrPermissions)}" eap
+                ON eap."{nameof(InvTemplateEntAttrPermission.InvTemplateName)}" = ea."{nameof(InvTemplateEntAttr.InvTemplateName)}"
+                AND eap."{nameof(InvTemplateEntAttrPermission.InvTemplateVersion)}" = ea."{nameof(InvTemplateEntAttr.InvTemplateVersion)}"
+                AND eap."{nameof(InvTemplateEntAttrPermission.InvTemplateEntAttrName)}" = ea."{nameof(InvTemplateEntAttr.InvTemplateEntAttrName)}"
+                WHERE ea."{nameof(InvTemplateEntAttr.InvTemplateName)}" = @TemplateName
+                AND ea."{nameof(InvTemplateEntAttr.InvTemplateVersion)}" = @TemplateVersion;
+                """;
+
+            var res = await _dbConnection.QueryMultipleAsync(query, new
+            {
+                TemplateName = templateName,
+                TemplateVersion = templateVersion
+            });
+
+            var tp = await res.ReadFirstOrDefaultAsync<(string TemplateName, int TemplateVersion)>();
+            var attr = await res.ReadAsync<(string TemplateName, int TemplateVersion, string AttrName, string AttrValue, string AttrAction, string PermissionName)>();
+            var eattr = await res.ReadAsync<(string TemplateName, int TemplateVersion, string AttrName, string AttrAction, string PermissionName, bool Writeable)>();
+
+            if (tp == default)
+                return null;
+
+            var ret = new ReleaseTemplateDto { 
+                TemplateName = templateName,
+                TemplateVersion = templateVersion,
+                TemplateAttributes = attr.GroupBy(x => new {x.TemplateName, x.TemplateVersion, x.AttrName, x.AttrValue, x.AttrAction})
+                .Select(x => new AttrWithPerm
+                {
+                    AttrName = x.Key.AttrName,
+                    AttrAction = x.Key.AttrAction,
+                    AttrValue = x.Key.AttrValue,
+                    Permissions = x.Select(y => y.PermissionName).ToArray()
+                }).ToArray(),
+                EntityAttributes = eattr.GroupBy(x => new {x.TemplateName, x.TemplateVersion, x.AttrName, x.AttrAction})
+                .Select(x => new EntAttrWithPerm
+                {
+                    AttrName = x.Key.AttrName,
+                    AttrAction = x.Key.AttrAction,
+                    Permissions = x.Select(y => new PermissionWithWrite
+                    {
+                        Permission = y.PermissionName,
+                        Writeable = y.Writeable
+                    }).ToArray()
+                }).ToArray()
+            };
+
+            return ret;
+        }
     }
 }
