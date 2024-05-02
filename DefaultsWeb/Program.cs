@@ -8,4 +8,6 @@ Startup.BuildAndStart(args,
     new InventoryInfo.ComponentDefinition(),
     new InventoryScripts.ComponentDefinition(),
     new InvTemplateInfo.ComponentDefinition(),
+    new UserPermissionConsumer.ComponentDefinition(),
+    new InventoryTemplateConsumer.ComponentDefinition(),
 ]);
