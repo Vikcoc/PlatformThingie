@@ -247,5 +247,44 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
 
             return newEntity;
         }
+
+        public async Task<string[]> GetAttributes(string[] permissions)
+        {
+            var query = $"""
+                SELECT attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" as Value
+                FROM "{nameof(InventoryContext.InventoryTemplateAttributes)}" attr
+                JOIN "{nameof(InventoryContext.InventoryTemplateAttributeReads)}" attrp
+                ON attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateAttributeName)}" = attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}"
+                JOIN (SELECT perm FROM UNNEST(ARRAY[@Permissions]) as perm) p
+                ON p.perm = attrp."{nameof(InventoryTemplateAttributeRead.Permission)}"
+                GROUP BY attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}";
+                """;
+
+            var res = await _dbConnection.QueryAsync<string>(query, new
+            {
+                Permissions = permissions
+            });
+
+            return res.ToArray();
+        }
+        public async Task<string[]> GetEntityAttributes(string[] permissions)
+        {
+            var query = $"""
+                SELECT eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}" as Value
+                FROM "{nameof(InventoryContext.InventoryTemplateEntityAttributes)}" eattr
+                JOIN "{nameof(InventoryContext.InventoryTemplateEntityAttributesPermissions)}" eattrp
+                ON eattrp."{nameof(InventoryTemplateEntityAttributePermission.InventoryTemplateEntityAttributeName)}" = eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}"
+                JOIN (SELECT perm FROM UNNEST(ARRAY[@Permissions]) as perm) p
+                ON p.perm = eattrp."{nameof(InventoryTemplateEntityAttributePermission.Permission)}"
+                GROUP BY eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}";
+                """;
+
+            var res = await _dbConnection.QueryAsync<string>(query, new
+            {
+                Permissions = permissions
+            });
+
+            return res.ToArray();
+        }
     }
 }

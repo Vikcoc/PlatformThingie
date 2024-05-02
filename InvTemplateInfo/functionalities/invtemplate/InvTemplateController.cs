@@ -82,9 +82,13 @@ namespace InvTemplateInfo.functionalities.invtemplate
             , [FromServices] PTemplateRepo templateRepo
             , [FromKeyedServices("InvTemplate")] IConnection connection)
         {
-
+            //does not make sense to export template without attributes and permissions on attributes
             var template = await templateRepo.GetTemplate(dto.TemplateName, dto.TemplateVersion);
-            if (!template.HasValue)
+            if (!template.HasValue 
+                || template.Value.TemplateAttributes.Length == 0
+                || template.Value.TemplateAttributes.Any(x => x.Permissions.Length == 0)
+                || template.Value.EntityAttributes.Length == 0
+                || template.Value.EntityAttributes.Any(x => x.Permissions.Length == 0))
                 return TypedResults.BadRequest("Bad template");
             
             await templateRepo.ReleaseTemplate(dto);

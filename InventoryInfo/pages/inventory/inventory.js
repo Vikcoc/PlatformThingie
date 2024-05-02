@@ -1,19 +1,86 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
-async function GetItems() {
+
+var attributes = [];
+var entityAttributes = [];
+
+async function GetAttributes() {
+    var res = await authenticatedFetch("/inventory/attributes", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (!res.ok)
+        return;
+
+    var dto = await res.json();
+
+    var cont = document.getElementById("attributes");
+    cont.innerHTML = '';
+
+    dto.forEach(x => {
+        var sec = document.createElement("label");
+        var check = document.createElement("md-checkbox");
+        check.setAttribute('touch-target', 'wrapper');
+        sec.appendChild(check);
+        sec.innerHTML += "\n" + x;
+        sec.onclick = (hand) => {
+            if (!hand.target.checked)
+                attributes.push(x);
+            else
+                attributes.splice(attributes.indexOf(x), 1);
+
+        }
+        cont.appendChild(sec);
+    });
+}
+
+async function GetEntityAttributes() {
+    var res = await authenticatedFetch("/inventory/entity-attributes", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (!res.ok)
+        return;
+
+    var dto = await res.json();
+
+    var cont = document.getElementById("entityAttributes");
+    cont.innerHTML = '';
+
+    dto.forEach(x => {
+        var sec = document.createElement("label");
+        var check = document.createElement("md-checkbox");
+        check.setAttribute('touch-target', 'wrapper');
+        sec.appendChild(check);
+        sec.innerHTML += "\n" + x;
+        sec.onclick = (hand) => {
+            if (!hand.target.checked)
+                entityAttributes.push(x);
+            else
+                entityAttributes.splice(entityAttributes.indexOf(x), 1);
+
+        }
+        cont.appendChild(sec);
+    });
+}
+async function GetItems(attr, eattr) {
+    if (attr.length == 0 || eattr.length == 0)
+        window.alert("Please select at least one of each attributes");
+
     var res = await authenticatedFetch("/inventory/filtered", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "entityProperties": [
-                "test attribute",
-                "header text"
-            ],
-            "templateProperties": [
-                "test template attribute"
-            ]
+            "entityProperties": eattr,
+            "templateProperties": attr
         })
     });
 
@@ -21,6 +88,9 @@ async function GetItems() {
         return;
 
     var dto = await res.json();
+
+    var cont = document.getElementById("entityContainer");
+    cont.innerHTML = '';
 
     await dto.forEach(async x => {
         var sec = document.createElement("section");
@@ -37,8 +107,10 @@ async function GetItems() {
             var element = await module.inlineDisplay(y);
             sec.appendChild(element);
         });
-        document.body.appendChild(sec);
+        cont.appendChild(sec);
     });
 }
 
-await GetItems();
+document.getElementById("loadEntities").onclick = () => GetItems(attributes, entityAttributes);
+await GetAttributes();
+await GetEntityAttributes();
