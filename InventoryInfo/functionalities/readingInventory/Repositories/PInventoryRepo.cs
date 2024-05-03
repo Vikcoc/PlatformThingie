@@ -90,7 +90,12 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
                     AND attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}" = attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateVersion)}"
                     AND attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" = attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateAttributeName)}"
                 WHERE attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" = ANY(@TemplateColumns)
-                    AND attrp."{nameof(InventoryTemplateAttributeRead.Permission)}" = ANY(@Permissions);
+                    AND attrp."{nameof(InventoryTemplateAttributeRead.Permission)}" = ANY(@Permissions)
+                GROUP BY attr."{nameof(InventoryTemplateAttribute.InventoryTemplateName)}"
+                    , attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}"
+                    , attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}"
+                    , attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeValue)}"
+                    , attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeAction)}";
                 """;
 
             var res = await _dbConnection.QueryMultipleAsync(query,new
