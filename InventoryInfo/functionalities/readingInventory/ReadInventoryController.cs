@@ -15,10 +15,7 @@ namespace InventoryInfo.functionalities.readingInventory
         {
             endpoints.MapPost("/inventory/filtered", GetFiltered)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
-
-            endpoints.MapGet("/inventory/attributes", GetAttributes)
-                .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
-            endpoints.MapGet("/inventory/entity-attributes", GetEntityAttributes)
+            endpoints.MapGet("/inventory/templates-with", GetTemplatesAndAttributes)
                 .RequireAuthorization(p => p.RequireClaim(ImportantStrings.Purpose, ImportantStrings.Access));
 
 
@@ -50,26 +47,14 @@ namespace InventoryInfo.functionalities.readingInventory
             return TypedResults.Ok(res);
         }
 
-        public async static Task<IResult> GetAttributes(HttpContext context, [FromServices] PInventoryRepo repo)
+        public async static Task<IResult> GetTemplatesAndAttributes(HttpContext context, [FromServices] PInventoryRepo repo)
         {
             var permissions = context.User.Claims.Where(x => x.Type == ImportantStrings.PermissionSet).Select(x => x.Value).ToArray();
 
             if (permissions.Length == 0)
                 return TypedResults.BadRequest("No permissions");
 
-            var res = await repo.GetAttributes(permissions);
-
-            return TypedResults.Ok(res);
-        }
-
-        public async static Task<IResult> GetEntityAttributes(HttpContext context, [FromServices] PInventoryRepo repo)
-        {
-            var permissions = context.User.Claims.Where(x => x.Type == ImportantStrings.PermissionSet).Select(x => x.Value).ToArray();
-
-            if (permissions.Length == 0)
-                return TypedResults.BadRequest("No permissions");
-
-            var res = await repo.GetEntityAttributes(permissions);
+            var res = await repo.GetTemplatesWithAttributes(permissions);
 
             return TypedResults.Ok(res);
         }

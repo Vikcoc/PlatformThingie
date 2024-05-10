@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="pages\inventory\inventory.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="pages\inventory\inventory.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

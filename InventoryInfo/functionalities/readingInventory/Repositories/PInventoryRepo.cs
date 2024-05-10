@@ -207,7 +207,7 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
             return res;
         }
 
-        internal async Task<Guid?> CreateEntity(InventoryCreateEntityDto entity)
+        public async Task<Guid?> CreateEntity(InventoryCreateEntityDto entity)
         {
             var newEntity = Guid.NewGuid();
 
@@ -253,43 +253,75 @@ namespace InventoryInfo.functionalities.readingInventory.Repositories
             return newEntity;
         }
 
-        public async Task<string[]> GetAttributes(string[] permissions)
+        internal async Task<object> GetTemplatesWithAttributes(IList<string> permissions)
         {
             var query = $"""
-                SELECT attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" as Value
+                SELECT attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}" as Attribute,
+                attr."{nameof(InventoryTemplateAttribute.InventoryTemplateName)}" as TemplateName,
+                attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}" as TemplateVersion
                 FROM "{nameof(InventoryContext.InventoryTemplateAttributes)}" attr
                 JOIN "{nameof(InventoryContext.InventoryTemplateAttributeReads)}" attrp
                 ON attrp."{nameof(InventoryTemplateAttributeRead.InventoryTemplateAttributeName)}" = attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}"
                 JOIN (SELECT perm FROM UNNEST(ARRAY[@Permissions]) as perm) p
                 ON p.perm = attrp."{nameof(InventoryTemplateAttributeRead.Permission)}"
-                GROUP BY attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}";
-                """;
+                GROUP BY attr."{nameof(InventoryTemplateAttribute.InventoryTemplateAttributeName)}",
+                attr."{nameof(InventoryTemplateAttribute.InventoryTemplateName)}",
+                attr."{nameof(InventoryTemplateAttribute.InventoryTemplateVersion)}";
 
-            var res = await _dbConnection.QueryAsync<string>(query, new
-            {
-                Permissions = permissions
-            });
-
-            return res.ToArray();
-        }
-        public async Task<string[]> GetEntityAttributes(string[] permissions)
-        {
-            var query = $"""
-                SELECT eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}" as Value
+                SELECT eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}" as Attribute,
+                eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}" as TemplateName,
+                eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateVersion)}" as TemplateVersion
                 FROM "{nameof(InventoryContext.InventoryTemplateEntityAttributes)}" eattr
                 JOIN "{nameof(InventoryContext.InventoryTemplateEntityAttributesPermissions)}" eattrp
                 ON eattrp."{nameof(InventoryTemplateEntityAttributePermission.InventoryTemplateEntityAttributeName)}" = eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}"
                 JOIN (SELECT perm FROM UNNEST(ARRAY[@Permissions]) as perm) p
                 ON p.perm = eattrp."{nameof(InventoryTemplateEntityAttributePermission.Permission)}"
-                GROUP BY eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}";
+                GROUP BY eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateEntityAttributeName)}",
+                eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateName)}",
+                eattr."{nameof(InventoryTemplateEntityAttribute.InventoryTemplateVersion)}";
                 """;
 
-            var res = await _dbConnection.QueryAsync<string>(query, new
+            var res = await _dbConnection.QueryMultipleAsync(query, new
             {
                 Permissions = permissions
             });
 
-            return res.ToArray();
+            var tAttr = await res.ReadAsync<(string Attribute, string TemplateName, int TemplateVersion)>();
+            var eAttr = await res.ReadAsync<(string Attribute, string TemplateName, int TemplateVersion)>();
+
+            var gta = tAttr.GroupBy(x => new { x.TemplateName, x.TemplateVersion });
+            var eta = eAttr.GroupBy(x => new { x.TemplateName, x.TemplateVersion });
+
+            var ret = gta.Join(eta,
+                x => x.Key,
+                x => x.Key,
+                (a, b) => new InventoryTemplateNamesDto
+                {
+                    TemplateName = a.Key.TemplateName,
+                    TemplateVersion = a.Key.TemplateVersion,
+                    EntityProperties = b.Select(x => x.Attribute).ToArray(),
+                    TemplateProperties = a.Select(x => x.Attribute).ToArray()
+                })
+            .Concat(gta.Where(x => !eta.Any(y => y.Key.TemplateName == x.Key.TemplateName && y.Key.TemplateVersion == x.Key.TemplateVersion))
+                .Select(x => new InventoryTemplateNamesDto
+                {
+                    TemplateName = x.Key.TemplateName,
+                    TemplateVersion = x.Key.TemplateVersion,
+                    EntityProperties = [],
+                    TemplateProperties = x.Select(y => y.Attribute).ToArray()
+                }))
+            .Concat(eta.Where(x => !gta.Any(y => y.Key.TemplateName == x.Key.TemplateName && y.Key.TemplateVersion == x.Key.TemplateVersion))
+                .Select(x => new InventoryTemplateNamesDto
+                {
+                    TemplateName = x.Key.TemplateName,
+                    TemplateVersion = x.Key.TemplateVersion,
+                    EntityProperties = x.Select(y => y.Attribute).ToArray(),
+                    TemplateProperties = []
+                }))
+            .ToArray();
+
+            return ret;
+
         }
     }
 }

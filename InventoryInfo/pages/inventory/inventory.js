@@ -1,77 +1,20 @@
 import { authenticatedFetch } from '/public/authenticated-fetch';
 
+async function GetItems() {
 
-var attributes = [];
-var entityAttributes = [];
+    var attributes = Array.from(document.getElementsByClassName("template-attributes"))
+        .flatMap(x => Array.from(x.getElementsByTagName("md-checkbox"))
+            .filter(x => x.checked)
+            .map(x => x.parentElement.textContent));
+    var entityAttributes = Array.from(document.getElementsByClassName("entity-attributes"))
+        .flatMap(x => Array.from(x.getElementsByTagName("md-checkbox"))
+            .filter(x => x.checked)
+            .map(x => x.parentElement.textContent));
 
-async function GetAttributes() {
-    var res = await authenticatedFetch("/inventory/attributes", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
-
-    if (!res.ok)
-        return;
-
-    var dto = await res.json();
-
-    var cont = document.getElementById("attributes");
-    cont.innerHTML = '';
-
-    dto.forEach(x => {
-        var sec = document.createElement("label");
-        var check = document.createElement("md-checkbox");
-        check.setAttribute('touch-target', 'wrapper');
-        sec.appendChild(check);
-        sec.innerHTML += "\n" + x;
-        sec.onclick = (hand) => {
-            if (!hand.target.checked)
-                attributes.push(x);
-            else
-                attributes.splice(attributes.indexOf(x), 1);
-
-        }
-        cont.appendChild(sec);
-    });
-}
-
-async function GetEntityAttributes() {
-    var res = await authenticatedFetch("/inventory/entity-attributes", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
-
-    if (!res.ok)
-        return;
-
-    var dto = await res.json();
-
-    var cont = document.getElementById("entityAttributes");
-    cont.innerHTML = '';
-
-    dto.forEach(x => {
-        var sec = document.createElement("label");
-        var check = document.createElement("md-checkbox");
-        check.setAttribute('touch-target', 'wrapper');
-        sec.appendChild(check);
-        sec.innerHTML += "\n" + x;
-        sec.onclick = (hand) => {
-            if (!hand.target.checked)
-                entityAttributes.push(x);
-            else
-                entityAttributes.splice(entityAttributes.indexOf(x), 1);
-
-        }
-        cont.appendChild(sec);
-    });
-}
-async function GetItems(attr, eattr) {
-    if (attr.length == 0 || eattr.length == 0)
+    if (attributes.length == 0 || entityAttributes.length == 0) {
         window.alert("Please select at least one of each attributes");
+        return;
+    }
 
     var res = await authenticatedFetch("/inventory/filtered", {
         method: "POST",
@@ -79,8 +22,8 @@ async function GetItems(attr, eattr) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "entityProperties": eattr,
-            "templateProperties": attr
+            "entityProperties": entityAttributes,
+            "templateProperties": attributes
         })
     });
 
@@ -111,6 +54,52 @@ async function GetItems(attr, eattr) {
     });
 }
 
-document.getElementById("loadEntities").onclick = () => GetItems(attributes, entityAttributes);
-await GetAttributes();
-await GetEntityAttributes();
+function CreateAttrEnt(dto) {
+    var a = document.createElement("h3");
+    a.textContent = dto.templateName + " V" + dto.templateVersion;
+    var c = document.createElement("section");
+    c.classList.add("horizontalLine", "template-attributes");
+    {
+        dto.templateProperties.forEach(x => {
+            var sec = document.createElement("label");
+            var check = document.createElement("md-checkbox");
+            check.setAttribute('touch-target', 'wrapper');
+            sec.appendChild(check);
+            sec.innerHTML += x;
+            c.appendChild(sec);
+        });
+    }
+    var e = document.createElement("section");
+    e.classList.add("horizontalLine", "entity-attributes");
+    {
+        dto.entityProperties.forEach(x => {
+            var sec = document.createElement("label");
+            var check = document.createElement("md-checkbox");
+            check.setAttribute('touch-target', 'wrapper');
+            sec.appendChild(check);
+            sec.innerHTML += x;
+            e.appendChild(sec);
+        });
+    }
+    return [a, c, e];
+}
+async function GetAttributesForTemplates() {
+    var res = await authenticatedFetch("/inventory/templates-with", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (!res.ok)
+        return;
+
+    var dto = await res.json();
+
+    var container = document.getElementById("attribute-container");
+
+    dto.forEach(x => CreateAttrEnt(x).forEach(y => container.appendChild(y)));
+}
+
+document.getElementById("loadEntities").onclick = GetItems;
+await GetAttributesForTemplates();

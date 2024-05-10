@@ -11,6 +11,7 @@
     <script src="/public/material-components" type="module"></script>
 
     <link rel="stylesheet" href="/public/centered-body">
+    <link rel="stylesheet" href="/inventory/style">
     <script src="/public/authenticated-fetch" type="module"></script>
     <script src="/inventory/script" type="module"></script>
 
@@ -27,10 +28,9 @@
         <md-filled-tonal-button onclick="location.href='/inventory/template';">Templates</md-filled-tonal-button>
     </div>
 
-    <h3>Attributes</h3>
-    <section id="attributes" class="horizontalLine"></section>
-    <h3>Entity Attributes</h3>
-    <section id="entityAttributes" class="horizontalLine"></section>
+    <div id="attribute-container">
+        <h3>Template</h3><h3>Attributes</h3><h3>Entity Attributes</h3>
+    </div>
     <md-filled-tonal-button id="loadEntities">Go</md-filled-tonal-button>
     <div id="entityContainer" class="verticalLine"></div>
 </body>

@@ -22,6 +22,8 @@ namespace InventoryInfo
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "inventory", "inventory.html"), "text/html"));
             endpoints.MapGet("/inventory/script",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "inventory", "inventory.js"), "text/javascript"));
+            endpoints.MapGet("/inventory/style",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "inventory", "inventory.css"), "text/css"));
             endpoints.MapGet("/inventory/template",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "pages", "template", "template.html"), "text/html"));
             endpoints.MapGet("/inventory/template/script",
