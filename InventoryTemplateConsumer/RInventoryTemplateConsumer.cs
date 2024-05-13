@@ -35,14 +35,14 @@ namespace InventoryTemplateConsumer
             channel.Close();
         }
 
-        private async void HandleMessageEvent(object? model, BasicDeliverEventArgs eventArgs)
+        private void HandleMessageEvent(object? model, BasicDeliverEventArgs eventArgs)
         {
             var body = eventArgs.Body.ToArray();
-            var dto = await Task.Run(() => JsonConvert.DeserializeObject<ReleaseTemplateDto>(Encoding.UTF8.GetString(body)));
-            if (await _repo.ExistsTemplate(dto.TemplateName, dto.TemplateVersion))
-                await _repo.DeleteAndRecreateParams(dto);
+            var dto = JsonConvert.DeserializeObject<ReleaseTemplateDto>(Encoding.UTF8.GetString(body));
+            if (_repo.ExistsTemplate(dto.TemplateName, dto.TemplateVersion).Result)
+                _repo.DeleteAndRecreateParams(dto).RunSynchronously();
             else
-                await _repo.CreateTemplate(dto);
+                _repo.CreateTemplate(dto).RunSynchronously();
         }
     }
 }
