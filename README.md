@@ -10,3 +10,9 @@ Outlines should be:
 2. Manage users and access rights in one service.
 3. Manage inventory.
 4. Manage the specification of the items held in the inventory, and the access rights required.
+
+## Some things to fix
+- The unit tests.
+- One of the dapper queries that is generating parameters instead of inserting arrays.
+- Style and JavaScript files should be consolidated.
+- Probably others.
