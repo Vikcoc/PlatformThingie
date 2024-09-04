@@ -19,6 +19,8 @@ namespace InventoryScripts
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "someaction2.js"), "text/javascript"));
             endpoints.MapGet(config["ScriptsRoute"] + "displayheader",
                 () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "displayheader.js"), "text/javascript"));
+            endpoints.MapGet(config["ScriptsRoute"] + "name_and_picture",
+                () => Results.File(Path.Combine(Directory.GetCurrentDirectory(), "scripts", "name_and_picture.js"), "text/javascript"));
         }
 
         public void AddServices(IServiceCollection services)

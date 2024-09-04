@@ -40,9 +40,9 @@ namespace InventoryTemplateConsumer
             var body = eventArgs.Body.ToArray();
             var dto = JsonConvert.DeserializeObject<ReleaseTemplateDto>(Encoding.UTF8.GetString(body));
             if (_repo.ExistsTemplate(dto.TemplateName, dto.TemplateVersion).Result)
-                _repo.DeleteAndRecreateParams(dto).RunSynchronously();
+                _repo.DeleteAndRecreateParams(dto).Wait();
             else
-                _repo.CreateTemplate(dto).RunSynchronously();
+                _repo.CreateTemplate(dto).Wait();
         }
     }
 }
